@@ -6,7 +6,10 @@ import { SiteFooter } from '@/components/site-footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bitcoin-flagship.netlify.app';
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: '₿itcoin Flagship — Bitcoin Adoption Community',
   description:
     'Bitcoin Flagship is a grassroots community driving Bitcoin adoption through meetups, education, murals, and social campaigns.',
@@ -14,11 +17,11 @@ export const metadata: Metadata = {
     title: '₿itcoin Flagship — Bitcoin Adoption Community',
     description:
       'Driving Bitcoin adoption through meetups, education, murals, and social campaigns.',
-    images: [{ url: 'https://bolt.new/static/og_default.png' }],
+    images: [{ url: '/logo.png' }],
   },
   twitter: {
     card: 'summary_large_image',
-    images: [{ url: 'https://bolt.new/static/og_default.png' }],
+    images: [{ url: '/logo.png' }],
   },
 };
 

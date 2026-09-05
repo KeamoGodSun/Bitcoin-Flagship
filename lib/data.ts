@@ -109,6 +109,75 @@ export const events: EventItem[] = [
   },
 ];
 
+export interface CommunityPost {
+  id: string;
+  author: string;
+  handle: string;
+  date: string;
+  content: string;
+  tags: string[];
+  likes: number;
+  satsTipped: number;
+}
+
+export const communityPosts: CommunityPost[] = [
+  {
+    id: 'c1',
+    author: 'Naledi K',
+    handle: '@naledistacks',
+    date: 'Sep 04, 2026',
+    content:
+      '27th birthday down. 27% of my 27 target stacked today. The birthday "gift to self" — I DCA, run my own node, and I finally taught my mom how to verify a transaction onchain. She watched the block explorer like it was magic. It kind of is.',
+    tags: ['First steps', 'Node running'],
+    likes: 142,
+    satsTipped: 12600,
+  },
+  {
+    id: 'c2',
+    author: 'Thabo M',
+    handle: '@thabo_runs_ln',
+    date: 'Sep 02, 2026',
+    content:
+      'Opened my first Lightning channel on mainnet after last month\u2019s workshop. Paid for coffee with a 0-fee chained payment from my phone. Settled in under a second while the barista blinked. Lightning is not the future — it\u2019s Tuesday.',
+    tags: ['Lightning', 'Node running'],
+    likes: 318,
+    satsTipped: 42000,
+  },
+  {
+    id: 'c3',
+    author: 'Sipho N',
+    handle: '@sipho_via_coldcard',
+    date: 'Aug 30, 2026',
+    content:
+      'Moved everything off the exchange into self-custody. The 3 weeks of reading and the paranoid re-checks of my seed phrase were worth it. Cold storage feels like freedom you can actually touch. Stay humble, stack sats.',
+    tags: ['Self-custody'],
+    likes: 204,
+    satsTipped: 18900,
+  },
+  {
+    id: 'c4',
+    author: 'Karabo B',
+    handle: '@karabo_dca',
+    date: 'Aug 26, 2026',
+    content:
+      'My employer asked how I\u2019d like part of my salary — I asked for sats with a smile. They didn\u2019t say no. Teaching my team one meme-able Bitcoin idea per week. Adoption is a conversation, not an event.',
+    tags: ['Education', 'DCA'],
+    likes: 167,
+    satsTipped: 15500,
+  },
+  {
+    id: 'c5',
+    author: 'Lerato D',
+    handle: '@lerato_paints_orange',
+    date: 'Aug 21, 2026',
+    content:
+      'Painted my first Bitcoin mural corner during the River District unveiling. A stranger stopped to ask "what\u2019s that symbol?" — that question is the whole mission. 20 minutes later she was asking how to buy her first 5 percent.',
+    tags: ['Murals', 'Public art'],
+    likes: 256,
+    satsTipped: 31000,
+  },
+];
+
 export interface BlogPost {
   slug: string;
   title: string;

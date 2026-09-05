@@ -1,11 +1,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Twitter, Github, Youtube, Send, MessageCircle } from 'lucide-react';
+import { Twitter, Github, Youtube, Send, MessageCircle, Zap } from 'lucide-react';
+import { LightningAddress } from '@/components/lightning-address';
+import { TipButton } from '@/components/tip-button';
 
 const footerLinks = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
   { href: '/events', label: 'Events' },
+  { href: '/community', label: 'Community' },
   { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -22,8 +25,8 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-border/60 bg-background">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid gap-8 md:grid-cols-4">
-          <div className="md:col-span-2">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-12">
+          <div className="lg:col-span-5">
             <Link href="/" className="flex items-center gap-2">
               <Image
                 src="/logo.png"
@@ -41,7 +44,7 @@ export function SiteFooter() {
             </p>
           </div>
 
-          <div>
+          <div className="lg:col-span-2">
             <h3 className="text-sm font-semibold text-foreground">Navigate</h3>
             <ul className="mt-4 space-y-2">
               {footerLinks.map((link) => (
@@ -57,7 +60,22 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          <div>
+          <div className="lg:col-span-3">
+            <h3 className="text-sm font-semibold text-foreground">Support us</h3>
+            <div className="mt-4">
+              <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+                <Zap className="h-3.5 w-3.5 text-bitcoin" /> Lightning address
+              </div>
+              <div className="mt-2">
+                <LightningAddress />
+              </div>
+              <p className="mt-3 text-xs text-muted-foreground">
+                Tip the community in seconds — no sign-up, no middleman.
+              </p>
+            </div>
+          </div>
+
+          <div className="lg:col-span-2">
             <h3 className="text-sm font-semibold text-foreground">Connect</h3>
             <div className="mt-4 flex flex-wrap gap-3">
               {socialLinks.map((social) => (
