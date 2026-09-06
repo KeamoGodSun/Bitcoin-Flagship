@@ -1,0 +1,127 @@
+[
+  {
+    "group": "education",
+    "groupLabel": "Education",
+    "section": "trezor-academy",
+    "sectionLabel": "Trezor Academy",
+    "images": [
+      "IMG-20250805-WA0016.webp",
+      "IMG-20250723-WA0006.webp",
+      "IMG-20250805-WA0045.webp",
+      "IMG-20250805-WA0048.webp",
+      "IMG-20260712-WA0017.webp",
+      "IMG-20250805-WA0023.webp"
+    ]
+  },
+  {
+    "group": "education",
+    "groupLabel": "Education",
+    "section": "my-first-bitcoin",
+    "sectionLabel": "My First Bitcoin",
+    "images": [
+      "IMG-20250814-WA0025.webp",
+      "IMG-20250805-WA0050.webp",
+      "IMG-20250805-WA0052.webp",
+      "IMG-20250816-WA0022.webp",
+      "IMG-20250823-WA0036.webp",
+      "IMG-20260329-WA0002.webp"
+    ]
+  },
+  {
+    "group": "education",
+    "groupLabel": "Education",
+    "section": "lightning-bootcamp",
+    "sectionLabel": "Lightning Bootcamp",
+    "images": [
+      "IMG-20260209-WA0026.webp",
+      "IMG-20260212-WA0004.webp",
+      "IMG-20260209-WA0023.webp",
+      "IMG-20260212-WA0009.webp",
+      "IMG-20260223-WA0023.webp",
+      "IMG-20260209-WA0027.webp",
+      "HBRs6ZFaIAAZdqB.webp",
+      "IMG-20260212-WA0008.webp"
+    ]
+  },
+  {
+    "group": "events",
+    "groupLabel": "Events",
+    "section": "game-day",
+    "sectionLabel": "Game Day",
+    "images": [
+      "IMG-20250603-WA0013.webp",
+      "IMG-20250603-WA0019.webp",
+      "IMG-20250803-WA0024.webp",
+      "IMG-20260720-WA0035.webp",
+      "IMG-20260720-WA0052.webp",
+      "IMG-20250803-WA0025.webp"
+    ]
+  },
+  {
+    "group": "events",
+    "groupLabel": "Events",
+    "section": "movie-night",
+    "sectionLabel": "Movie Nights",
+    "images": [
+      "IMG-20260329-WA0001.webp",
+      "IMG-20250525-WA0052.webp",
+      "IMG-20250525-WA0085.webp",
+      "IMG-20250525-WA0062.webp",
+      "IMG-20250525-WA0060.webp",
+      "IMG-20250525-WA0063.webp"
+    ]
+  },
+  {
+    "group": "events",
+    "groupLabel": "Events",
+    "section": "meet-ups",
+    "sectionLabel": "Meet-ups",
+    "images": [
+      "IMG-20250805-WA0041.webp",
+      "IMG-20260713-WA0008.webp",
+      "IMG-20250628-WA0017.webp",
+      "IMG-20250525-WA0075.webp",
+      "IMG-20250814-WA0005.webp",
+      "IMG-20250525-WA0090.webp",
+      "IMG-20250525-WA0005.webp",
+      "IMG-20260712-WA0014.webp",
+      "IMG-20250525-WA0074.webp",
+      "IMG-20260717-WA0010.webp",
+      "IMG-20260720-WA0018.webp",
+      "IMG-20260525-WA0019.webp",
+      "IMG-20260720-WA0011.webp",
+      "IMG-20250807-WA0001.webp",
+      "IMG-20250525-WA0023.webp",
+      "IMG-20250525-WA0056.webp",
+      "IMG-20250525-WA0026.webp",
+      "IMG-20250525-WA0014.webp"
+    ]
+  },
+  {
+    "group": "public-art",
+    "groupLabel": "Public Art & Awareness",
+    "section": "murals-billboards",
+    "sectionLabel": "Murals & Billboards",
+    "images": [
+      "IMG-20250814-WA0017.webp",
+      "IMG-20260227-WA0004.webp",
+      "IMG-20250814-WA0008.webp",
+      "IMG-20260227-WA0005.webp",
+      "IMG-20250814-WA0019.webp",
+      "IMG-20250416-WA0004.webp"
+    ]
+  },
+  {
+    "group": "community",
+    "groupLabel": "Community",
+    "section": "merchant-onboarding",
+    "sectionLabel": "Merchant On-boarding",
+    "images": [
+      "IMG-20260720-WA0058.webp",
+      "IMG-20250610-WA0025.webp",
+      "IMG-20250628-WA0022.webp",
+      "IMG-20250610-WA0026.webp",
+      "IMG-20250814-WA0020.webp"
+    ]
+  }
+]
