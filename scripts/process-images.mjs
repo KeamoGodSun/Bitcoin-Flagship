@@ -60,6 +60,7 @@ const CATEGORY_MAP = [
   },
   {
     folder: 'MEET-UPS',
+    extraFolders: ['OUTTER MEETS'],
     group: 'events',
     groupLabel: 'Events',
     section: 'meet-ups',
@@ -145,23 +146,26 @@ async function autoEnhance(inputBuffer) {
 }
 
 async function processFolder(config) {
-  const sourceDir = path.join(INPUT_ROOT, config.folder);
-  if (!fs.existsSync(sourceDir)) {
-    console.warn(`  ! Skipped (folder not found): ${config.folder}`);
+  const sourceDirs = [config.folder, ...(config.extraFolders ?? [])];
+  const existingDirs = sourceDirs.filter((f) => fs.existsSync(path.join(INPUT_ROOT, f)));
+  if (existingDirs.length === 0) {
+    console.warn(`  ! Skipped (folder not found): ${sourceDirs.join(', ')}`);
     return null;
   }
 
   const outputDir = path.join(OUTPUT_ROOT, config.group, config.section);
   fs.mkdirSync(outputDir, { recursive: true });
 
-  const files = fs
-    .readdirSync(sourceDir)
+  const files = existingDirs
+    .flatMap((d) => fs.readdirSync(path.join(INPUT_ROOT, d)))
     .filter((f) => /\.(jpe?g|png|webp)$/i.test(f))
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 
   const candidates = [];
   for (const file of files) {
-    const src = path.join(sourceDir, file);
+    const src =
+      existingDirs.map((d) => path.join(INPUT_ROOT, d, file)).find((p) => fs.existsSync(p)) ??
+      path.join(INPUT_ROOT, files[0], file);
     try {
       const buffer = await fs.promises.readFile(src);
       const { score } = await analyze(buffer);
