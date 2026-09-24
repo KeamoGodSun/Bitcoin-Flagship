@@ -11,6 +11,7 @@ import {
   Shield,
 } from 'lucide-react';
 import { eventCategories, events, blogPosts } from '@/lib/data';
+import { DonateSection } from '@/components/donate-section';
 
 const stats = [
   { value: '2,500+', label: 'Community Members' },
@@ -295,6 +296,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Donate */}
+      <DonateSection />
 
       {/* CTA */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">

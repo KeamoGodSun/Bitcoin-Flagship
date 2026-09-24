@@ -54,7 +54,7 @@ BTCPAY_STORE_ID=<store id>
 NEXT_PUBLIC_LIGHTNING_ADDRESS=tips@bitcoinflagship.org
 
 # Canonical site URL (fixes social metadata previews)
-NEXT_PUBLIC_SITE_URL=https://bitcoin-flagship.vercel.app
+NEXT_PUBLIC_SITE_URL=https://bitcoinflagship.com
 ```
 
 See `.env.example` for the full list.
@@ -83,4 +83,19 @@ All site content (events, blog posts, community posts, categories) lives in **`l
 
 ## Deployment
 
-Deployed on **Vercel** (`vercel.json`). See `https://bitcoin-flagship.vercel.app`. A `netlify.toml` is also present if you ever want to switch to Netlify.
+Deployed on **Vercel** (`vercel.json`). A `netlify.toml` is also present if you ever want to switch to Netlify.
+
+## Custom Domain (bitcoinflagship.com)
+
+The site is configured to run on **https://bitcoinflagship.com**. To go live:
+
+1. **DNS** — at your registrar, add:
+   | Type  | Name      | Value                 |
+   | ----- | --------- | --------------------- |
+   | A     | `@`       | `76.76.21.21`         |
+   | AAAA  | `@`       | `2606:4700::6810:84e5`|
+   | CNAME | `www`     | `cname.vercel-dns.com`|
+2. **Vercel** — Settings → Domains: add `bitcoinflagship.com` + `www`, set a redirect canonical URL.
+3. **Verify** — open the **Domain Setup** page (`/domain-setup`) from the live domain and confirm all checks are green.
+
+Also see `.env.local` / env vars (`NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_LIGHTNING_ADDRESS`).

@@ -1,12 +1,23 @@
 'use client';
 
 import { useState } from 'react';
-import { Calendar, MapPin, ArrowRight } from 'lucide-react';
+import { Calendar, MapPin, ArrowRight, Zap } from 'lucide-react';
 import { events, eventCategories, type EventCategory } from '@/lib/data';
+import { useWallet } from '@/components/wallet-provider';
+import { Button } from '@/components/ui/button';
+import { getWalletGroup, type WalletGroupId } from '@/lib/wallets';
 import { cn } from '@/lib/utils';
+
+const walletForCategory: Record<EventCategory, { walletId: WalletGroupId; programId?: string }> = {
+  meetups: { walletId: 'events', programId: 'meetups' },
+  education: { walletId: 'education' },
+  murals: { walletId: 'activation', programId: 'murals-billboards' },
+  campaigns: { walletId: 'activation', programId: 'murals-billboards' },
+};
 
 export default function EventsPage() {
   const [activeTab, setActiveTab] = useState<EventCategory>('meetups');
+  const { openWallet } = useWallet();
   const filteredEvents = events.filter((e) => e.category === activeTab);
   const activeCategory = eventCategories.find((c) => c.id === activeTab);
 
@@ -54,6 +65,21 @@ export default function EventsPage() {
           <p className="text-lg text-muted-foreground" dangerouslySetInnerHTML={{ __html: activeCategory?.description ?? '' }} />
         </div>
 
+        {/* Category wallet */}
+        {activeCategory && (() => {
+          const target = walletForCategory[activeCategory.id];
+          const groupName = getWalletGroup(target.walletId).shortName;
+          return (
+            <div className="mx-auto mt-6 flex max-w-2xl items-center justify-center gap-3 rounded-xl border border-bitcoin/30 bg-bitcoin/5 px-5 py-3 text-center">
+              <Zap className="h-4 w-4 shrink-0 text-bitcoin" />
+              <p className="text-sm text-muted-foreground">
+                Every event here is funded by the{' '}
+                <span className="font-semibold text-bitcoin">{groupName}</span> wallet.
+              </p>
+            </div>
+          );
+        })()}
+
         {/* Events grid */}
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filteredEvents.map((event) => {
@@ -83,6 +109,19 @@ export default function EventsPage() {
                   Learn more
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </button>
+                <div className="mt-4 flex items-center justify-between border-t border-border/60 pt-4">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const target = walletForCategory[event.category];
+                      openWallet(target.walletId, target.programId);
+                    }}
+                    className="gap-1.5"
+                  >
+                    <Zap className="h-3.5 w-3.5 text-bitcoin" /> Support this event
+                  </Button>
+                </div>
               </div>
             );
           })}

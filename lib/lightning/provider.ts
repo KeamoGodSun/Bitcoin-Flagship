@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import https from 'node:https';
 import { siteConfig } from '@/lib/config';
 
 export interface Invoice {
@@ -23,6 +24,23 @@ export interface PaymentStatus {
 interface CreateInvoiceOptions {
   amountSats: number;
   memo?: string;
+  walletId?: string;
+  programId?: string;
+  programName?: string;
+}
+
+export interface LedgerEntry extends Invoice {
+  walletId: string;
+  programId: string | null;
+  programName: string | null;
+  paidAt: string | null;
+}
+
+export interface WalletSummary {
+  receivedSats: number;
+  pendingSats: number;
+  settledCount: number;
+  pendingCount: number;
 }
 
 interface MockInvoice extends Invoice {
@@ -30,6 +48,52 @@ interface MockInvoice extends Invoice {
 }
 
 const mockStore = new Map<string, MockInvoice>();
+const sessionLedger = new Map<string, LedgerEntry>();
+
+function recordLedger(invoice: Invoice, opts: CreateInvoiceOptions) {
+  const entry: LedgerEntry = {
+    ...invoice,
+    walletId: opts.walletId || 'flagship',
+    programId: opts.programId || null,
+    programName: opts.programName || null,
+    paidAt: null,
+  };
+  sessionLedger.set(invoice.paymentHash, entry);
+}
+
+export function markSettled(paymentHash: string): void {
+  const entry = sessionLedger.get(paymentHash);
+  if (entry && entry.status !== 'paid') {
+    entry.status = 'paid';
+    entry.paidAt = new Date().toISOString();
+  }
+}
+
+export function walletLedger(walletId?: string): LedgerEntry[] {
+  const all = Array.from(sessionLedger.values());
+  const filtered = walletId ? all.filter((e) => e.walletId === walletId) : all;
+  return filtered.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
+export function walletSummary(walletId?: string): WalletSummary {
+  const entries = walletLedger(walletId);
+  const summary: WalletSummary = {
+    receivedSats: 0,
+    pendingSats: 0,
+    settledCount: 0,
+    pendingCount: 0,
+  };
+  for (const entry of entries) {
+    if (entry.status === 'paid') {
+      summary.receivedSats += entry.amountSats;
+      summary.settledCount += 1;
+    } else {
+      summary.pendingSats += entry.amountSats;
+      summary.pendingCount += 1;
+    }
+  }
+  return summary;
+}
 
 function createMockInvoice({ amountSats, memo }: CreateInvoiceOptions): Invoice {
   const now = Date.now();
@@ -83,8 +147,6 @@ function mockSimulate(paymentHash: string): PaymentStatus {
 }
 
 function makeLndAgent() {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const https = require('node:https') as typeof import('node:https');
   if (siteConfig.lnd.tlsCertBase64) {
     const cert = Buffer.from(siteConfig.lnd.tlsCertBase64, 'base64').toString('utf8');
     return new https.Agent({ ca: cert, rejectUnauthorized: true });
@@ -215,34 +277,48 @@ async function btcpayLookup(paymentHash: string): Promise<PaymentStatus> {
 }
 
 export async function createInvoice(opts: CreateInvoiceOptions): Promise<Invoice> {
+  let invoice: Invoice;
   switch (siteConfig.lightningProvider) {
     case 'lnd':
-      return createLndInvoice(opts);
+      invoice = await createLndInvoice(opts);
+      break;
     case 'btcpayserver':
-      return createBTCPayInvoice(opts);
+      invoice = await createBTCPayInvoice(opts);
+      break;
     case 'mock':
     default:
-      return createMockInvoice(opts);
+      invoice = createMockInvoice(opts);
+      break;
   }
+  recordLedger(invoice, opts);
+  return invoice;
 }
 
 export async function lookupInvoice(paymentHash: string): Promise<PaymentStatus> {
+  let status: PaymentStatus;
   switch (siteConfig.lightningProvider) {
     case 'lnd':
-      return lndLookup(paymentHash);
+      status = await lndLookup(paymentHash);
+      break;
     case 'btcpayserver':
-      return btcpayLookup(paymentHash);
+      status = await btcpayLookup(paymentHash);
+      break;
     case 'mock':
     default:
-      return mockLookup(paymentHash);
+      status = mockLookup(paymentHash);
+      break;
   }
+  if (status.paid) markSettled(paymentHash);
+  return status;
 }
 
 export function simulateInvoice(paymentHash: string): PaymentStatus {
   if (siteConfig.lightningProvider !== 'mock') {
     throw new Error('Simulation is only available in mock mode');
   }
-  return mockSimulate(paymentHash);
+  const status = mockSimulate(paymentHash);
+  markSettled(paymentHash);
+  return status;
 }
 
 export function providerName(): string {

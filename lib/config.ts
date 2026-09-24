@@ -4,9 +4,9 @@ export const siteConfig = {
   name: '₿itcoin Flagship',
   description:
     'A grassroots community driving Bitcoin adoption through meetups, education, public art, and social campaigns.',
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://bitcoin-flagship.vercel.app',
+  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://bitcoinflagship.com',
   lightningAddress:
-    process.env.NEXT_PUBLIC_LIGHTNING_ADDRESS || 'tips@bitcoinflagship.org',
+    process.env.NEXT_PUBLIC_LIGHTNING_ADDRESS || 'tips@bitcoinflagship.com',
   lightningProvider: (process.env.LIGHTNING_PROVIDER ||
     'mock') as LightningProviderName,
   lnd: {

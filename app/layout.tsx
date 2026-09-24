@@ -3,10 +3,11 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
+import { WalletProvider } from '@/components/wallet-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bitcoin-flagship.netlify.app';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bitcoinflagship.com';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -34,9 +35,11 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={`${inter.className} min-h-screen bg-background text-foreground antialiased`}>
         <div className="relative flex min-h-screen flex-col">
+          <WalletProvider>
           <SiteHeader />
           <main className="flex-1">{children}</main>
           <SiteFooter />
+        </WalletProvider>
         </div>
       </body>
     </html>

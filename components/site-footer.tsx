@@ -11,6 +11,7 @@ const footerLinks = [
   { href: '/community', label: 'Community' },
   { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' },
+  { href: '/domain-setup', label: 'Domain Setup' },
 ];
 
 const socialLinks = [
