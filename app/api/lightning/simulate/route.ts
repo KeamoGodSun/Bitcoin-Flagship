@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { simulateInvoice, providerName } from '@/lib/lightning/provider';
+import { markTipPaid } from '@/lib/supabase-admin';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -25,5 +26,8 @@ export async function POST(request: NextRequest) {
   }
 
   const status = simulateInvoice(paymentHash);
+  if (status?.paid) {
+    markTipPaid(paymentHash).catch((err) => console.error('[simulate] tip update failed:', err));
+  }
   return NextResponse.json({ payment: status });
 }

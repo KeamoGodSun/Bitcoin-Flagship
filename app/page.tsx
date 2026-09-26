@@ -5,20 +5,14 @@ import {
   Palette,
   Megaphone,
   ArrowRight,
-  Calendar,
   TrendingUp,
-  Globe,
   Shield,
 } from 'lucide-react';
-import { eventCategories, events, blogPosts } from '@/lib/data';
+import { blogPosts } from '@/lib/data';
 import { DonateSection } from '@/components/donate-section';
-
-const stats = [
-  { value: '2,500+', label: 'Community Members' },
-  { value: '48', label: 'Events Hosted' },
-  { value: '12', label: 'Cities Reached' },
-  { value: '6', label: 'Murals Painted' },
-];
+import { UpcomingSchedule } from '@/components/upcoming-schedule';
+import { EventBookshelf } from '@/components/event-bookshelf';
+import { DoccieTeaser } from '@/components/doccie-teaser';
 
 const pillars = [
   {
@@ -68,7 +62,6 @@ const feedPosts = [
 ];
 
 export default function Home() {
-  const upcomingEvents = events.slice(0, 3);
   const featuredPosts = blogPosts.slice(0, 3);
 
   return (
@@ -111,19 +104,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="border-y border-border/60 bg-card/30">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 gap-8 py-12 lg:grid-cols-4">
-            {stats.map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-3xl font-bold text-bitcoin sm:text-4xl">{stat.value}</div>
-                <div className="mt-1 text-sm text-muted-foreground">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Event archive */}
+      <EventBookshelf />
+
+      {/* Documentary teaser */}
+      <DoccieTeaser />
 
       {/* Mission */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
@@ -203,58 +188,14 @@ export default function Home() {
 
       {/* Upcoming Events */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mb-12 flex items-end justify-between">
-          <div>
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Upcoming Events</h2>
-            <p className="mt-2 text-muted-foreground">Get involved. Show up. Stack sats.</p>
-          </div>
-          <Link
-            href="/events"
-            className="hidden items-center gap-2 text-sm font-semibold text-bitcoin hover:text-bitcoin-light sm:inline-flex"
-          >
-            View all events
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+        <div className="mb-10">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Upcoming Events</h2>
+          <p className="mt-2 text-muted-foreground">
+            Dates and timelines for everything we have coming up. Get involved. Show up. Stack sats.
+          </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {upcomingEvents.map((event) => {
-            const cat = eventCategories.find((c) => c.id === event.category);
-            return (
-              <div
-                key={event.title}
-                className="group rounded-xl border border-border bg-card p-6 transition-all hover:border-bitcoin/50"
-              >
-                <div className="flex items-center gap-2 text-xs font-medium text-bitcoin">
-                  {cat && <cat.icon className="h-4 w-4" />}
-                  <span dangerouslySetInnerHTML={{ __html: cat?.label ?? '' }} />
-                </div>
-                <h3 className="mt-3 text-lg font-semibold">{event.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{event.description}</p>
-                <div className="mt-4 flex items-center gap-4 text-xs text-muted-foreground">
-                  <span className="flex items-center gap-1">
-                    <Calendar className="h-3.5 w-3.5" />
-                    {event.date}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Globe className="h-3.5 w-3.5" />
-                    {event.location}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="mt-8 text-center sm:hidden">
-          <Link
-            href="/events"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-bitcoin"
-          >
-            View all events
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
+        <UpcomingSchedule />
       </section>
 
       {/* Featured Blog */}

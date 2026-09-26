@@ -9,11 +9,17 @@ import {
 export type EventCategory = 'meetups' | 'education' | 'murals' | 'campaigns';
 
 export interface EventItem {
+  id: string;
   title: string;
+  /** ISO calendar date, YYYY-MM-DD. Drives the calendar, timeline, and .ics export. */
   date: string;
+  /** Optional ISO end date for multi-day events. */
+  endDate?: string;
   location: string;
   description: string;
   category: EventCategory;
+  /** Program id from lib/programs.ts — decides which wallet receives the donation. */
+  programId: string;
 }
 
 export interface EventCategoryMeta {
@@ -21,6 +27,32 @@ export interface EventCategoryMeta {
   label: string;
   icon: LucideIcon;
   description: string;
+}
+
+export function parseEventDate(event: EventItem | string): Date {
+  const raw = typeof event === 'string' ? event : event.date;
+  return new Date(raw);
+}
+
+export function eventDateKey(date: Date): string {
+  return date.toLocaleDateString('en-CA');
+}
+
+export function sortEventsByDate(items: EventItem[]): EventItem[] {
+  return [...items].sort(
+    (a, b) => parseEventDate(a).getTime() - parseEventDate(b).getTime()
+  );
+}
+
+export function eventsByDate(items: EventItem[]): Map<string, EventItem[]> {
+  const map = new Map<string, EventItem[]>();
+  for (const event of sortEventsByDate(items)) {
+    const key = eventDateKey(parseEventDate(event));
+    const bucket = map.get(key);
+    if (bucket) bucket.push(event);
+    else map.set(key, [event]);
+  }
+  return map;
 }
 
 export const eventCategories: EventCategoryMeta[] = [
@@ -38,7 +70,7 @@ export const eventCategories: EventCategoryMeta[] = [
   },
   {
     id: 'murals',
-    label: 'Murals &amp; Billboards',
+    label: 'Murals & Billboards',
     icon: Palette,
     description: 'Public art and billboard campaigns bringing Bitcoin visibility to the streets of major cities.',
   },
@@ -52,60 +84,84 @@ export const eventCategories: EventCategoryMeta[] = [
 
 export const events: EventItem[] = [
   {
+    id: 'monthly-meetup-oct',
     title: 'Monthly Bitcoin Meetup — Downtown',
-    date: 'Oct 12, 2026',
+    date: '2026-10-12',
     location: 'Downtown Community Center',
-    description: 'Our flagship monthly meetup featuring a guest speaker, open Q&amp;A, and networking. All levels welcome.',
+    description:
+      'Our flagship monthly meetup featuring a guest speaker, open Q&A, and networking. All levels welcome.',
     category: 'meetups',
+    programId: 'meet-ups',
   },
   {
+    id: 'beginners-night-oct',
     title: 'Bitcoin Beginners Night',
-    date: 'Oct 26, 2026',
+    date: '2026-10-26',
     location: 'Central Library, Room 3B',
-    description: 'A relaxed, jargon-free introduction to Bitcoin. Bring a friend who keeps asking you about it.',
+    description:
+      'A relaxed, jargon-free introduction to Bitcoin. Bring a friend who keeps asking you about it.',
     category: 'meetups',
+    programId: 'meet-ups',
   },
   {
+    id: 'lightning-workshop-nov',
     title: 'Lightning Network Hands-On Workshop',
-    date: 'Nov 03, 2026',
+    date: '2026-11-03',
     location: 'Innovation Hub, Tech District',
-    description: 'Set up your own Lightning node, open channels, and make your first on-chain payment in person.',
+    description:
+      'Set up your own Lightning node, open channels, and make your first on-chain payment in person.',
     category: 'education',
+    programId: 'lightning-bootcamp',
   },
   {
-    title: 'Self-Custody &amp; Security Masterclass',
-    date: 'Nov 17, 2026',
+    id: 'self-custody-masterclass-nov',
+    title: 'Self-Custody & Security Masterclass',
+    date: '2026-11-17',
     location: 'Online (Zoom)',
-    description: 'Learn hardware wallet setup, multisig configurations, and best practices for securing your stack.',
+    description:
+      'Learn hardware wallet setup, multisig configurations, and best practices for securing your stack.',
     category: 'education',
+    programId: 'trezor-academy',
   },
   {
+    id: 'mural-unveiling-oct',
     title: 'Bitcoin Mural Unveiling — River District',
-    date: 'Oct 20, 2026',
-    location: 'River District Wall, 4th &amp; Main',
-    description: 'Join us for the unveiling of our largest mural yet — a 40-foot celebration of sound money.',
+    date: '2026-10-20',
+    location: 'River District Wall, 4th & Main',
+    description:
+      'Join us for the unveiling of our largest mural yet — a 40-foot celebration of sound money.',
     category: 'murals',
+    programId: 'murals-billboards',
   },
   {
+    id: 'billboard-launch-nov',
     title: 'Highway Billboard Campaign Launch',
-    date: 'Nov 01, 2026',
+    date: '2026-11-01',
     location: 'I-95 Corridor',
-    description: 'Three billboards go live along the highway corridor. Come help us celebrate and document the launch.',
+    description:
+      'Three billboards go live along the highway corridor. Come help us celebrate and document the launch.',
     category: 'murals',
+    programId: 'murals-billboards',
   },
   {
+    id: 'stacksats-recap-oct',
     title: '#StackSatsSeptember Recap Campaign',
-    date: 'Oct 01, 2026',
+    date: '2026-10-01',
     location: 'Online — X / Twitter',
-    description: 'A month-long social media campaign sharing stories from first-time dollar-cost averagers.',
+    description:
+      'A month-long social media campaign sharing stories from first-time dollar-cost averagers.',
     category: 'campaigns',
+    programId: 'social-campaigns',
   },
   {
+    id: 'whitepaper-thunderclap-oct',
     title: 'Bitcoin Whitepaper Day Thunderclap',
-    date: 'Oct 31, 2026',
+    date: '2026-10-31',
     location: 'Online — All Platforms',
-    description: 'Coordinated post storm celebrating the Bitcoin whitepaper anniversary. Sign up to participate.',
+    description:
+      'Coordinated post storm celebrating the Bitcoin whitepaper anniversary. Sign up to participate.',
     category: 'campaigns',
+    programId: 'social-campaigns',
   },
 ];
 
@@ -118,6 +174,8 @@ export interface CommunityPost {
   tags: string[];
   likes: number;
   satsTipped: number;
+  /** Placeholder story kept for layout only. Real posts come from the database. */
+  sample?: boolean;
 }
 
 export const communityPosts: CommunityPost[] = [
@@ -129,8 +187,9 @@ export const communityPosts: CommunityPost[] = [
     content:
       '27th birthday down. 27% of my 27 target stacked today. The birthday "gift to self" — I DCA, run my own node, and I finally taught my mom how to verify a transaction onchain. She watched the block explorer like it was magic. It kind of is.',
     tags: ['First steps', 'Node running'],
-    likes: 142,
-    satsTipped: 12600,
+    likes: 0,
+    satsTipped: 0,
+    sample: true,
   },
   {
     id: 'c2',
@@ -138,10 +197,11 @@ export const communityPosts: CommunityPost[] = [
     handle: '@thabo_runs_ln',
     date: 'Sep 02, 2026',
     content:
-      'Opened my first Lightning channel on mainnet after last month\u2019s workshop. Paid for coffee with a 0-fee chained payment from my phone. Settled in under a second while the barista blinked. Lightning is not the future — it\u2019s Tuesday.',
+      'Opened my first Lightning channel on mainnet after last month’s workshop. Paid for coffee with a 0-fee chained payment from my phone. Settled in under a second while the barista blinked. Lightning is not the future — it’s Tuesday.',
     tags: ['Lightning', 'Node running'],
-    likes: 318,
-    satsTipped: 42000,
+    likes: 0,
+    satsTipped: 0,
+    sample: true,
   },
   {
     id: 'c3',
@@ -151,8 +211,9 @@ export const communityPosts: CommunityPost[] = [
     content:
       'Moved everything off the exchange into self-custody. The 3 weeks of reading and the paranoid re-checks of my seed phrase were worth it. Cold storage feels like freedom you can actually touch. Stay humble, stack sats.',
     tags: ['Self-custody'],
-    likes: 204,
-    satsTipped: 18900,
+    likes: 0,
+    satsTipped: 0,
+    sample: true,
   },
   {
     id: 'c4',
@@ -160,10 +221,11 @@ export const communityPosts: CommunityPost[] = [
     handle: '@karabo_dca',
     date: 'Aug 26, 2026',
     content:
-      'My employer asked how I\u2019d like part of my salary — I asked for sats with a smile. They didn\u2019t say no. Teaching my team one meme-able Bitcoin idea per week. Adoption is a conversation, not an event.',
+      'My employer asked how I’d like part of my salary — I asked for sats with a smile. They didn’t say no. Teaching my team one meme-able Bitcoin idea per week. Adoption is a conversation, not an event.',
     tags: ['Education', 'DCA'],
-    likes: 167,
-    satsTipped: 15500,
+    likes: 0,
+    satsTipped: 0,
+    sample: true,
   },
   {
     id: 'c5',
@@ -171,10 +233,59 @@ export const communityPosts: CommunityPost[] = [
     handle: '@lerato_paints_orange',
     date: 'Aug 21, 2026',
     content:
-      'Painted my first Bitcoin mural corner during the River District unveiling. A stranger stopped to ask "what\u2019s that symbol?" — that question is the whole mission. 20 minutes later she was asking how to buy her first 5 percent.',
+      'Painted my first Bitcoin mural corner during the River District unveiling. A stranger stopped to ask "what’s that symbol?" — that question is the whole mission. 20 minutes later she was asking how to buy her first 5 percent.',
     tags: ['Murals', 'Public art'],
-    likes: 256,
-    satsTipped: 31000,
+    likes: 0,
+    satsTipped: 0,
+    sample: true,
+  },
+];
+
+export interface Merchant {
+  id: string;
+  name: string;
+  category: string;
+  area: string;
+  /** What they accept, e.g. "Lightning + on-chain". */
+  payment: string;
+  /** Lightning address or payment link, when published. */
+  lightning?: string;
+  website?: string;
+  note: string;
+  /** Placeholder entry so the layout can be reviewed. Replace before launch. */
+  example?: boolean;
+}
+
+export const merchants: Merchant[] = [
+  {
+    id: 'm1',
+    name: 'Corner Coffee Bar',
+    category: 'Food & drink',
+    area: 'Downtown',
+    payment: 'Lightning',
+    lightning: 'coffee@bitcoinflagship.com',
+    note: 'Card sats for the counter. Ask for the sats tab when the queue is short.',
+    example: true,
+  },
+  {
+    id: 'm2',
+    name: 'River District Print Studio',
+    category: 'Art & printing',
+    area: 'River District',
+    payment: 'On-chain',
+    website: 'https://bitcoin.org',
+    note: 'Posters, stickers and mural proofing. Invoices settled on-chain within the hour.',
+    example: true,
+  },
+  {
+    id: 'm3',
+    name: 'I-95 Truck Stop Diner',
+    category: 'Food & drink',
+    area: 'I-95 Corridor',
+    payment: 'Lightning',
+    lightning: 'diner@bitcoinflagship.com',
+    note: 'Long-haul drivers welcome. Weekend sats specials during highway meetups.',
+    example: true,
   },
 ];
 

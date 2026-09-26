@@ -1,15 +1,8 @@
-import { Wallet as WalletIcon, GraduationCap, Calendar, Megaphone, type LucideIcon } from 'lucide-react';
+import { Wallet as WalletIcon, GraduationCap, Calendar, Megaphone, Film, type LucideIcon } from 'lucide-react';
 import { siteConfig } from '@/lib/config';
+import { programsForGroup, type WalletGroupId, type WalletProgram } from '@/lib/programs';
 
-export type WalletGroupId = 'flagship' | 'education' | 'events' | 'activation';
-
-export interface WalletProgram {
-  id: string;
-  name: string;
-  description: string;
-  memo: string;
-  defaultAmount?: number;
-}
+export type { WalletGroupId, WalletProgram };
 
 export interface WalletGroup {
   id: WalletGroupId;
@@ -28,7 +21,7 @@ export function walletAddress(walletId: WalletGroupId): string {
   const overrides = parseAddressOverrides();
   if (overrides[walletId]) return overrides[walletId];
 
-  const domain = siteConfig.lightningAddress.split('@')[1] || 'bitcoinflagship.com';
+  const domain = siteConfig.lightningAddress.split('@')[1] || 'bitcoinflagship.org';
   return `${walletId}@${domain}`;
 }
 
@@ -43,7 +36,7 @@ function parseAddressOverrides(): Record<string, string> {
   }
 }
 
-export const walletGroups: WalletGroup[] = [
+const walletGroupBase: Omit<WalletGroup, 'programs'>[] = [
   {
     id: 'flagship',
     name: '₿itcoin Flagship',
@@ -52,7 +45,6 @@ export const walletGroups: WalletGroup[] = [
     memo: 'Bitcoin Flagship tip',
     defaultAmount: 2100,
     icon: WalletIcon,
-    programs: [],
   },
   {
     id: 'education',
@@ -62,29 +54,6 @@ export const walletGroups: WalletGroup[] = [
     memo: 'Bitcoin Flagship — Education',
     defaultAmount: 5000,
     icon: GraduationCap,
-    programs: [
-      {
-        id: 'my-first-bitcoin',
-        name: 'My First Bitcoin',
-        description: 'Introductory Bitcoin education for newcomers.',
-        memo: 'My First Bitcoin — education',
-        defaultAmount: 5000,
-      },
-      {
-        id: 'trezor-academy',
-        name: 'Trezor Academy',
-        description: 'Hands-on self-custody and hardware wallet training.',
-        memo: 'Trezor Academy — education',
-        defaultAmount: 5000,
-      },
-      {
-        id: 'lightning-bootcamp',
-        name: 'Lightning Bootcamp',
-        description: 'Node setup, channels, and real Lightning payments.',
-        memo: 'Lightning Bootcamp — education',
-        defaultAmount: 5000,
-      },
-    ],
   },
   {
     id: 'events',
@@ -94,63 +63,31 @@ export const walletGroups: WalletGroup[] = [
     memo: 'Bitcoin Flagship — Events',
     defaultAmount: 5000,
     icon: Calendar,
-    programs: [
-      {
-        id: 'meetups',
-        name: 'Meet-ups',
-        description: 'Regular community gatherings and networking.',
-        memo: 'Meet-up — events',
-        defaultAmount: 5000,
-      },
-      {
-        id: 'movie-night',
-        name: 'Movie Night',
-        description: 'Documentary screenings and film nights.',
-        memo: 'Movie Night — events',
-        defaultAmount: 5000,
-      },
-      {
-        id: 'game-day',
-        name: 'Game Day',
-        description: 'Bitcoin trivia and community game days.',
-        memo: 'Game Day — events',
-        defaultAmount: 5000,
-      },
-      {
-        id: 'outer-meets',
-        name: 'Outer Meets',
-        description: 'Outdoor meet-ups — hikes, walks, and park hangs.',
-        memo: 'Outer Meets — events',
-        defaultAmount: 5000,
-      },
-    ],
   },
   {
     id: 'activation',
     name: 'Activation & Awareness Wallet',
     shortName: 'Awareness',
-    description: 'Fund public outreach: merchant on-boarding, billboards, and murals.',
+    description: 'Fund public outreach: merchant on-boarding, billboards, murals, and campaigns.',
     memo: 'Bitcoin Flagship — Activation & Awareness',
     defaultAmount: 5000,
     icon: Megaphone,
-    programs: [
-      {
-        id: 'merchant-onboarding',
-        name: 'Merchant On-boarding',
-        description: 'Helping local businesses accept Bitcoin.',
-        memo: 'Merchant On-boarding — activation',
-        defaultAmount: 5000,
-      },
-      {
-        id: 'murals-billboards',
-        name: 'Murals & Billboards',
-        description: 'Public art and highway billboard campaigns.',
-        memo: 'Murals & Billboards — activation',
-        defaultAmount: 5000,
-      },
-    ],
+  },
+  {
+    id: 'documentary',
+    name: 'Documentary Wallet',
+    shortName: 'Doccie',
+    description: 'Fund production of the State Project documentary now being filmed.',
+    memo: 'Bitcoin Flagship — State Project Doccie',
+    defaultAmount: 5000,
+    icon: Film,
   },
 ];
+
+export const walletGroups: WalletGroup[] = walletGroupBase.map((group) => ({
+  ...group,
+  programs: programsForGroup(group.id),
+}));
 
 export function getWalletGroup(walletId: string): WalletGroup {
   return walletGroups.find((g) => g.id === walletId) ?? walletGroups[0];

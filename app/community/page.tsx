@@ -1,13 +1,10 @@
-import { Sparkles, Coins } from 'lucide-react';
-import { communityPosts } from '@/lib/data';
-import { PostCard } from '@/components/post-card';
-import { TipButton } from '@/components/tip-button';
-import { siteConfig } from '@/lib/config';
+import { Sparkles } from 'lucide-react';
+import { CommunityHub } from '@/components/community-hub';
 
 export const metadata = {
   title: 'Community — Bitcoin Flagship',
   description:
-    'Bitcoin-only stories from the Bitcoin Flagship community. Read, like, and tip the people building the orange economy.',
+    'The Bitcoin Flagship community wall, Bitcoin courses from beginner to advanced, and the local directory of businesses that accept Bitcoin.',
 };
 
 export default function CommunityPage() {
@@ -23,44 +20,18 @@ export default function CommunityPage() {
               <Sparkles className="h-3.5 w-3.5" /> Bitcoin-only · Crowd-sourced
             </div>
             <h1 className="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">
-              The <span className="text-gradient-bitcoin">Community Wall</span>
+              The <span className="text-gradient-bitcoin">Community</span>
             </h1>
             <p className="mt-6 text-lg text-muted-foreground">
-              Real stories from real Bitcoiners — first stacks, first channels, first murals.
-              Tip what you love. The best content wins the most sats.
+              Real stories from real Bitcoiners, courses that take you from your first sat to reading the protocol,
+              and a directory of local businesses that take Bitcoin.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Feed */}
-      <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="space-y-5">
-          {communityPosts.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </div>
-
-        {/* Submit CTA */}
-        <div className="mt-14 rounded-2xl border border-bitcoin/30 bg-gradient-to-br from-bitcoin/10 via-background to-background p-8 text-center">
-          <Coins className="mx-auto h-8 w-8 text-bitcoin" />
-          <h2 className="mt-4 text-2xl font-bold">Got a Bitcoin-only story?</h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground">
-            The wall is curated by the community. Share your first-stack moment, your Lightning
-            number-go-up tale, or your mural story. Good content gets good sats.
-          </p>
-          <p className="mx-auto mt-3 max-w-xl text-xs text-muted-foreground">
-            Send your story to us and it may land on the wall. Until then, tip the wall directly:
-          </p>
-          <div className="mt-6 flex justify-center">
-            <TipButton
-              label={`Tip the wall at ${siteConfig.lightningAddress}`}
-              memo="Community Wall tip"
-              variant="default"
-              className="h-10 px-6"
-            />
-          </div>
-        </div>
+      <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+        <CommunityHub />
       </section>
     </div>
   );

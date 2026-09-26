@@ -24,11 +24,21 @@ interface TipDialogProps {
   onOpenChange: (open: boolean) => void;
   memo?: string;
   defaultAmount?: number;
+  /** Links the payment to a community post so the sats total stays attributable. */
+  postId?: string;
+  onPaid?: () => void;
 }
 
 const PRESETS = [500, 2100, 5000, 21000];
 
-export function TipDialog({ open, onOpenChange, memo = 'Bitcoin Flagship tip', defaultAmount = 2100 }: TipDialogProps) {
+export function TipDialog({
+  open,
+  onOpenChange,
+  memo = 'Bitcoin Flagship tip',
+  defaultAmount = 2100,
+  postId,
+  onPaid,
+}: TipDialogProps) {
   const [amount, setAmount] = useState(defaultAmount);
   const [invoice, setInvoice] = useState<Invoice | null>(null);
   const [provider, setProvider] = useState<string>('mock');
@@ -54,7 +64,7 @@ export function TipDialog({ open, onOpenChange, memo = 'Bitcoin Flagship tip', d
       const res = await fetch('/api/lightning/invoice', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amountSats: amount, memo }),
+        body: JSON.stringify({ amountSats: amount, memo, postId }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to generate invoice');
@@ -79,6 +89,7 @@ export function TipDialog({ open, onOpenChange, memo = 'Bitcoin Flagship tip', d
       const data = await res.json();
       if (data.payment?.paid) {
         setPaid(true);
+        onPaid?.();
       } else {
         setError('Payment not detected yet — scan and pay the invoice, then check again.');
       }
@@ -99,7 +110,10 @@ export function TipDialog({ open, onOpenChange, memo = 'Bitcoin Flagship tip', d
         body: JSON.stringify({ paymentHash: invoice.paymentHash }),
       });
       const data = await res.json();
-      if (data.payment?.paid) setPaid(true);
+      if (data.payment?.paid) {
+        setPaid(true);
+        onPaid?.();
+      }
     } catch {
       setError('Simulation failed.');
     } finally {

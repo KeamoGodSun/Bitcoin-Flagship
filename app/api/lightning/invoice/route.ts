@@ -2,14 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createInvoice, providerName } from '@/lib/lightning/provider';
 import { siteConfig } from '@/lib/config';
 import { getWalletGroup, getWalletProgram, buildWalletMemo } from '@/lib/wallets';
+import { recordPendingTip } from '@/lib/supabase-admin';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 const MAX_SATS = 21_000_000 * 100_000_000;
+const MEMO_MAX = 160;
 
 export async function POST(request: NextRequest) {
-  let body: { amountSats?: number; walletId?: string; programId?: string };
+  let body: { amountSats?: number; walletId?: string; programId?: string; memo?: string; postId?: string };
   try {
     body = await request.json();
   } catch {
@@ -34,7 +36,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unknown program for this wallet' }, { status: 400 });
   }
 
-  const memo = buildWalletMemo(walletId, program?.id).slice(0, 160);
+  const customMemo = typeof body.memo === 'string' ? body.memo.trim().slice(0, MEMO_MAX) : '';
+  const postId = typeof body.postId === 'string' ? body.postId.trim().slice(0, 64) : '';
+  const memo = (customMemo || buildWalletMemo(walletId, program?.id)).slice(0, MEMO_MAX);
 
   try {
     const invoice = await createInvoice({
@@ -44,6 +48,17 @@ export async function POST(request: NextRequest) {
       programId: program?.id,
       programName: program?.name,
     });
+
+    if (postId) {
+      recordPendingTip({
+        paymentHash: invoice.paymentHash,
+        invoiceId: invoice.id,
+        postId,
+        amountSats,
+        memo,
+      }).catch((err) => console.error('[invoice] tip record failed:', err));
+    }
+
     return NextResponse.json({ invoice, provider: providerName(), walletId, memo });
   } catch (err) {
     console.error('[invoice] error:', err);

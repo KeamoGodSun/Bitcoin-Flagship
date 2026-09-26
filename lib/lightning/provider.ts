@@ -47,8 +47,20 @@ interface MockInvoice extends Invoice {
   paidAt?: string;
 }
 
-const mockStore = new Map<string, MockInvoice>();
-const sessionLedger = new Map<string, LedgerEntry>();
+/**
+ * Kept on globalThis so every route bundle in the same process shares one mock
+ * store. Without this, /api/lightning/invoice and /api/lightning/simulate each
+ * get their own module instance in dev and the demo payment flow breaks.
+ */
+const globalMock = globalThis as unknown as {
+  __bfMockStore?: Map<string, MockInvoice>;
+  __bfSessionLedger?: Map<string, LedgerEntry>;
+};
+
+const mockStore = globalMock.__bfMockStore ?? new Map<string, MockInvoice>();
+const sessionLedger = globalMock.__bfSessionLedger ?? new Map<string, LedgerEntry>();
+globalMock.__bfMockStore = mockStore;
+globalMock.__bfSessionLedger = sessionLedger;
 
 function recordLedger(invoice: Invoice, opts: CreateInvoiceOptions) {
   const entry: LedgerEntry = {

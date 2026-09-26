@@ -6,17 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
-  { href: '/events', label: 'Events' },
-  { href: '/gallery', label: 'Gallery' },
-  { href: '/community', label: 'Community' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/contact', label: 'Contact' },
-  { href: '/domain-setup', label: 'Domain Setup' },
-];
+import { navLinks } from '@/lib/nav';
 
 export function SiteHeader() {
   const pathname = usePathname();

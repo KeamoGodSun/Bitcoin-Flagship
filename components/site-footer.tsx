@@ -2,17 +2,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Twitter, Github, Youtube, Send, MessageCircle, Zap } from 'lucide-react';
 import { LightningAddress } from '@/components/lightning-address';
-import { TipButton } from '@/components/tip-button';
-
-const footerLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
-  { href: '/events', label: 'Events' },
-  { href: '/community', label: 'Community' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/contact', label: 'Contact' },
-  { href: '/domain-setup', label: 'Domain Setup' },
-];
+import { DonateButton } from '@/components/donate-button';
+import { navLinks } from '@/lib/nav';
 
 const socialLinks = [
   { href: 'https://x.com', label: 'X / Twitter', icon: Twitter },
@@ -48,7 +39,7 @@ export function SiteFooter() {
           <div className="lg:col-span-2">
             <h3 className="text-sm font-semibold text-foreground">Navigate</h3>
             <ul className="mt-4 space-y-2">
-              {footerLinks.map((link) => (
+              {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -69,6 +60,9 @@ export function SiteFooter() {
               </div>
               <div className="mt-2">
                 <LightningAddress />
+              </div>
+              <div className="mt-3">
+                <DonateButton label="Donate with sats" />
               </div>
               <p className="mt-3 text-xs text-muted-foreground">
                 Tip the community in seconds — no sign-up, no middleman.

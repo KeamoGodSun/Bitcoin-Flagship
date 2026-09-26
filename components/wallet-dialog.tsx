@@ -454,6 +454,12 @@ export function WalletDialog({ open, onOpenChange, initialWalletId, initialProgr
             </TabsContent>
 
             <TabsContent value="activity" className="mt-4">
+              {provider === 'mock' ? (
+                <p className="mb-3 rounded-lg border border-dashed border-border bg-card/40 p-3 text-xs text-muted-foreground">
+                  Demo mode. These entries come from test invoices held in server memory — they are not real payments
+                  and they clear whenever the server restarts.
+                </p>
+              ) : null}
               {loading && entries.length === 0 ? (
                 <p className="py-8 text-center text-sm text-muted-foreground">Loading activity...</p>
               ) : entries.length === 0 ? (
