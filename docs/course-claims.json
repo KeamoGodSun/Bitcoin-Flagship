@@ -761,27 +761,68 @@
       "manual": "galaxy.com figures are rendered client-side, so the page returns no plain text to match; figure read manually from the published note",
       "checked": "2026-09-27",
       "cadence": 180
+    },
+    {
+      "id": "l3-3-witness-discount",
+      "lesson": "l3-3-building-and-scaling",
+      "figure": "3x base, 1x witness",
+      "claim": "SegWit measures transactions in weight units, defined as base size times 3 plus total size, which makes witness data count at a quarter of the per-byte rate of the rest of the transaction",
+      "source": "https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki",
+      "needles": [
+        "Block weight",
+        "Base size"
+      ],
+      "checked": "2026-09-27",
+      "cadence": 365,
+      "note": "BIP141 does not use the words factor of four; it states the weight formula, and the 4x figure is derived from it. The lesson says factor of four and the claim records where the number actually comes from."
+    },
+    {
+      "id": "l3-3-segwit-not-4x-whole-tx",
+      "lesson": "l3-3-building-and-scaling",
+      "figure": "varies by transaction",
+      "claim": "The saving on a whole transaction from SegWit varies with the details of the transaction, so the 4x witness factor is not a 4x reduction in total fee",
+      "source": "https://en.bitcoin.it/wiki/Techniques_to_reduce_transaction_fees",
+      "needles": [
+        "amount of savings varies depending on the details"
+      ],
+      "checked": "2026-09-27",
+      "cadence": 365,
+      "note": "This is the correction to the common overselling of SegWit as four times cheaper. Sourced to the fee reduction guide, which states the variation explicitly."
     }
   ],
   "ignore": [
-    "12 words",
-    "twelve words",
-    "3.2 min",
-    "6.8 min",
-    "21,000",
-    "21 million",
-    "210,000",
-    "100,000,000",
+    "0-0 vote",
+    "0.1",
     "0.00021",
     "0.0000021",
     "0.0021",
     "0.21",
-    "0.1",
+    "3-3/4",
+    "3.2 min",
+    "6.8 min",
+    "12 words",
+    "21 million",
+    "21,000",
+    "0032",
+    "0039",
+    "0044",
+    "100,000,000",
+    "125",
+    "0125",
+    "141",
+    "0141",
     "210",
-    "2140",
+    "210,000",
+    "500,000",
+    "510,000",
     "1940",
     "1990",
-    "0-0 vote",
-    "3-3/4"
+    "2140",
+    "bip-0032",
+    "bip-0039",
+    "bip-0044",
+    "bip-0125",
+    "bip-0141",
+    "twelve words"
   ]
 }

@@ -3799,6 +3799,511 @@ const L3_2: Lesson = {
   ],
 };
 
+const L3_3: Lesson = {
+  id: 'l3-3-building-and-scaling',
+  title: 'Building and scaling: Lightning, fees and the mempool',
+  blurb:
+    'Two mechanisms that are constantly bundled together and rarely confused correctly: channels that move payments off the public ledger, and a market for the limited space in each block. What each one does, and the specific thing each one does not fix.',
+  minutes: 14,
+  sections: [
+    {
+      heading: 'A channel is a contract, not a faster payment',
+      paragraphs: [
+        'A Lightning channel is opened by putting an ordinary transaction on the public ledger, and that transaction commits funds into a contract the two parties can then update between themselves. Opening one is not free. It costs a transaction and a fee like any other on-chain spend, and it needs a confirmation before the channel is worth relying on. Everything after that is cheaper because the expensive step happened once, rather than because it was skipped.',
+        'Inside the channel, the balances are a private ledger only the two parties can see. Paying someone means amending that private ledger rather than writing a new public transaction, and nothing is broadcast. The shared chain is not told a payment happened, and it does not record who paid whom. That is the entire source of Lightning\'s speed and its low per-payment cost, and it is also the reason the privacy claim needs a later section rather than a slogan.',
+        'Closing happens one of two ways. A cooperative close is agreed by both parties, who sign a final transaction and pay for it on-chain. A unilateral close is the escape hatch: either side can publish the latest state both of them already signed, and the funds settle on-chain after a waiting period. That option is what keeps a channel safe when the other party has stopped cooperating or gone offline. It is also why a channel you no longer use is not a neutral thing, because the balance is committed to a contract that still has to be resolved.',
+      ],
+    },
+    {
+      heading: 'Liquidity has a direction',
+      paragraphs: [
+        'The most common misunderstanding about Lightning is that a channel is a pot of money either side can spend from. It is not. Each side holds an amount, and you can only send up to the amount on your own side. What you can spend is your outbound liquidity, and what you can receive is your inbound liquidity. The channel has one total size and splits it, and what it can do for you depends entirely on which side of that split you are standing on.',
+        'The consequence is easy to miss. If you hold the whole balance on your side you can pay anyone and nobody can pay you. The reverse is equally true, and a channel full of inbound liquidity is a channel that can receive a great deal and has almost nothing to send, which is exactly right for a shop and useless to a customer standing in front of it. Inbound capacity only works because the other side has outbound room, which means the receiving party depends on a balance they do not control.',
+        'Balances move, and moving them costs something. You can open more channels, close the ones you no longer need, pay another channel to route through it, or wait to be paid. Every one of those costs fees, either a Lightning routing fee or an on-chain transaction. The practical difficulty is that a node has to arrange liquidity for a pattern of payments it cannot see coming, which is the honest way of saying Lightning moves the work of managing money between payments from the ledger to the node operator, rather than removing it.',
+        'It is also why aggregate capacity figures say less about your experience than they appear to. A node can only spend what sits on its own side of a channel, so a large total capacity across the network does not mean any given payment can be made. A payment larger than any single channel has to be split across several paths, and each extra requirement on the path is another chance for the routing to fail.',
+      ],
+    },
+    {
+      heading: 'How a payment crosses a node that does not own it',
+      paragraphs: [
+        'If Alice pays Carol and they have no channel between them, the payment passes through Bob, who holds a balance with each of them. Bob has no reason to forward anything, and the obvious risk is that he takes the payment and keeps it. The structure that rules this out is a conditional claim, specified in the Lightning BOLTs, and it is worth understanding properly because it is the reason no trusted third party is needed.',
+        'The mechanism is a hash-locked, time-locked output. The value Bob holds is not claimable by him. It is claimable by whoever can present a secret matching a value Bob committed to in advance, and that secret is only revealed to the last person in the chain after they have passed the payment onward. Bob cannot take the funds because he does not have the secret, and he cannot pass the funds onward without either revealing the secret or surrendering his own claim. He is bound to behave correctly by his own interest rather than by trust.',
+        'The time lock is what makes this safe when somebody disappears. Every payment carries an expiry that shortens at each hop, and the final recipient must claim before the shortest one runs out. If Carol goes offline and never claims, the claim walks back towards Alice as the deadlines pass, and the value returns without anyone reversing anything, because nothing was ever final. The trade is that settling this way costs a few blocks of waiting at the end, and the channel is unusable during that time.',
+        'One consequence deserves stating plainly, because it is where the marketing runs ahead of the mechanism. This is a way to move value without trusting the parties in the middle. It is not a way to hide the payment from everyone else. Channel openings and closings are public transactions, peers can see the balance of a channel they are party to, and a node in the path observes the payments passing through it. Lightning is more private than broadcasting every payment to the whole network, and less private than the impression it is often given.',
+      ],
+    },
+    {
+      heading: 'Routing failures are the ordinary case',
+      paragraphs: [
+        'Lightning finds a route by searching for a path of open, funded channels, and the search usually has to satisfy several conditions at once. Every hop on the path needs enough outbound liquidity for its share of the amount, every hop has to be online, the fee quoted for the whole route has to be acceptable, and every individual channel still has time left before its own expiry. A payment that fails has usually failed on the first of those, because outbound liquidity is the resource that is genuinely scarce.',
+        'This is worth separating from failure in the ordinary sense. A payment that cannot find a path has not been lost, has not been double-spent and has not been rejected for a rule reason. The sender learns it did not arrive, keeps the funds, and can try again, possibly after the liquidity situation changes, possibly after making a payment that reshapes it. Retrying is normal rather than exceptional, which is a consequence of routing over a network nobody controls centrally.',
+        'The two things that make a payment hard are size and direction. A payment that no single channel can carry has to be split, and each split is another independent routing exercise. A payment to a node you have never paid before may have no path at all, because inbound capacity into that node is somebody else\'s outbound balance, which is the same directional problem seen from the other end. The practical mitigations are ordinary operations rather than tricks: keep a spread of channels open, accept that you will occasionally be the one who cannot send.',
+      ],
+      table: {
+          head: ['', 'On-chain', 'Lightning channel', 'Custodial Lightning wallet'],
+          rows: [
+            [
+              'What settles',
+              'A public transaction, visible to everyone',
+              'A private balance update between the two parties',
+              'A private balance update, recorded by the provider',
+            ],
+            [
+              'Cost per payment',
+              'A fee that varies with demand for block space',
+              'A small routing fee, or none if the payment does not leave your node',
+              'Whatever the provider charges, on top of the routing fee',
+            ],
+            [
+              'To start, you need',
+              'Funds, and a transaction in a block',
+              'An on-chain funding transaction, a fee for it, and a confirmation',
+              'A balance held by the provider',
+            ],
+            [
+              'If the counterparty vanishes',
+              'Nothing; the transaction already settled',
+              'The channel stays open until the expiry, then the funds come back',
+              'The provider keeps what you left with them',
+            ],
+            [
+              'Who can see the payment',
+              'Everybody running a node',
+              'The two channel peers, and the nodes in between',
+              'The provider, and the nodes in the path',
+            ],
+            [
+              'What you give up',
+              'Speed and cost at small amounts',
+              'On-chain privacy at open and close, uptime, and liquidity management',
+              'The ability to verify your own balance and to withdraw without asking',
+            ],
+          ],
+          note:
+            'The three columns are not a ranking, and the last row is the one to read twice. A channel is not a cheaper on-chain transaction with no drawbacks; it trades on-chain finality and privacy for cost and speed at small amounts, and it needs a working node and managed liquidity in exchange. Only the middle column has the properties people mean when they say Lightning is the second layer, because it is the only one where you can check your own balance without asking anyone.',
+        },
+    },
+    {
+      heading: 'A fee rate buys space in a block',
+      paragraphs: [
+        'Blocks are limited in size, so the space in them is scarce, and fees are how bidders for that space are ranked. A transaction pays a fee, and what it is really offering is a fee per unit of space rather than a fee in total. That ratio is the fee rate, quoted in satoshis per virtual byte, and it is the number that decides what gets included when a block fills up.',
+        'The virtual byte is where the accounting gets subtle, and it is a deliberate answer to a real problem. A transaction is not measured in bytes on the wire, because that would make it artificially cheap to attach a large signature to a small payment. Instead each part of the transaction is assigned a weight, and the sizes that carry signatures are discounted relative to the parts that carry the actual instructions. A transaction\'s fee rate is its fee divided by its virtual size, computed from those weights.',
+        'This is also where the second mechanism stops being a background detail. If you are building anything on Bitcoin, you need to predict when your transaction confirms, and the answer is a function of the fee rates competing for space at that moment, not a property of your transaction alone. A fee rate that was generous during a quiet period can sit unconfirmed through a busy one, which is the entire reason the mempool and replacement rules exist.',
+      ],
+    },
+    {
+      heading: 'The mempool is not one queue',
+      paragraphs: [
+        'The mempool is the set of transactions a node has accepted as valid but not yet seen in a block, and it is the place a transaction waits. What is often missed is that there is no single global mempool. Every node keeps its own, they do not necessarily agree, and a transaction enters one only if that node\'s relay and fee policies accept it. Two honest nodes can legitimately hold different sets of valid transactions.',
+        'That policy layer matters because acceptance is not purely about validity. A transaction that follows the rules of consensus but is unusually large, or underpriced relative to what the node believes the current minimum is, can be held or dropped by that node while remaining perfectly valid. This is why an unconfirmed transaction is not proof of anything except that some node accepted it, and why a transaction can disappear from one wallet\'s view while being visible in another.',
+        'Miners largely choose what to include by fee rate, because that is the ordering a market produces, and unconfirmed transactions compete with each other rather than waiting in turn. The practical result is that confirmation is a function of what else is competing at the moment your transaction arrives, which is why a fee that was too low at eight in the morning can be adequate at lunchtime.',
+      ],
+    },
+    {
+      heading: 'Getting unstuck, and the rules that apply',
+      paragraphs: [
+        'The standard escape hatch for a transaction that will not confirm is replacement. A wallet that notices a transaction is stuck can build a new one that spends the same inputs at a higher fee, and the two conflict, so only one can be valid. Miners accept the replacement and drop the original. This is often called Replace-by-Fee, and it is what stops an underpriced transaction from being stuck indefinitely.',
+        'The honest detail is that this is not automatic, and wallets differ on it. A transaction has to be created in a way that allows it to be replaced at all, and a transaction whose inputs are not all yours to begin with, or whose own construction did not signal replaceability, may not be replaceable by anything. The mechanism is standardised in BIP 125 precisely because it needs a rule rather than a convention, and a wallet that cannot replace is not broken so much as more limited than one that can.',
+        'There is a second thing worth knowing before reaching for a higher fee. Consolidation and waiting are often the better answer. If a transaction is stuck because its fee rate is too low for current demand, a wallet can wait, and the transactions ahead of it will eventually be mined and free up the space. Spending the same coins again at a higher fee costs more than the higher fee, because the original has to be replaced rather than simply included, and replacement has to be won in a race against every other replacement of the same transaction.',
+      ],
+    },
+    {
+      heading: 'Why the number of inputs moves your fee',
+      paragraphs: [
+        'A transaction spends coins, and each coin it spends is an input, and every input brings along two things: a reference to a previous output, and a signature authorising it. Fees follow the size of the data, so a transaction with more inputs is a bigger transaction, and a bigger transaction costs more at any given fee rate. This is the entire mechanism, and it explains why a wallet holding fifty small payments may find a single spend costs more in total than fifty small ones.',
+        'Consolidation is the response, and it has a real trade-off. Combining many small outputs into one makes every later spend cheaper, because the next transaction has fewer inputs to carry. It costs a transaction to do, so a wallet is trading a certain one-off cost against an uncertain future saving, which is a judgement about how the funds are likely to be used rather than a rule anyone can apply for you.',
+        'This is also the mechanism that makes transaction shape matter to a degree people do not expect. Signature data is discounted relative to the rest, so the more of a transaction\'s size is instructions rather than signatures, the less that discount is worth. Two transactions spending the same amount can therefore cost noticeably different fees, and software that lets you choose how to spend your own coins is making a real choice about fee cost rather than a cosmetic one.',
+        'And the discount is frequently oversold. The widely quoted figure for SegWit is a factor of four, and that number is real, but it is a discount applied to the signature portion of a transaction, not a promise that the whole transaction becomes four times smaller. The saving on an entire transaction depends on how much of it is signatures to begin with, which for a typical spend is a large but not overwhelming share. The correct claim is that SegWit transactions are materially cheaper than their equivalent legacy form, and the size of the difference depends on the transaction being compared.',
+      ],
+    },
+  ],
+  questions: [
+    {
+      id: 'l3-3-q1',
+      prompt: 'Where does a Lightning payment actually settle?',
+      options: [
+        {
+          id: 'a',
+          label: 'On the public blockchain, one block per payment',
+          correct: false,
+          explanation:
+            'That is the on-chain case, and it is the one Lightning exists to avoid. Writing a public transaction per payment is what a channel replaces.',
+        },
+        {
+          id: 'b',
+          label: 'Between the channel peers off-chain, while the opening and closing of each channel settle on-chain',
+          correct: true,
+          explanation:
+            'Correct, and the condition is the interesting part. The payment updates a private balance; the funding and the close are ordinary on-chain transactions that cost a fee.',
+        },
+        {
+          id: 'c',
+          label: 'In the sending wallet\'s own database, once the payment is relayed',
+          correct: false,
+          explanation:
+            'A wallet recording a payment it has sent proves nothing. Both sides must be able to agree on the final balance, which is why the claim is structured to be enforceable rather than merely recorded.',
+        },
+        {
+          id: 'd',
+          label: 'With the recipient\'s bank, through an ordinary payment rail',
+          correct: false,
+          explanation:
+            'Nothing in the design involves a bank, and that is the point of the peer-to-peer structure. Where a service is custodial, the provider holds the balance, which is a different arrangement and a different trust model.',
+        },
+      ],
+    },
+    {
+      id: 'l3-3-q2',
+      prompt: 'A colleague says a channel with 500,000 sat on your side and 10,000 sat on the other is a channel you can pay 510,000 sat from. What is the accurate reading?',
+      options: [
+        {
+          id: 'a',
+          label: 'You can send up to the 500,000 sat on your side, and that is the only amount available to you directly',
+          correct: true,
+          explanation:
+            'Outbound liquidity is the balance on your own side. The far side is your inbound capacity, and it is usable only by whoever is on the other end of it.',
+        },
+        {
+          id: 'b',
+          label: 'You can send the full 510,000 sat, because the total channel size is what you may spend',
+          correct: false,
+          explanation:
+            'Channel size is a common number quoted and a misleading one to spend from. Only your own side is spendable, which is why a shop and a customer value the same channel very differently.',
+        },
+        {
+          id: 'c',
+          label: 'You can send the full 510,000 sat, but only after the channel confirms the transfer on-chain',
+          correct: false,
+          explanation:
+            'No on-chain transaction is involved in a channel payment, which is the point of having a channel. The constraint is your own balance, not a confirmation.',
+        },
+        {
+          id: 'd',
+          label: 'Neither side can send anything, because a channel is only usable by the party who opened it',
+          correct: false,
+          explanation:
+            'Both sides can spend, up to their own balance. What the opener cannot do is force the other side to hold anything, since the balance on their side is what they are able to receive.',
+        },
+      ],
+    },
+    {
+      id: 'l3-3-q3',
+      prompt: 'A Lightning payment does not arrive and the sender keeps their money. What is the usual cause?',
+      options: [
+        {
+          id: 'a',
+          label: 'The recipient\'s node was offline and the invoice expired',
+          correct: false,
+          explanation:
+            'This does happen, and the expiry and time locks are built to handle it safely. It is not the most common reason, because payments are frequently attempted against nodes that are online and holding no outbound room.',
+        },
+        {
+          id: 'b',
+          label: 'The channel carried more data than the connection allowed',
+          correct: false,
+          explanation:
+            'A payment is a few small messages, not a transfer of funds worth its size. Bandwidth is not the binding constraint, and a routing failure caused by bandwidth would be a different failure entirely.',
+        },
+        {
+          id: 'c',
+          label: 'No path of open, sufficiently funded channels existed, or the fee quoted for the route was too low to be accepted',
+          correct: true,
+          explanation:
+            'Correct. Routing searches for a path where every hop has enough outbound balance, is online, and will accept the fee, and outbound liquidity is the scarce part. A failed payment is not lost, so retrying is normal rather than an error.',
+        },
+        {
+          id: 'd',
+          label: 'The recipient\'s wallet software was out of date and could not read the payment',
+          correct: false,
+          explanation:
+            'Incompatible software is a real operational problem, but it is not the common cause of an unrouted payment, and it would not be described as the payment having failed to arrive rather than erroring.',
+        },
+      ],
+    },
+    {
+      id: 'l3-3-q4',
+      prompt: 'What is the purpose of the hash-locked, time-locked claim that Lightning uses?',
+      options: [
+        {
+          id: 'a',
+          label: 'It compresses the payment before sending it, so less data crosses the network',
+          correct: false,
+          explanation:
+            'Payments are already small and are not compressed for this reason. The claim exists to solve a trust problem about who may take the money, not a problem about data volume.',
+        },
+        {
+          id: 'b',
+          label: 'It stores the history of payments so a node can prove what it owes',
+          correct: false,
+          explanation:
+            'Channel balances are current values, not a ledger of past payments kept for proof. A node does not need your history to know what it can send you.',
+        },
+        {
+          id: 'c',
+          label: 'It encrypts the invoice so the amount cannot be read by intermediate nodes',
+          correct: false,
+          explanation:
+            'Invoices are not encrypted by this mechanism, and the claim travels with the payment rather than hiding it. Nodes in the path can see the payments they forward, which is a real limit on the privacy claim.',
+        },
+        {
+          id: 'd',
+          label: 'It makes the payment conditional, so an intermediate node can only claim by passing the value onward first',
+          correct: true,
+          explanation:
+            'Correct, and this is the reason no trusted third party is needed. The node cannot take the funds because it lacks the secret, and it cannot pass them onward without surrendering its own claim, so its own interest binds it to behave correctly.',
+        },
+      ],
+    },
+    {
+      id: 'l3-3-q5',
+      prompt: 'What is the main trust trade-off of holding a balance in a custodial Lightning wallet?',
+      options: [
+        {
+          id: 'a',
+          label: 'Payments take longer to confirm than they do in a self-custodied channel',
+          correct: false,
+          explanation:
+            'Custodial payments are typically the fastest of the three arrangements, since the provider controls the routing. Speed is not what you give up, and the honest answer is not about latency.',
+        },
+        {
+          id: 'b',
+          label: 'The provider can lose or freeze your balance, and can see the payments you make and receive',
+          correct: true,
+          explanation:
+            'Correct. Convenience is bought with custody, and the provider holds the balance rather than holding only the keys. That is the same trade as any custodial account, made more visible by how little the user inspects.',
+        },
+        {
+          id: 'c',
+          label: 'Invoices expire sooner, so payments are more often rejected',
+          correct: false,
+          explanation:
+            'Invoice expiry is set by the sender and is unrelated to custody. A custodial wallet changes who controls the funds, not how long an invoice is valid for.',
+        },
+        {
+          id: 'd',
+          label: 'Channels behind the wallet cannot be closed, so funds can become stuck indefinitely',
+          correct: false,
+          explanation:
+            'The provider can close its own channels, and the safety net of a unilateral close exists precisely so that funds are not stuck even if the counterparty disappears. The risk here is the provider acting against you, not being unable to act.',
+        },
+      ],
+    },
+    {
+      id: 'l3-3-q6',
+      prompt: 'On-chain transaction fees are quoted in which unit?',
+      options: [
+        {
+          id: 'a',
+          label: 'Satoshis per transaction, regardless of its size',
+          correct: false,
+          explanation:
+            'A flat fee per transaction would make attaching signatures to a transaction free, because block space is the scarce resource. Pricing by size is what prevents that.',
+        },
+        {
+          id: 'b',
+          label: 'A percentage of the amount being sent',
+          correct: false,
+          explanation:
+            'No such relationship exists, and a percentage fee would be absurd for small amounts. What is scarce is space in a block, so that is what gets priced.',
+        },
+        {
+          id: 'c',
+          label: 'Satoshis per confirmation',
+          correct: false,
+          explanation:
+            'Confirmations are a property of how the transaction is mined, not something you bid for. What you bid for is priority for a share of the next block.',
+        },
+        {
+          id: 'd',
+          label: 'Satoshis per virtual byte, which is the fee divided by the transaction\'s weight-adjusted size',
+          correct: true,
+          explanation:
+            'Correct. The virtual size is a weighted measure rather than a wire measurement, so that signature data is discounted relative to the instructions it authorises.',
+        },
+      ],
+    },
+    {
+      id: 'l3-3-q7',
+      prompt: 'What is the mempool?',
+      options: [
+        {
+          id: 'a',
+          label: 'The set of transactions a node has accepted as valid but has not yet seen in a block',
+          correct: true,
+          explanation:
+            'Correct, and note it is each node\'s own set. Two honest nodes can hold different transactions, and acceptance reflects that node\'s policy as well as consensus validity.',
+        },
+        {
+          id: 'b',
+          label: 'A copy of the entire blockchain, held so that queries can be answered without disk',
+          correct: false,
+          explanation:
+            'A copy of the chain is what a node\'s block storage is, and the mempool holds only unconfirmed transactions. The two are related but are not the same collection.',
+        },
+        {
+          id: 'c',
+          label: 'The list of transactions a mining pool has paid its members',
+          correct: false,
+          explanation:
+            'Pools pay out in their own accounting, and that has nothing to do with where waiting transactions sit. A mempool contains unconfirmed user transactions competing for inclusion.',
+        },
+        {
+          id: 'd',
+          label: 'The set of addresses a wallet has used, kept so balances can be looked up quickly',
+          correct: false,
+          explanation:
+            'That describes an index of your own history, and the mempool is not related to it. Knowing which addresses a wallet has used is a privacy consideration, not something the network tracks for you.',
+        },
+      ],
+    },
+    {
+      id: 'l3-3-q8',
+      prompt: 'Why does a Replace-by-Fee mechanism exist?',
+      options: [
+        {
+          id: 'a',
+          label: 'Because blocks are too full to confirm any transaction, so some must be discarded',
+          correct: false,
+          explanation:
+            'Full blocks are normal operation, not a malfunction needing a correction. Low-fee transactions simply wait or are replaced, and no one is discarding valid work to make room.',
+        },
+        {
+          id: 'b',
+          label: 'Because miners are required to confirm every valid transaction in the order it arrived',
+          correct: false,
+          explanation:
+            'There is no such requirement, and it is precisely why a fee market exists. Miners choose what to include, so an underpriced transaction can wait indefinitely without anything being broken.',
+        },
+        {
+          id: 'c',
+          label: 'So a transaction that is too low to be confirmed can be replaced by a higher-fee one spending the same coins',
+          correct: true,
+          explanation:
+            'Correct. The two conflict, so only one can be valid and the replacement wins on fee. The mechanism is standardised in BIP 125 because it needs a rule rather than a convention.',
+        },
+        {
+          id: 'd',
+          label: 'Because exchanges require a fee bump before they will credit a deposit',
+          correct: false,
+          explanation:
+            'Exchange policies are their own business and are not the reason the mechanism is in the protocol. The rule exists so that a stuck transaction has a standard, safe way out.',
+        },
+      ],
+    },
+    {
+      id: 'l3-3-q9',
+      prompt: 'Why is a transaction with many inputs usually more expensive than one with few?',
+      options: [
+        {
+          id: 'a',
+          label: 'Because each input requires a separate signature that is billed individually',
+          correct: false,
+          explanation:
+            'There is a signature per input, but nothing is billed per signature. Fees follow the size of the data, and signatures are one contributor to that size among several.',
+        },
+        {
+          id: 'b',
+          label: 'Because each input adds data to the transaction, and fees scale with the size of that data',
+          correct: true,
+          explanation:
+            'Correct. Each input brings a reference to a previous output and a signature, and fee rate is a price per unit of size, so a larger transaction costs more at any given rate.',
+        },
+        {
+          id: 'c',
+          label: 'Because miners charge a per-input fee on top of the transaction fee',
+          correct: false,
+          explanation:
+            'There is no per-input charge. The cost comes from the transaction occupying more of a scarce block, which the fee rate expresses without any separate surcharge.',
+        },
+        {
+          id: 'd',
+          label: 'It is not more expensive, because fees are fixed at the same rate for every transaction',
+          correct: false,
+          explanation:
+            'The fee rate is quoted per unit of size precisely so that a larger transaction costs more. A fixed total fee would let a large transaction occupy more space for the same payment.',
+        },
+      ],
+    },
+    {
+      id: 'l3-3-q10',
+      prompt: 'What did the SegWit witness discount actually change about how a transaction is measured?',
+      options: [
+        {
+          id: 'a',
+          label: 'Signatures were removed from what nodes must verify, so the transaction stopped carrying them',
+          correct: false,
+          explanation:
+            'Signatures are still created and still checked, and that is the point of them. The discount changes how their size is counted, not whether they exist.',
+        },
+        {
+          id: 'b',
+          label: 'Fees were capped at one satoshi to make sending cheap enough for small payments',
+          correct: false,
+          explanation:
+            'No cap was introduced, and fees remain a market. What changed is the size accounting, which lowered the effective cost of an ordinary transaction.',
+        },
+        {
+          id: 'c',
+          label: 'Blocks were split into more, smaller blocks so that each transaction had more room',
+          correct: false,
+          explanation:
+            'Block size and block production were untouched by this change. Everything here happens inside the measurement of a single transaction.',
+        },
+        {
+          id: 'd',
+          label: 'Signature data is counted at a reduced weight, because it is excluded from the transaction ID, so the same fee buys more block space',
+          correct: true,
+          explanation:
+            'Correct. Witness data sits outside what the transaction ID commits to, so it is weighted less. Worth noting that the familiar factor of four applies to the signature portion, so the saving on a whole transaction is smaller than that figure suggests.',
+        },
+      ],
+    },
+  ],
+  tryIt: [
+    'Open a Lightning channel with a small amount in a wallet you can inspect, and pay it back to yourself. Watch where the balance sits afterwards: the channel now has inbound liquidity on one side and outbound on the other, which is the directional point in a form that takes two minutes to see.',
+    'Look up a transaction that is sitting unconfirmed on a block explorer, then check the same one a second later in a different view. Seeing it appear and disappear from different mempools is the clearest available demonstration that the mempool is per-node rather than one shared queue.',
+    'Consolidate several small outputs into one in a test wallet, and compare the size and the fee of the resulting transaction with a single-input spend of a similar amount. The difference is the input-count effect, measured rather than described.',
+  ],
+  sources: [
+    {
+      label: 'BOLT 2 — The Peer Protocol',
+      detail:
+        'How a channel is funded, how balances are updated between peers, and how a channel is closed cooperatively or by unilateral broadcast. The primary source for the opening and closing sections.',
+      url: 'https://github.com/lightning/bolts/blob/master/02-peer-protocol.md',
+    },
+    {
+      label: 'BOLT 4 — Onion Routing',
+      detail:
+        'The conditional claim that lets a payment cross a node without trusting it, and the expiry that shortens at each hop. The primary source for the section on forwarding value.',
+      url: 'https://github.com/lightning/bolts/blob/master/04-onion-routing.md',
+    },
+    {
+      label: 'BOLT 7 — Routing Gossip',
+      detail:
+        'How nodes learn about channels and their capacities, and why routing depends on this information being propagated and reasonably current.',
+      url: 'https://github.com/lightning/bolts/blob/master/07-routing-gossip.md',
+    },
+    {
+      label: 'BIP 125 — Replace-by-Fee Fee Signaling',
+      detail:
+        'The rule that makes replacement safe and predictable, and the conditions a transaction must meet to be replaceable at all. The primary source for the limits on replacement.',
+      url: 'https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki',
+    },
+    {
+      label: 'BIP 141 — SegWit',
+      detail:
+        'Weight units, the discount applied to witness data, and why it exists. The primary source for the transaction-size accounting and the factor of four applied to signatures.',
+      url: 'https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki',
+    },
+    {
+      label: 'Techniques to reduce transaction fees — Bitcoin Wiki',
+      detail:
+        'The practical guide to why larger transactions cost more: consolidating inputs, avoiding change outputs, and using SegWit. Also the clearest published statement that the saving from SegWit varies with the transaction rather than following a single multiplier.',
+      url: 'https://en.bitcoin.it/wiki/Techniques_to_reduce_transaction_fees',
+    },
+  ],
+};
+
 
 export const courseLevels: Level[] = [
   {
@@ -3822,7 +4327,7 @@ export const courseLevels: Level[] = [
     blurb:
       'What physically makes the technology possible, what the technology is, and what people build on it. Power and energy first, because they set the bound on everything that follows.',
     published: false,
-    lessons: [L3_1, L3_2],
+    lessons: [L3_1, L3_2, L3_3],
   },
   {
     id: 'level-4',
