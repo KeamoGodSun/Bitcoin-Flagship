@@ -1,294 +1,144 @@
 # In-site Bitcoin courses — outline for sign-off
 
-Status: **Levels 1 and 2 written and in preview only — not committed, not
-promoted to production.** The in-site content lives in `lib/course-data.ts`.
-Levels 3 and 4 are declared but unpublished, so nothing half-finished ships.
-Nothing goes to `main` until the wording below is approved.
+Status: **restructured, for approval. Nothing implemented.** This revision
+reorders the course from Bitcoin-first to money-first. The 13 written lessons are
+unchanged in `lib/course-data.ts` and are reproduced below exactly as they stand;
+22 new lessons are briefs. No code change accompanies this document.
 
-Format: each lesson ends in 5 multiple-choice questions with instant feedback.
-Levels 1 and 2 are 4 and 6 lessons. Level 1 is 5 questions per lesson (20
-published); Level 2 is 5, 5, 5, 7, 5 and 5, giving 32. That is 52 published in
-total. Levels 3 and 4 are planned at 3 lessons each (15 questions each), so the
-full course is 16 lessons and 82 questions. Every option gets a one-line
-explanation, so a wrong answer still teaches something. No score gating — a
-learner can always read the explanation, because scaring people off is the
-opposite of adoption.
+The spine: the history of money, then the history of technology, then money and
+technology together without Bitcoin, then money during Bitcoin, with the Human
+Action theory applied as a lens throughout, ending in a build of the future of
+money that compares Bitcoin against plain fiat having first explored the gold
+standard. The existing Bitcoin-advancement material becomes an appendix, read as
+the practical continuation of the closing lesson.
 
-Stance: the course advocates for Bitcoin and for its adoption, and Level 2 ends
-on a case for it. It is honest advocacy rather than promotional advocacy, which
-is the whole reason a sceptic keeps reading — a course that only confirmed the
-reader's priors would teach nothing. Where the technology is failing, the lessons
-say so with the same specificity as where it is working, and the quiz answers put
-the claim in the correct option and the qualification in the explanation.
-
-Question design rule, applied to every rewrite below: a question must be
-answerable by reasoning about a situation, not by recognising the phrasing.
-Distractors are beliefs a real learner could actually hold, and the correct
-option's explanation names the mechanism rather than restating the answer.
-
-Honesty rule, which matters most in Level 2: each school of economic thought is
-stated in the form its own best advocates would recognise, and the current-data
-lessons report what the figures actually say even where that cuts against
-Bitcoin. A lesson that only confirmed the reader's priors would teach nothing,
-and it is the first thing a sceptic checks.
-
-Progress is per browser (Supabase `course_progress` table, keyed on the same
-anonymous visitor id as likes). No accounts, no leaderboard, no certificate.
+Format: each lesson ends in multiple-choice questions with instant feedback. Every
+option gets a one-line explanation, so a wrong answer still teaches something. No
+score gating, because scaring people off is the opposite of adoption. Question
+counts are per level in the budget table at the end.
 
 ---
 
-## Level 1 — Beginner
+## Design rules
 
-### L1.1 What Bitcoin actually is
-Covers: the double-spend problem, blocks in order, coins as unspent outputs, fee
-= inputs − outputs, the 21 million cap and halvings, satoshis, nodes vs miners,
-and what one confirmation actually means.
+**Stance.** The course advocates for Bitcoin and for its adoption. It is honest
+advocacy rather than promotional advocacy, which is the whole reason a sceptic keeps
+reading. Where the technology is failing, the lessons say so with the same
+specificity as where it is working, and quiz answers put the claim in the correct
+option and the qualification in the explanation.
 
-*Audited on review. The original five tested recall — "what is one satoshi
-worth", "how long until final" — with distractors nobody holds. All five are now
-scenarios, and the lesson was extended with the UTXO model and the
-nodes-validate/miners-produce distinction.*
+**Honesty rule, and it matters most here.** Each school of economic thought is stated
+in the form its own best advocates would recognise. Current-data lessons report what
+the figures say even where that cuts against Bitcoin. A lesson that only confirmed
+the reader's priors would teach nothing, and it is the first thing a sceptic checks.
 
-1. **Someone pays you with a photo of a R10 note, and the same photo is spent
-   again. What prevents both from succeeding?**
-   A. Every node keeps a ledger of what has already been spent, and rejects a second spend of the same output · B. The bank notes the serial number and blocks the second use · C. A timestamp on the photo decides which payment came first · D. Miners pick one payment and delete the other from the mempool
-  **Answer: A** — that is the double-spend rule, enforced independently by every
-   node from the same shared history. A is the trusted-middleman answer Bitcoin
-   exists to remove; D confuses miner preference with validity, since only one
-   of the two can ever be valid.
-2. **A café charges 21,000 sats for a coffee. What is that in bitcoin?**
-   A. 0.21 BTC · B. 0.00021 BTC · C. 0.0000021 BTC · D. 0.0021 BTC
-  **Answer: B** — one bitcoin is 100,000,000 satoshis. The distractors are
-   deliberate powers-of-ten slips, so a wrong guess exposes exactly which place
-   value went wrong.
-3. **Why is the 21 million limit called a hard cap rather than a target?**
-   A. Because exchanges promise not to lend out more than exists · B. Because mining output is limited · C. Because the issuance schedule is part of the consensus rules, and changing it would need nodes to accept a different history · D. Because governments signed an international treaty to hold the line
-  **Answer: C** — it is enforced by the code every node runs, which makes it a
-   cap and not an intention. B and C are promises, not mechanisms; D is a side
-   effect, and the cap holds regardless of how much is mined.
-4. **An app tells you your balance is 10 BTC. What decides whether that is
-   true?**
-   A. The exchange whose app it is, because the exchange holds the coins · B. The current price, because a count of coins is only worth what the market says it is worth · C. The wallet software that displays it · D. Every node re-checks the rules against the shared ledger, so the balance is whatever the unspent outputs say
-  **Answer: D** — the app is a reader, not an authority. A is a fair answer for a
-   *custodial* balance, which is exactly the point: the answer changes when you
-   self-custody. What a balance is worth is a separate question, and one the course treats as contested rather than settled.
-5. **Your transaction has one confirmation. What has happened so far?**
-   A. It is in a block, so reversing it would be very hard, and the coins can still be spent onward · B. It is on the network but not yet in a block · C. It has been paid twice by mistake · D. It is final and those coins can never move again
-  **Answer: A** — one confirmation is inclusion, and more blocks make reversal
-   progressively harder. The common confusion is finality with frozen funds: a
-   confirmed transaction is permanent, and spending those outputs again is normal
-   forward progress, not a reversal.
+**Attribution rule, new in this revision.** The economic lens is Austrian, but the
+course must not be attributable to Mises alone, for two reasons. First, accuracy: the
+subjective theory of value, marginal utility and the argument that money emerges
+from barter without prior agreement are **Carl Menger's**, from `Principles of
+Economics` (1871) and `On the Origin of Money` (1892). Mises contributed the
+regression theorem and the business cycle theory (`Theory of Money and Credit`,
+1912), the systematisation of praxeology as a formal science (`Nationalökonomie`,
+1920), and the synthesis in `Human Action` (1949). A course built on a Mises lens
+that credits everything to Mises is dismissed by the first economist who reads it.
+Second, the internal dispute is real and belongs in the course: **William Hutt**
+challenged the subjective theory of value directly in `The Economics of Knowledge`
+(1959), and that objection has never been answered inside the Austrian tradition.
 
-### L1.2 Buying and storing
-Covers: custodial vs non-custodial wallets, seed phrases, hot vs cold wallets,
-"not your keys, not your coins", backups, and the one mistake that loses
-everything.
+**Gold-standard rule, new in this revision.** The capstone compares Bitcoin against
+plain fiat having explored the gold standard. That comparison is only honest if the
+course says plainly that **Bitcoin is not a gold standard**. A gold standard fixed the
+value of a unit while still running on fractional reserve inside it; Bitcoin fixes the
+quantity cryptographically and has no issuer at all. These are different objects, and
+the level that draws the comparison has to earn that difference rather than assume it.
 
-1. **You write your twelve words on paper, and two years later restore the same
-   wallet on a new phone. Why does that work?**
-   A. Because the phrase contains a copy of the coins themselves · B. Because the words deterministically regenerate every key and address from one master secret · C. Because the wallet provider kept a copy for you · D. Because the blockchain remembers which devices belong to you
-  **Answer: B** — that is deterministic derivation, and it is why one backup can
-   restore everything. A is the custodial case; C is wrong because the chain has
-   no concept of your devices; D is the most common misconception in the lesson,
-   since the phrase unlocks outputs rather than containing coins.
-2. **You install an app, tap "create wallet", and it shows you a 12-word
-   recovery phrase. Who holds the keys that can spend your coins?**
-   A. Nobody, because the coins sit on the blockchain unclaimed until someone spends them · B. The exchange, which holds keys on your behalf and hands them over when you need them · C. You do, because the phrase restores keys on your own device and the app is only an interface · D. The app company, because it generated the phrase on its own servers
-  **Answer: C** — a non-custodial wallet. The keys live on your device, so the
-   provider cannot move the coins without you. B is the custodial case the
-   slogan warns about; C is wrong because coins are unspent outputs controlled by
-   whoever holds the key that locks them; D makes an exchange a counterparty in
-   the wallet you are using.
-   *Rewritten on review: the old version asked what the slogan "refers to",
-   which tested recall instead of understanding and repeated the idea that a
-   wallet holds coins. The lesson now opens with "a wallet does not hold coins,
-   it holds keys" and a four-way taxonomy, so this question can be answered by
-   reasoning about the scenario.*
-3. **You want a backup that survives a thief, a house fire, and malware on your
-   computer. Which one holds up?**
-   A. A photo in your camera roll, synced to your cloud account · B. An encrypted note in a password manager on two phones · C. A USB stick in your desk drawer at the office · D. A copy on paper or metal, in two separate physical locations, neither of them online
-  **Answer: D** — it survives all three threats at once: no account to
-   compromise, and no single place to lose. A and B both put the secret behind a
-   login, which is the thing being protected; D survives the fire but not the
-   burglary, and is often the only copy.
-4. **Why can a seed phrase not be recovered by anyone, including the wallet
-   developer?**
-   A. Because there is no account, no server copy and no reset, so the phrase is the only key that exists · B. Because exchanges only keep copies for 90 days · C. Because it can only be restored onto the original device · D. Because the words are hashed on the blockchain
-  **Answer: A** — recovery is not technically hard, it is structurally
-   impossible: there is nowhere to recover from. That is the same property that
-   makes the phrase worth protecting. D is the exact opposite of the truth, since
-   portability is the point.
-5. **You keep savings on a hardware wallet. Which attack does that actually
-   stop?**
-   A. A company deciding to freeze your account · B. Malware on your computer that tries to sign a transaction draining the wallet · C. Sending to a receiving address you did not mean to use · D. A phishing site that asks you to type your seed phrase into a fake form
-  **Answer: B** — the private key stays on the device, so malware can request a
-   signature but cannot forge one; it can only watch you approve something. The
-   distractors are the failures people wrongly credit to hardware wallets: A is
-   still the most effective theft vector and a device cannot detect it, C is
-   solved more simply by nobody holding the keys, and D is your own eyes on the
-   screen.
-   *Q1, Q3, Q4 and Q5 audited on review. The originals were definitions and
-   slogans ("a seed phrase is best described as…", "the main advantage of a cold
-   wallet"), where the correct option was also the most reassuring one and the
-   distractors were obviously wrong. Each is now a situation with a defensible
-   wrong answer.*
-
-### L1.3 Spending safely
-Covers: verifying payments, fees and stuck transactions, the mempool in plain
-English, invoices vs addresses, and the small set of scams that work because
-they use real technical words.
-
-1. **A café gives you the address joe@theirshop.com and you send 2,000 sats to
-   it. What actually happened?**
-   A. The shop signed into a custodial account and withdrew · B. A transaction was broadcast to the public Bitcoin blockchain · C. The address produced a fresh single-use invoice, and you paid that invoice · D. 2,000 sats are now locked to that address permanently
-  **Answer: C** — a Lightning address is a human-readable alias that returns a
-   new invoice each time, and the payment settles between wallet peers
-   off-chain. A confuses it with a reusable on-chain address, D describes the
-   opposite of Lightning, and C is a real thing a shop can choose about its own
-   keys but is not implied by the address.
-2. **Your 10,000-sat transaction has been pending for a day. What is most likely
-   happening?**
-   A. An exchange is holding it for review · B. The network rejected it as invalid · C. It has confirmed and your wallet is not refreshing · D. It is valid and in the mempool, competing for limited block space at a fee rate below current demand
-  **Answer: D** — normal under load. The coins are reserved, the transaction is
-   outbid, and it is included when demand drops or you raise the fee. C is
-   impossible: an invalid transaction never enters the mempool. B applies only if
-   an exchange controls the transaction, which is provider policy rather than
-   base-layer behaviour.
-3. **Someone in a support chat asks for your seed phrase "to verify your
-   wallet". What should you do?**
-   A. Share nothing and leave · B. Share only the first six words · C. Send a screenshot with the words blurred · D. Share it, they need it
-  **Answer: A** — no legitimate support agent ever needs a seed phrase. Blurring
-   words still exposes the rest.
-4. **How do you independently check that a payment actually arrived?**
-   A. Refresh the app twice · B. Look the transaction up on a block explorer or in your own node · C. Ask the sender · D. Trust the merchant's receipt
-  **Answer: B** — verification means reading the chain yourself instead of
-   trusting someone's claim.
-5. **A confirmed transaction sent 1 BTC. What is still possible?**
-   A. The sender can ask a miner to undo it within 24 hours · B. An exchange can
-   reverse it on request · C. It stays in history, and those coins can only move
-   again if a new transaction spends them · D. It is deleted if nobody confirms
-   it further
-   **Answer: C** — the ledger is append-only. Spending an output again is normal
-   forward progress, not a reversal, and that new transaction is public too. B is
-   the distinction that matters here: an exchange can freeze its own customer
-   balances, but it cannot edit settled history.
-   *Q1, Q2 and Q5 audited on review. Q3 (seed-phrase phishing) and Q4
-   (independent verification) were kept unchanged — both already described a
-   concrete situation, and their distractors are the exact mistakes a real
-   learner is tempted by.*
+**Question design rule, applied to every lesson.** A question must be answerable by
+reasoning about a situation, not by recognising the phrasing. Distractors are beliefs
+a real learner could actually hold, and the correct option's explanation names the
+mechanism rather than restating the answer. No lesson may have a guessable answer
+letter, checked by `npm run check:quiz`.
 
 ---
 
-### L1.4 The money question
-Covers: fiat versus a supply rule, what the 21 million cap does and does not do,
-the real return on cash, and the strongest form of the hard-money argument alongside the check that stops it being a slogan.
+## The spine
 
-Deliberately short, and deliberately pro-adoption. This is the bridge into
-Level 2, so the correct answer on every question is the strong Bitcoin case and
-the honest limits are taught as things you manage (position size, horizon, adoption risk) rather than as reasons not to hold. Where the standard slogan is stronger than the truth, the lesson says so and then gives the honest version of the argument, which is stronger than the slogan because it does not depend on a forecast.
+| # | Level | Lessons | What it does |
+|---|---|---|---|
+| 1 | The lens: human action | 3 | Praxeology, subjective value, time preference. Menger, then Mises, then Hutt. First, because it is the instrument used by every level after it. |
+| 2 | The history of money, before Bitcoin | 5 | Commodity money, coinage and debasement, the gold standard, its crisis, 1971 and the invention of fiat. |
+| 3 | The history of technology, before Bitcoin | 4 | Energy and power, energy wars, industrial capital, banking and deposit money. |
+| 4 | Money and technology together, without Bitcoin | 4 | Floating fiat and financialisation, the cost of living now, and why the standard stopped constraining. |
+| 5 | Money during Bitcoin | 4 | 2008-09 and what happened, adoption, Bitcoin in this picture, and the honest ledger. |
+| 6 | Mises applied | 2 | Money as a temporal commodity, and time preference with the business cycle. Deliberately lean. |
+| 7 | The build: the future of money | 4 | Gold revisited, Bitcoin against plain fiat, why Bitcoin is not a gold standard, and the world this builds. |
+| 8 | Technical deep dive | 3 | Script and spending conditions, consensus and mining, privacy, scaling and self-hosting. |
+| A | Appendix: Bitcoin advancement | 7 | The existing practical course, read as the continuation of Level 7. |
 
-1. **A newcomer says "gold is scarce too, so what is the point of switching to
-   Bitcoin?" What is the strongest answer?**
-   A. Bitcoin is rarer than gold, and rarity is all that value needs to be · B. Bitcoin is already accepted as legal tender almost everywhere, so it is the safest place to keep money today · C. Bitcoin transactions are free, which is why it beats gold on cost · D. Gold's scarcity depends on people choosing not to mine more, while Bitcoin's cap is a rule every node checks, so no bank or government can dilute what you hold
-  **Answer: D** — that is the difference that does the work. Gold is genuinely
-   scarce, but nothing stops more being produced if that becomes profitable, so
-   its scarcity depends on incentives nobody can rule out. Bitcoin's limit is enforced by consensus,
-   which makes it a fact about the system rather than a promise about someone's
-   behaviour. A is the trap this question exists to catch: scarcity alone is not
-   money, and a rarity nobody has agreed to accept is a curiosity. C confuses
-   legal tender, which is a weakness rather than a strength, with adoption. D is
-   simply false, since on-chain transactions cost money and Lightning exists for
-   exactly that reason.
-   *Rewritten on review: the original asked what was missing from the claim
-   "Bitcoin is money because nobody can print more of it", and the graded answer
-   was that Bitcoin's acceptance is far narrower than the rand's. That is a true
-   and useful point, but making it the one correct answer taught the first
-   economic lesson of the course as a diminishment, in a lesson whose job is to
-   hand the learner to Level 2 ready to hold the asset. The acceptance point now
-   lives in the prose, framed as the frontier and the frontier's work rather than
-   as a shortfall.*
-2. **Your savings account pays 7% while consumer prices rose 4.4% over the year.
-   What happened to what you can buy?**
-   A. Roughly 2.6% a year more purchasing power, before tax · B. About 11.4% a year less purchasing power · C. It depends only on the exchange rate against the dollar · D. Nothing, the interest rate is the number that matters
-  **Answer: A** — real return is roughly the nominal rate minus inflation, and it
-   is a rough instrument rather than a promise. C is the classic error of adding
-   the two numbers instead of subtracting them, which is expensive. D confuses one
-   channel of imported prices with the prices the reader personally pays.
-3. **Bitcoin's supply is fixed by protocol. A government can issue more rand. What
-   follows from that difference?**
-   A. The two will move together, because supply is the only thing that determines a price · B. The rules governing the two supplies differ, so the two assets do not carry the same risk · C. That 21 million against unlimited fiat issuance makes appreciation close to arithmetic, so scarcity does the work · D. The rand will be worthless within a year
-  **Answer: B** — that is the actual consequence: a different supply rule means a
-   different risk profile, and it is a statement about risk rather than a promise
-   about direction. A is a cartoon that no school holds. D is the strong version of the scarcity argument, and the outline does not dismiss it: a fixed quantity facing an expanding one should appreciate in real terms over a long horizon, which is a serious claim. What D asserts as arithmetic is a long-run expectation in most schools' hands, and monetarists and Keynesians would both dispute that the supply side is the whole mechanism. The disagreement is real and the outline states it rather than settling it.
-4. **Someone explains Bitcoin as "it is up because inflation is high." What is the
-   strongest way to handle that claim?**
-   A. Accept it, because it is the standard argument · B. Ask the person to prove inflation is not real · C. Treat it as a slogan rather than a mechanism: inflation erodes the wages you are paid in, which is the reason to hold something no institution can expand, and you test that over a full cycle rather than one good or bad year · D. Agree, because hard money always wins in the long run
-  **Answer: C** — this is the honest version of the argument, and it is stronger
-   than the slogan because it does not depend on a forecast. The case rests on what you hold over years and on position size rather than on timing. D is the tempting one
-   to accept and it is the weakest: "always wins" cannot be checked against any
-   record, and it is not what the hard-money argument claims.
-   *Rewritten on review: the graded answer used to be a check on dates, which taught a good habit but made the payoff a deflation. The lesson no longer argues from any recent record, so the answer states the mechanism and argues the case.*
-5. **A beginner asks whether Bitcoin is a "safe" place to keep savings. What is the
-   honest and useful answer?**
-   A. It depends mainly on which exchange you keep it on · B. Yes, it is safe, because the supply is capped · C. No, it cannot be safe, because nothing obliges anyone to keep holding it · D. The supply rule is fixed and verifiable, so no institution can dilute it, and the real risk is adoption, which you manage with position size and time horizon
-  **Answer: D** — that separates the two questions properly: the dilution risk is
-   answered by the design, permanently and without anybody's cooperation, and the
-   adoption risk is the reader's to size. A is the overstatement that gets the whole argument dismissed, C is a verdict on uptake rather than on the design,
-   and D is about custody risk, which is a different topic and one Level 1.2
-   already covers.
-   *Rewritten on review: the graded answer used to be a limitation rather than an answer. The lesson now states the adoption risk in the explanation and turns it into the thing the reader actually does about it.*
+Levels 6 and 7 are kept short on purpose. The lens is introduced once, applied
+throughout, and deepened only where a lesson needs it, so the course does not become
+a treatise that a beginner abandons in the first hour.
+
+## What happens to the current material
+
+All 13 written lessons survive. Nine keep their text; four need a rewrite because
+their assumed context changes.
+
+| Written lesson | New home | Action |
+|---|---|---|
+| M2.1 What money actually is | 2.1 | keep, light edit |
+| M2.2 Five schools, one problem | 1.3 | keep, reframed as the close of the lens level |
+| M2.3 Fiat and the cost of living | 4.2 | keep as-is, current data |
+| M2.4 Bitcoin in this picture | 5.3 | **rewrite**: it assumed a Bitcoin-first course behind it |
+| M2.5 The hardest money yet | 6.1 | keep, light edit |
+| M2.6 The world this builds | 7.4 | keep, becomes the climax |
+| L1.1 What Bitcoin actually is | A.1 | keep as-is |
+| L1.2 Buying and storing | A.2 | keep as-is |
+| L1.3 Spending safely | A.3 | keep as-is |
+| L1.4 The money question | A.4 | keep as-is |
+| L3.1 Energy and power | A.5 | keep as-is |
+| L3.2 Wallets, seeds and nodes | A.6 | keep as-is |
+| L3.3 Lightning, fees and the mempool | A.7 | keep as-is |
+
+## Lesson identity, and why the numbers look wrong
+
+Lesson ids in the headings below are `L1.1`, `M2.4` and so on rather than matching
+the new level numbers. This is not an oversight and must not be tidied up in this
+pass. `scripts/sync-outline.mjs` derives each outline heading from the const name
+in `lib/course-data.ts` (`M2_4` becomes `### M2.4`) and exits with an error if
+that heading is absent, so renaming headings here would break the check that keeps
+the outline and the learner's quiz in step.
+
+The consequence for URLs: the published route embeds the level, so the existing
+`/learn/level-1/l1-1-what-bitcoin-actually-is` links stay valid precisely because
+these lessons are not being renumbered. Relocating a lesson into a new level will
+break its published URL and needs a permanent redirect at the same time as the move.
+Level and lesson numbering get realigned only when `lib/course-data.ts` is migrated
+to match, which is a separate piece of work.
 
 ---
 
-## Level 2 — Money & Economics
+## Level 1 — The lens: human action
 
-The user's brief was "the current state of fiat, the standard of living, and the
-different schools of thought", with Bitcoin assessed against all of it rather
-than assumed to win. Four lessons, 20 questions.
+*Unpublished. 3 lessons, 11 questions.*
 
-### M2.1 What money actually is
-Covers: the three jobs of money, money as a bank liability rather than a pile of
-notes, deposit creation on loan approval, why the textbook money multiplier
-oversells the story, and state backing versus voluntary acceptance.
+The lens has to come first, because every level after it is read through it. It is
+also where the course makes its pluralist obligation visible: the Austrian lens is
+introduced, then set beside its rivals before any history is narrated through it, so
+a reader who rejects praxeology still has a reason to keep going.
 
-1. **A bank approves your bond and credits the amount to your account. That
-   balance did not exist a moment earlier. Where did the money come from?**
-   A. The bank created it, as the deposit side of the loan it just made · B. It was moved from a savings account into your transaction account · C. It was taken from someone else's account and reassigned to you · D. The central bank printed it and passed it to the bank
-  **Answer: A** — a loan is an asset for the bank and a liability to you, created
-   together, and that is the mechanism behind most new money in the economy. C and
-   D are both transfers, which cannot create a balance that did not exist and
-   leave the total unchanged.
-2. **A textbook says a 10% reserve requirement gives a money multiplier of ten, so
-   R1,000 of reserves should create R10,000. A researcher measures a far smaller
-   result. What is the fairest conclusion?**
-   A. Banks are required to hold 10% and simply decide not to lend it · B. The multiplier ignores what actually limits banks: capital, funding, liquidity and whether anyone wants to borrow · C. Banks are secretly creating counterfeit money · D. The textbook is right and the researcher made an error
-  **Answer: B** — this is a genuine and still-unresolved disagreement, and the
-   binding constraint in practice is bank capital and funding rather than a
-   reserve fraction, which is zero in several countries. B misreads a requirement
-   as a floor on lending rather than a minimum holding, and D describes licensed,
-   disclosed deposit creation as though it were fraud.
-3. **A central bank buys R1bn of government bonds from a commercial bank. What did
-   that directly create?**
-   A. R1bn of cash that households can spend immediately · B. R1bn of new household credit · C. R1bn of reserves held at the central bank · D. R1bn of tax revenue for the government
-  **Answer: C** — that is the direct effect, and the gap between reserves and
-   money is why "printing money" is looser language than people assume. Household
-   money appears later and only if the bank lends or spends, which is A and C, and
-   a bond purchase is not a tax, which is D.
-4. **R100 in cash and a R100 account balance both work at the shop. Why is the
-   balance usually the more important of the two?**
-   A. Cash loses value faster than a balance does · B. Cash is not legal tender and cannot be used for debt · C. Banks are required to accept more cash than notes · D. Most of the money stock is a bank liability rather than physical notes, so the balance sheet is the real money system
-  **Answer: D** — this reframes a lot of arguments, because when people say
-   "money supply" they usually mean bank liabilities, which is why a bank run is a
-   monetary event and not just a banking one. D is the key confusion to head off:
-   both are claims in the same currency, so depreciation hits them identically.
-5. **A tax authority will only accept payment in rand, and will not take Bitcoin.
-   What does that establish?**
-   A. It establishes that rand has state backing behind it, and Bitcoin has to earn its value through voluntary use · B. Bitcoin will replace the rand within five years · C. Bitcoin is not money, because money is whatever a state will take · D. The tax authority is acting unreasonably
-  **Answer: A** — money and legal tender are not the same thing, and a state
-   currency carries the state's ability to compel payment, which is a real
-   advantage. Bitcoin lacks that backing entirely, which is both its weakness and
-   the source of the property that interests people. A reduces money to one source
-   of demand, and D is a timeline this course will not invent.
+### 1.1 Human action and praxeology
+
+*Brief, not yet written. Covers: praxeology as a method, purposeful human action, the actor and the means, why economics claims deductive rather than statistical certainty, and the honest limits of a deductive science.*
+
+Question design note: the honest question here is what praxeology cannot do. A deductive science cannot tell you when a prediction will fail, only what follows if the premises hold, and the lesson should say so rather than presenting the method as unfalsifiable certainty.
+
+
+### 1.2 Subjective value: Menger’s Principles
+
+*Brief, not yet written. Covers: Carl Menger’s Principles of Economics (1871), ordinal utility, diminishing marginal value, the marginal theory of value, and why the value of money is subjective rather than a fixed quantity of metal.*
+
+Question design note: this is the attribution anchor. The lesson exists so that the rest of the course can credit subjective value to Menger and not to Mises, which is the single cheapest way to stop the course being written off as cult writing.
+
 
 ### M2.2 Five schools, one problem
 Covers: Austrian (Mises, Hayek, Rothbard), Keynesian, monetarist (Friedman),
@@ -337,6 +187,143 @@ identity.
    whether a hard cap delivers, not which economist guessed it first. D misstates
    the position: monetarists generally favour constraining discretionary money
    creation, and the real difference is degree and mechanism.
+
+---
+
+## Level 2 — The history of money, before Bitcoin
+
+*Unpublished. 5 lessons, 26 questions.*
+
+Money before Bitcoin, and money before the state issued it. The level has to earn the
+later comparison by showing what a standard is for and what it costs, because the
+capstone claims Bitcoin solves a problem this level describes.
+
+### M2.1 What money actually is
+Covers: the three jobs of money, money as a bank liability rather than a pile of
+notes, deposit creation on loan approval, why the textbook money multiplier
+oversells the story, and state backing versus voluntary acceptance.
+
+1. **A bank approves your bond and credits the amount to your account. That
+   balance did not exist a moment earlier. Where did the money come from?**
+   A. The bank created it, as the deposit side of the loan it just made · B. It was moved from a savings account into your transaction account · C. It was taken from someone else's account and reassigned to you · D. The central bank printed it and passed it to the bank
+  **Answer: A** — a loan is an asset for the bank and a liability to you, created
+   together, and that is the mechanism behind most new money in the economy. C and
+   D are both transfers, which cannot create a balance that did not exist and
+   leave the total unchanged.
+2. **A textbook says a 10% reserve requirement gives a money multiplier of ten, so
+   R1,000 of reserves should create R10,000. A researcher measures a far smaller
+   result. What is the fairest conclusion?**
+   A. Banks are required to hold 10% and simply decide not to lend it · B. The multiplier ignores what actually limits banks: capital, funding, liquidity and whether anyone wants to borrow · C. Banks are secretly creating counterfeit money · D. The textbook is right and the researcher made an error
+  **Answer: B** — this is a genuine and still-unresolved disagreement, and the
+   binding constraint in practice is bank capital and funding rather than a
+   reserve fraction, which is zero in several countries. B misreads a requirement
+   as a floor on lending rather than a minimum holding, and D describes licensed,
+   disclosed deposit creation as though it were fraud.
+3. **A central bank buys R1bn of government bonds from a commercial bank. What did
+   that directly create?**
+   A. R1bn of cash that households can spend immediately · B. R1bn of new household credit · C. R1bn of reserves held at the central bank · D. R1bn of tax revenue for the government
+  **Answer: C** — that is the direct effect, and the gap between reserves and
+   money is why "printing money" is looser language than people assume. Household
+   money appears later and only if the bank lends or spends, which is A and C, and
+   a bond purchase is not a tax, which is D.
+4. **R100 in cash and a R100 account balance both work at the shop. Why is the
+   balance usually the more important of the two?**
+   A. Cash loses value faster than a balance does · B. Cash is not legal tender and cannot be used for debt · C. Banks are required to accept more cash than notes · D. Most of the money stock is a bank liability rather than physical notes, so the balance sheet is the real money system
+  **Answer: D** — this reframes a lot of arguments, because when people say
+   "money supply" they usually mean bank liabilities, which is why a bank run is a
+   monetary event and not just a banking one. D is the key confusion to head off:
+   both are claims in the same currency, so depreciation hits them identically.
+5. **A tax authority will only accept payment in rand, and will not take Bitcoin.
+   What does that establish?**
+   A. It establishes that rand has state backing behind it, and Bitcoin has to earn its value through voluntary use · B. Bitcoin will replace the rand within five years · C. Bitcoin is not money, because money is whatever a state will take · D. The tax authority is acting unreasonably
+  **Answer: A** — money and legal tender are not the same thing, and a state
+   currency carries the state's ability to compel payment, which is a real
+   advantage. Bitcoin lacks that backing entirely, which is both its weakness and
+   the source of the property that interests people. A reduces money to one source
+   of demand, and D is a timeline this course will not invent.
+
+### 2.2 Commodity money
+
+*Brief, not yet written. Covers: why particular commodities are chosen, salability and practicability, cattle, salt, shell and grain, and the exchange rates that emerged between them before any state existed to impose one.*
+
+Question design note: the point is that money is found, not invented, and that this is an Austrian argument rather than a neutral premise. Present it as the strongest version of the claim, including Menger’s own view that a good money emerges from exchange rather than from state decree.
+
+
+### 2.3 Coinage and debasement
+
+*Brief, not yet written. Covers: Lydian and Athenian coinage, the guarantee of weight and fineness, debasement as a fiscal technique, and Gresham’s law on why bad coin drives out good.*
+
+Question design note: this is the first place the course can show a money failing on its own terms, before fiat. Debasement is the historical precedent for the claim that a unit survives only while someone is willing to honour it, which is the exact problem Bitcoin and the gold standard each answer differently.
+
+
+### 2.4 The gold standard
+
+*Brief, not yet written. Covers: the classical gold standard, bimetallism and the bimetallic ratio, sterling as the reserve currency, and how the standard actually constrained the money supply in practice rather than on paper.*
+
+Question design note: the level must be careful not to describe the gold standard as a working system, because the interwar period is the counter-evidence and it belongs here rather than being deferred. The honest version is a standard that worked unevenly and failed badly, which is a stronger foundation for the Level 7 comparison than a golden age that did not happen.
+
+
+### 2.5 1971: the invention of fiat
+
+*Brief, not yet written. Covers: Bretton Woods, the Nixon shock, the move to floating exchange rates, and fiat as a deliberate administrative arrangement rather than a natural state of affairs.*
+
+Question design note: fiat is the baseline the capstone compares Bitcoin against, so this lesson has to make it a coherent system rather than a cartoon. If the reader leaves thinking fiat is simply broken money, the Level 7 comparison is a straw man and the course has earned nothing by winning it.
+
+
+---
+
+## Level 3 — The history of technology, before Bitcoin
+
+*Unpublished. 4 lessons, 20 questions.*
+
+Technology before Bitcoin. The course needs this level because the claim being made
+later is that Bitcoin is a technology that changes what money can do, and a claim
+about technology needs a history of technology to be a claim about anything.
+
+### 3.1 Energy and power: the physical basis
+
+*Brief, not yet written. Covers: energy versus power as distinct quantities, the industrial revolution as an energy transition, and the efficiency gains that let a fixed quantity of energy do more useful work per hour.*
+
+Question design note: this deliberately overlaps the energy and power distinction already taught in Appendix A.5, and that is intentional. A.5 asks what mining energy buys; this lesson asks why energy sets the physical bound in the first place, so the appendix lesson has a foundation to stand on. Keep this one to the physics and the industrial history, and do not mention Bitcoin.
+
+
+### 3.2 Energy wars
+
+*Brief, not yet written. Covers: coal and then oil as strategic resources, resource nationalisation, the 1973 and 1979 oil shocks, and how control of energy has repeatedly shaped state power and industrial policy.*
+
+Question design note: the reason this lesson is in a course about money is the causal chain, not the geopolitics. Energy is the input that industrial production requires, so control of it is a form of monetary and fiscal power. Give the reader the chain explicitly, because Level 4 assumes it.
+
+
+### 3.3 Industrial capital and the factory
+
+*Brief, not yet written. Covers: the factory system, capital consumption and the time structure of production, the way saving becomes the capacity to build, and why the roundness of a physical process constrains the plans of a financier.*
+
+Question design note: the Austrian argument connects time preference to the willingness to postpone consumption in order to produce. This is where the level makes that argument concrete, and it is the bridge to Level 6. The physical roundness of the roundness argument is the teaching point: capital goods take time, and that is the whole origin of interest.
+
+
+### 3.4 Banking and deposit money
+
+*Brief, not yet written. Covers: fractional reserve under the gold standard, free banking and the suspension of convertibility, the creation of deposit money by lending, and the difference between money and credit.*
+
+Question design note: the money and credit distinction is the load-bearing idea for the rest of the course. If a reader takes away that most of the money in circulation is created by lending rather than by a state printing it, the fiat levels and the Bitcoin levels both become much easier, and the Level 7 comparison gets a fair opponent.
+
+
+---
+
+## Level 4 — Money and technology together, without Bitcoin
+
+*Unpublished. 4 lessons, 20 questions.*
+
+Money and technology together, in the period the reader actually lives in. This level
+is where the course reports the current data, and it is the level most likely to turn a
+sympathetic reader away, which is the correct outcome if the numbers support it.
+
+### 4.1 Floating fiat and financialisation
+
+*Brief, not yet written. Covers: exchange rate flexibility, the end of the gold constraint on the money supply, securitisation, and the relocation of risk away from the balance sheets of the institutions that created it.*
+
+Question design note: keep the system coherent. The honest account is that this arrangement solved a real problem and then produced a different one, not that it was obviously mistaken from the start.
+
 
 ### M2.3 Fiat and the cost of living, right now
 Covers: a dated snapshot of 2026 inflation in South Africa, the United States and
@@ -406,6 +393,37 @@ Current figures, all checked on 26 September 2026:
   **Answer: C** — real return is roughly nominal minus inflation, which is a rough
    instrument rather than a promise, and the caveat about the net rate is the
    honest part. A reports what was credited rather than what it can buy.
+
+### 4.3 Why the standard stopped constraining
+
+*Brief, not yet written. Covers: monetary policy targets, quantitative easing, the zero lower bound, and what a standard amounts to once the entity issuing it controls it.*
+
+Question design note: this lesson is the pivot from history to the present argument, and it is where the Austrian lens earns its place, because the discipline of a fixed standard is the lens’s central claim about what money is for. State the Austrian reading and the mainstream reading of the same events in the same lesson, which is the pluralist obligation in the design rules.
+
+
+---
+
+## Level 5 — Money during Bitcoin
+
+*Unpublished. 4 lessons, 20 questions.*
+
+Money during Bitcoin. Only now does Bitcoin enter the course, and it enters as a
+development inside a monetary history rather than as the subject the history was
+building towards.
+
+### 5.1 2008–2009: what actually happened
+
+*Brief, not yet written. Covers: the financial crisis and the runs that broke intermediate institutions, the whitepaper, the first block, and what specifically the design was responding to.*
+
+Question design note: resist the temptation to make 2008 the villain. The lesson should be about the problem the design addresses and the conditions under which it would not have helped, because a reader who knows their financial history will be checking exactly that.
+
+
+### 5.2 Adoption
+
+*Brief, not yet written. Covers: the route from cypherpunk mailing lists to regulated investment products, the honest reading of who uses Bitcoin and how, and what adoption claims are usually quietly measuring.*
+
+Question design note: this is the level’s chance to state the awkward fact that most volume is trading rather than spending, without treating it as disqualifying. The question should make a reader reason about what a volume figure does and does not demonstrate.
+
 
 ### M2.4 Bitcoin in this picture
 Covers: the one property that is verifiable, **the distinction the whole argument
@@ -514,6 +532,23 @@ the trust that's required to make it work" — but the lesson then concedes that
     *Added on review, from the user's question about what happened in 2008. The
     correct option is written so that a learner cannot read it as "2008 proves
     bitcoin goes up" — the lesson claims the design brief and disclaims the timing.*
+
+### 5.4 The honest ledger
+
+*Brief, not yet written. Covers: what Bitcoin has and has not achieved since 2009, where the monetary argument is unresolved, and what would count as evidence against the case.*
+
+Question design note: this is the lesson the sceptic is waiting for, and it should be written before the build rather than after, so that Level 7 is an argument made in the presence of the counter-evidence rather than a verdict delivered after it.
+
+
+---
+
+## Level 6 — Mises applied
+
+*Unpublished. 2 lessons, 10 questions.*
+
+Kept deliberately lean, two lessons rather than a full treatment. The lens was
+introduced in Level 1 and applied in Levels 2 to 5; this is where it is deepened
+only as far as the course actually needs, and where its weakest point is named.
 
 ### M2.5 The hardest money yet
 Covers: money defined by the jobs it does rather than by intrinsic value, **the
@@ -657,6 +692,45 @@ Questions:
    and CBDCs are real competition, and that the defensible claim is a bet on adoption, which is not guaranteed. An openly pro-Bitcoin course
    that ends on those six is the reason the rest of it is worth reading.*
 
+### 6.2 Time preference and the business cycle
+
+*Brief, not yet written. Covers: subjective time preference, the Austrian business cycle, credit expansion and malinvestment, and the strongest objection to applying a cycle theory to the last fifteen years.*
+
+Question design note: the objection belongs in the same lesson as the theory. A reader who knows that the Austrian cycle theory has been applied to events it cannot explain will discount every other Austrian claim in the course if the lesson pretends otherwise, so the honest version puts the mispredictions next to the argument.
+
+
+---
+
+## Level 7 — The build: the future of money
+
+*Unpublished. 4 lessons, 20 questions.*
+
+The build. The comparison the course exists to make, made against a gold standard
+that has already been examined in Level 2 and a fiat system that has been taken
+seriously in Level 4, so that Bitcoin is being compared to two standards rather than
+to a caricature.
+
+### 7.1 Gold revisited
+
+*Brief, not yet written. Covers: what the gold standard actually constrained, reserve ratios in practice, the sterilisation of gold, and the reasons gold left the monetary system.*
+
+Question design note: this lesson revisits Level 2.4 with twenty-first-century hindsight and should reach a different answer about how well the standard worked, because the interwar evidence is stronger from here. A standard that is only ever remembered as the good old days makes the Level 7 comparison look like nostalgia.
+
+
+### 7.2 Bitcoin against plain fiat
+
+*Brief, not yet written. Covers: the comparison on the dimensions that decide it, namely the supply rule, the issuance schedule, independent verification, settlement finality, and what each system requires of its user.*
+
+Question design note: compare the systems rather than the rhetoric. The correct option should be the one that identifies where the comparison is genuinely close, because a question that makes Bitcoin win every dimension is a giveaway to any reader who has used either system.
+
+
+### 7.3 Why Bitcoin is not a gold standard
+
+*Brief, not yet written. Covers: quantity fixed versus value fixed, fractional reserve versus full reserve, the credibility constraint on any state-issued standard, and exactly where the analogy to gold breaks down.*
+
+Question design note: this lesson is the honest price of the level that precedes it, and it should not be apologised for. A reader told that Bitcoin is better money than gold without being told it is a different kind of object will correctly assume the author has not read the gold standard literature, and the rest of the course loses authority with them.
+
+
 ### M2.6 The world this builds
 Covers: what the argument is actually for, **what inflation and concentrated money
 creation do to ordinary people**, what people do when their money stops working,
@@ -788,15 +862,216 @@ Questions:
 
 ---
 
-## Level 3 — Intermediate: Power, Technology, and Building (declared, unpublished)
+## Appendix A — Bitcoin advancement
 
-Ordering rationale: energy and power are taught first because they are the
-physical constraint that makes the technology possible at all. Only then does
-the level ask what that technology is, and then what people build on it. This
-also keeps both of the reader's cases standing side by side rather than
-substituting one for the other: the capability side (L3.1–L3.3) is not
-replaced by the monetary side, and Level 4 carries the monetary side explicitly
-alongside it.
+*Unpublished as a level, and published per-lesson from the existing routes. 7 lessons,
+34 questions.*
+
+The existing course, unchanged, read as the practical continuation of Level 7. Once
+the reader has followed money from commodity to credit to fiat to Bitcoin, this is
+where they find out how any of it is used. Keeping it as an appendix is what makes the
+money-first order possible: the course can now open on the history of money rather
+than on a wallet.
+
+The four published Level 1 lessons and the three published Level 2 lessons keep their
+existing content and their existing URLs under this arrangement.
+
+### L1.1 What Bitcoin actually is
+Covers: the double-spend problem, blocks in order, coins as unspent outputs, fee
+= inputs − outputs, the 21 million cap and halvings, satoshis, nodes vs miners,
+and what one confirmation actually means.
+
+*Audited on review. The original five tested recall — "what is one satoshi
+worth", "how long until final" — with distractors nobody holds. All five are now
+scenarios, and the lesson was extended with the UTXO model and the
+nodes-validate/miners-produce distinction.*
+
+1. **Someone pays you with a photo of a R10 note, and the same photo is spent
+   again. What prevents both from succeeding?**
+   A. Every node keeps a ledger of what has already been spent, and rejects a second spend of the same output · B. The bank notes the serial number and blocks the second use · C. A timestamp on the photo decides which payment came first · D. Miners pick one payment and delete the other from the mempool
+  **Answer: A** — that is the double-spend rule, enforced independently by every
+   node from the same shared history. A is the trusted-middleman answer Bitcoin
+   exists to remove; D confuses miner preference with validity, since only one
+   of the two can ever be valid.
+2. **A café charges 21,000 sats for a coffee. What is that in bitcoin?**
+   A. 0.21 BTC · B. 0.00021 BTC · C. 0.0000021 BTC · D. 0.0021 BTC
+  **Answer: B** — one bitcoin is 100,000,000 satoshis. The distractors are
+   deliberate powers-of-ten slips, so a wrong guess exposes exactly which place
+   value went wrong.
+3. **Why is the 21 million limit called a hard cap rather than a target?**
+   A. Because exchanges promise not to lend out more than exists · B. Because mining output is limited · C. Because the issuance schedule is part of the consensus rules, and changing it would need nodes to accept a different history · D. Because governments signed an international treaty to hold the line
+  **Answer: C** — it is enforced by the code every node runs, which makes it a
+   cap and not an intention. B and C are promises, not mechanisms; D is a side
+   effect, and the cap holds regardless of how much is mined.
+4. **An app tells you your balance is 10 BTC. What decides whether that is
+   true?**
+   A. The exchange whose app it is, because the exchange holds the coins · B. The current price, because a count of coins is only worth what the market says it is worth · C. The wallet software that displays it · D. Every node re-checks the rules against the shared ledger, so the balance is whatever the unspent outputs say
+  **Answer: D** — the app is a reader, not an authority. A is a fair answer for a
+   *custodial* balance, which is exactly the point: the answer changes when you
+   self-custody. What a balance is worth is a separate question, and one the course treats as contested rather than settled.
+5. **Your transaction has one confirmation. What has happened so far?**
+   A. It is in a block, so reversing it would be very hard, and the coins can still be spent onward · B. It is on the network but not yet in a block · C. It has been paid twice by mistake · D. It is final and those coins can never move again
+  **Answer: A** — one confirmation is inclusion, and more blocks make reversal
+   progressively harder. The common confusion is finality with frozen funds: a
+   confirmed transaction is permanent, and spending those outputs again is normal
+   forward progress, not a reversal.
+
+### L1.2 Buying and storing
+Covers: custodial vs non-custodial wallets, seed phrases, hot vs cold wallets,
+"not your keys, not your coins", backups, and the one mistake that loses
+everything.
+
+1. **You write your twelve words on paper, and two years later restore the same
+   wallet on a new phone. Why does that work?**
+   A. Because the phrase contains a copy of the coins themselves · B. Because the words deterministically regenerate every key and address from one master secret · C. Because the wallet provider kept a copy for you · D. Because the blockchain remembers which devices belong to you
+  **Answer: B** — that is deterministic derivation, and it is why one backup can
+   restore everything. A is the custodial case; C is wrong because the chain has
+   no concept of your devices; D is the most common misconception in the lesson,
+   since the phrase unlocks outputs rather than containing coins.
+2. **You install an app, tap "create wallet", and it shows you a 12-word
+   recovery phrase. Who holds the keys that can spend your coins?**
+   A. Nobody, because the coins sit on the blockchain unclaimed until someone spends them · B. The exchange, which holds keys on your behalf and hands them over when you need them · C. You do, because the phrase restores keys on your own device and the app is only an interface · D. The app company, because it generated the phrase on its own servers
+  **Answer: C** — a non-custodial wallet. The keys live on your device, so the
+   provider cannot move the coins without you. B is the custodial case the
+   slogan warns about; C is wrong because coins are unspent outputs controlled by
+   whoever holds the key that locks them; D makes an exchange a counterparty in
+   the wallet you are using.
+   *Rewritten on review: the old version asked what the slogan "refers to",
+   which tested recall instead of understanding and repeated the idea that a
+   wallet holds coins. The lesson now opens with "a wallet does not hold coins,
+   it holds keys" and a four-way taxonomy, so this question can be answered by
+   reasoning about the scenario.*
+3. **You want a backup that survives a thief, a house fire, and malware on your
+   computer. Which one holds up?**
+   A. A photo in your camera roll, synced to your cloud account · B. An encrypted note in a password manager on two phones · C. A USB stick in your desk drawer at the office · D. A copy on paper or metal, in two separate physical locations, neither of them online
+  **Answer: D** — it survives all three threats at once: no account to
+   compromise, and no single place to lose. A and B both put the secret behind a
+   login, which is the thing being protected; D survives the fire but not the
+   burglary, and is often the only copy.
+4. **Why can a seed phrase not be recovered by anyone, including the wallet
+   developer?**
+   A. Because there is no account, no server copy and no reset, so the phrase is the only key that exists · B. Because exchanges only keep copies for 90 days · C. Because it can only be restored onto the original device · D. Because the words are hashed on the blockchain
+  **Answer: A** — recovery is not technically hard, it is structurally
+   impossible: there is nowhere to recover from. That is the same property that
+   makes the phrase worth protecting. D is the exact opposite of the truth, since
+   portability is the point.
+5. **You keep savings on a hardware wallet. Which attack does that actually
+   stop?**
+   A. A company deciding to freeze your account · B. Malware on your computer that tries to sign a transaction draining the wallet · C. Sending to a receiving address you did not mean to use · D. A phishing site that asks you to type your seed phrase into a fake form
+  **Answer: B** — the private key stays on the device, so malware can request a
+   signature but cannot forge one; it can only watch you approve something. The
+   distractors are the failures people wrongly credit to hardware wallets: A is
+   still the most effective theft vector and a device cannot detect it, C is
+   solved more simply by nobody holding the keys, and D is your own eyes on the
+   screen.
+   *Q1, Q3, Q4 and Q5 audited on review. The originals were definitions and
+   slogans ("a seed phrase is best described as…", "the main advantage of a cold
+   wallet"), where the correct option was also the most reassuring one and the
+   distractors were obviously wrong. Each is now a situation with a defensible
+   wrong answer.*
+
+### L1.3 Spending safely
+Covers: verifying payments, fees and stuck transactions, the mempool in plain
+English, invoices vs addresses, and the small set of scams that work because
+they use real technical words.
+
+1. **A café gives you the address joe@theirshop.com and you send 2,000 sats to
+   it. What actually happened?**
+   A. The shop signed into a custodial account and withdrew · B. A transaction was broadcast to the public Bitcoin blockchain · C. The address produced a fresh single-use invoice, and you paid that invoice · D. 2,000 sats are now locked to that address permanently
+  **Answer: C** — a Lightning address is a human-readable alias that returns a
+   new invoice each time, and the payment settles between wallet peers
+   off-chain. A confuses it with a reusable on-chain address, D describes the
+   opposite of Lightning, and C is a real thing a shop can choose about its own
+   keys but is not implied by the address.
+2. **Your 10,000-sat transaction has been pending for a day. What is most likely
+   happening?**
+   A. An exchange is holding it for review · B. The network rejected it as invalid · C. It has confirmed and your wallet is not refreshing · D. It is valid and in the mempool, competing for limited block space at a fee rate below current demand
+  **Answer: D** — normal under load. The coins are reserved, the transaction is
+   outbid, and it is included when demand drops or you raise the fee. C is
+   impossible: an invalid transaction never enters the mempool. B applies only if
+   an exchange controls the transaction, which is provider policy rather than
+   base-layer behaviour.
+3. **Someone in a support chat asks for your seed phrase "to verify your
+   wallet". What should you do?**
+   A. Share nothing and leave · B. Share only the first six words · C. Send a screenshot with the words blurred · D. Share it, they need it
+  **Answer: A** — no legitimate support agent ever needs a seed phrase. Blurring
+   words still exposes the rest.
+4. **How do you independently check that a payment actually arrived?**
+   A. Refresh the app twice · B. Look the transaction up on a block explorer or in your own node · C. Ask the sender · D. Trust the merchant's receipt
+  **Answer: B** — verification means reading the chain yourself instead of
+   trusting someone's claim.
+5. **A confirmed transaction sent 1 BTC. What is still possible?**
+   A. The sender can ask a miner to undo it within 24 hours · B. An exchange can
+   reverse it on request · C. It stays in history, and those coins can only move
+   again if a new transaction spends them · D. It is deleted if nobody confirms
+   it further
+   **Answer: C** — the ledger is append-only. Spending an output again is normal
+   forward progress, not a reversal, and that new transaction is public too. B is
+   the distinction that matters here: an exchange can freeze its own customer
+   balances, but it cannot edit settled history.
+   *Q1, Q2 and Q5 audited on review. Q3 (seed-phrase phishing) and Q4
+   (independent verification) were kept unchanged — both already described a
+   concrete situation, and their distractors are the exact mistakes a real
+   learner is tempted by.*
+
+### L1.4 The money question
+Covers: fiat versus a supply rule, what the 21 million cap does and does not do,
+the real return on cash, and the strongest form of the hard-money argument alongside the check that stops it being a slogan.
+
+Deliberately short, and deliberately pro-adoption. This is the bridge into
+Level 2, so the correct answer on every question is the strong Bitcoin case and
+the honest limits are taught as things you manage (position size, horizon, adoption risk) rather than as reasons not to hold. Where the standard slogan is stronger than the truth, the lesson says so and then gives the honest version of the argument, which is stronger than the slogan because it does not depend on a forecast.
+
+1. **A newcomer says "gold is scarce too, so what is the point of switching to
+   Bitcoin?" What is the strongest answer?**
+   A. Bitcoin is rarer than gold, and rarity is all that value needs to be · B. Bitcoin is already accepted as legal tender almost everywhere, so it is the safest place to keep money today · C. Bitcoin transactions are free, which is why it beats gold on cost · D. Gold's scarcity depends on people choosing not to mine more, while Bitcoin's cap is a rule every node checks, so no bank or government can dilute what you hold
+  **Answer: D** — that is the difference that does the work. Gold is genuinely
+   scarce, but nothing stops more being produced if that becomes profitable, so
+   its scarcity depends on incentives nobody can rule out. Bitcoin's limit is enforced by consensus,
+   which makes it a fact about the system rather than a promise about someone's
+   behaviour. A is the trap this question exists to catch: scarcity alone is not
+   money, and a rarity nobody has agreed to accept is a curiosity. C confuses
+   legal tender, which is a weakness rather than a strength, with adoption. D is
+   simply false, since on-chain transactions cost money and Lightning exists for
+   exactly that reason.
+   *Rewritten on review: the original asked what was missing from the claim
+   "Bitcoin is money because nobody can print more of it", and the graded answer
+   was that Bitcoin's acceptance is far narrower than the rand's. That is a true
+   and useful point, but making it the one correct answer taught the first
+   economic lesson of the course as a diminishment, in a lesson whose job is to
+   hand the learner to Level 2 ready to hold the asset. The acceptance point now
+   lives in the prose, framed as the frontier and the frontier's work rather than
+   as a shortfall.*
+2. **Your savings account pays 7% while consumer prices rose 4.4% over the year.
+   What happened to what you can buy?**
+   A. Roughly 2.6% a year more purchasing power, before tax · B. About 11.4% a year less purchasing power · C. It depends only on the exchange rate against the dollar · D. Nothing, the interest rate is the number that matters
+  **Answer: A** — real return is roughly the nominal rate minus inflation, and it
+   is a rough instrument rather than a promise. C is the classic error of adding
+   the two numbers instead of subtracting them, which is expensive. D confuses one
+   channel of imported prices with the prices the reader personally pays.
+3. **Bitcoin's supply is fixed by protocol. A government can issue more rand. What
+   follows from that difference?**
+   A. The two will move together, because supply is the only thing that determines a price · B. The rules governing the two supplies differ, so the two assets do not carry the same risk · C. That 21 million against unlimited fiat issuance makes appreciation close to arithmetic, so scarcity does the work · D. The rand will be worthless within a year
+  **Answer: B** — that is the actual consequence: a different supply rule means a
+   different risk profile, and it is a statement about risk rather than a promise
+   about direction. A is a cartoon that no school holds. D is the strong version of the scarcity argument, and the outline does not dismiss it: a fixed quantity facing an expanding one should appreciate in real terms over a long horizon, which is a serious claim. What D asserts as arithmetic is a long-run expectation in most schools' hands, and monetarists and Keynesians would both dispute that the supply side is the whole mechanism. The disagreement is real and the outline states it rather than settling it.
+4. **Someone explains Bitcoin as "it is up because inflation is high." What is the
+   strongest way to handle that claim?**
+   A. Accept it, because it is the standard argument · B. Ask the person to prove inflation is not real · C. Treat it as a slogan rather than a mechanism: inflation erodes the wages you are paid in, which is the reason to hold something no institution can expand, and you test that over a full cycle rather than one good or bad year · D. Agree, because hard money always wins in the long run
+  **Answer: C** — this is the honest version of the argument, and it is stronger
+   than the slogan because it does not depend on a forecast. The case rests on what you hold over years and on position size rather than on timing. D is the tempting one
+   to accept and it is the weakest: "always wins" cannot be checked against any
+   record, and it is not what the hard-money argument claims.
+   *Rewritten on review: the graded answer used to be a check on dates, which taught a good habit but made the payoff a deflation. The lesson no longer argues from any recent record, so the answer states the mechanism and argues the case.*
+5. **A beginner asks whether Bitcoin is a "safe" place to keep savings. What is the
+   honest and useful answer?**
+   A. It depends mainly on which exchange you keep it on · B. Yes, it is safe, because the supply is capped · C. No, it cannot be safe, because nothing obliges anyone to keep holding it · D. The supply rule is fixed and verifiable, so no institution can dilute it, and the real risk is adoption, which you manage with position size and time horizon
+  **Answer: D** — that separates the two questions properly: the dilution risk is
+   answered by the design, permanently and without anybody's cooperation, and the
+   adoption risk is the reader's to size. A is the overstatement that gets the whole argument dismissed, C is a verdict on uptake rather than on the design,
+   and D is about custody risk, which is a different topic and one Level 1.2
+   already covers.
+   *Rewritten on review: the graded answer used to be a limitation rather than an answer. The lesson now states the adoption risk in the explanation and turns it into the thing the reader actually does about it.*
 
 ### L3.1 Energy and power
 Covers: energy vs power, why energy precedes money in the analysis, power
@@ -901,332 +1176,150 @@ lesson carries ten questions, because Lightning and fee-market mechanics are two
 distinct mechanisms and merging them into five would have meant dropping one.
 
 1. **Where does a Lightning payment actually settle?**
-   A. On a public blockchain, one block per payment · B. Between channel peers
-   off-chain, with the open and close of each channel settled on-chain · C. In
-   the sender's wallet database · D. With the merchant's bank
-   **Answer: B** — that is why Lightning is fast and cheap, and also why channel
+   A. On the public blockchain, one block per payment · B. Between the channel peers off-chain, while the opening and closing of each channel settle on-chain · C. In the sending wallet's own database, once the payment is relayed · D. With the recipient's bank, through an ordinary payment rail
+  **Answer: B** — that is why Lightning is fast and cheap, and also why channel
    openings and closings are visible on-chain.
 2. **"Outbound liquidity" on a channel refers to…**
-   A. How much you can spend before you need to receive · B. The total channel
-   size · C. How fast your node syncs · D. The number of channels you have
-   **Answer: A** — inbound payments need the other side to have outbound room, so
+   A. You can send up to the 500,000 sat on your side, and that is the only amount available to you directly · B. You can send the full 510,000 sat, because the total channel size is what you may spend · C. You can send the full 510,000 sat, but only after the channel confirms the transfer on-chain · D. Neither side can send anything, because a channel is only usable by the party who opened it
+  **Answer: A** — inbound payments need the other side to have outbound room, so
    liquidity sits on the side it can leave from.
 3. **A payment fails to route. The most common cause is…**
-   A. The recipient's node is offline and the invoice expired · B. No path exists
-   with enough outbound liquidity at each hop, or the fee quoted is too low ·
-   C. The channel uses too much bandwidth · D. The receiver's wallet is out of
-   date
-   **Answer: B** — routing is a search for a path of open, funded channels.
+   A. The recipient's node was offline and the invoice expired · B. The channel carried more data than the connection allowed · C. No path of open, sufficiently funded channels existed, or the fee quoted for the route was too low to be accepted · D. The recipient's wallet software was out of date and could not read the payment
+  **Answer: C** — routing is a search for a path of open, funded channels.
 4. **The point of an HTLC in Lightning is to…**
-   A. Compress the payment before sending it · B. Make the payment conditional:
-   the money is only claimable if the next hop pays onward · C. Store the payment
-   history · D. Encrypt the invoice
-   **Answer: B** — this conditional structure is what lets an intermediate node
+   A. It compresses the payment before sending it, so less data crosses the network · B. It stores the history of payments so a node can prove what it owes · C. It encrypts the invoice so the amount cannot be read by intermediate nodes · D. It makes the payment conditional, so an intermediate node can only claim by passing the value onward first
+  **Answer: D** — this conditional structure is what lets an intermediate node
    forward value without being able to steal it.
 5. **What is the main trust trade-off of using a custodial Lightning wallet?**
-   A. Payments take longer to confirm · B. The provider can lose or freeze your
-   balance, and can see your payment history · C. Invoices expire sooner · D.
-   Channels cannot be closed
-   **Answer: B** — convenience is bought with custody.
+   A. Payments take longer to confirm than they do in a self-custodied channel · B. The provider can lose or freeze your balance, and can see the payments you make and receive · C. Invoices expire sooner, so payments are more often rejected · D. Channels behind the wallet cannot be closed, so funds can become stuck indefinitely
+  **Answer: B** — convenience is bought with custody.
 
 1. **Bitcoin fees are quoted in…**
-   A. Sats per transaction · B. Satoshis per virtual byte · C. Percent of the
-   amount sent · D. Sats per confirmation
-   **Answer: B** — this measures the space your transaction takes up in a block.
+   A. Satoshis per transaction, regardless of its size · B. A percentage of the amount being sent · C. Satoshis per confirmation · D. Satoshis per virtual byte, which is the fee divided by the transaction's weight-adjusted size
+  **Answer: D** — this measures the space your transaction takes up in a block.
 2. **The mempool is…**
-   A. A queue of valid but unconfirmed transactions waiting for a block ·
-   B. A copy of the whole blockchain · C. A mining pool's payout list · D. A
-   wallet's address list
-   **Answer: A** — miners pick from it, mostly by fee rate.
+   A. The set of transactions a node has accepted as valid but has not yet seen in a block · B. A copy of the entire blockchain, held so that queries can be answered without disk · C. The list of transactions a mining pool has paid its members · D. The set of addresses a wallet has used, kept so balances can be looked up quickly
+  **Answer: A** — miners pick from it, mostly by fee rate.
 3. **Replace-by-Fee exists because…**
-   A. Wallets sometimes need to change a stuck transaction, paying a higher fee so
-   it replaces the old one · B. Blocks are too full to confirm anything ·
-   C. Exchanges require it · D. Miners must confirm every transaction
-   **Answer: A** — it is the standard escape hatch for an under-priced stuck
+   A. Because blocks are too full to confirm any transaction, so some must be discarded · B. Because miners are required to confirm every valid transaction in the order it arrived · C. So a transaction that is too low to be confirmed can be replaced by a higher-fee one spending the same coins · D. Because exchanges require a fee bump before they will credit a deposit
+  **Answer: C** — it is the standard escape hatch for an under-priced stuck
    transaction.
 4. **Why is a transaction with many inputs usually more expensive?**
-   A. Each input is a separate signature · B. Each input needs its own output in
-   the data, and fees scale with the size of that data · C. Miners charge per
-   input · D. It does not — fees are fixed
-   **Answer: B** — fee follows data size, which is why consolidating inputs from
+   A. Because each input requires a separate signature that is billed individually · B. Because each input adds data to the transaction, and fees scale with the size of that data · C. Because miners charge a per-input fee on top of the transaction fee · D. It is not more expensive, because fees are fixed at the same rate for every transaction
+  **Answer: B** — fee follows data size, which is why consolidating inputs from
    many small payments matters.
 5. **The SegWit witness discount made typical transactions cheaper by…**
-   A. Removing signatures from the network entirely · B. Moving signature data
-   into a part of the transaction that is not hashed into the transaction ID ·
-   C. Capping fees at 1 sat · D. Batching blocks
-   **Answer: B** — the discount is the reason sending to a SegWit-native
+   A. Signatures were removed from what nodes must verify, so the transaction stopped carrying them · B. Fees were capped at one satoshi to make sending cheap enough for small payments · C. Blocks were split into more, smaller blocks so that each transaction had more room · D. Signature data is counted at a reduced weight, because it is excluded from the transaction ID, so the same fee buys more block space
+  **Answer: D** — the discount is the reason sending to a SegWit-native
    address is markedly cheaper.
 
 ---
 
-## Level 4 — Advanced: Time, Money, and the Long Game (declared, unpublished)
+## Level 8 — Technical deep dive
 
-This level is deliberately paired with Level 3 rather than replacing it. Level 3
-argues the capability case — power, technology, and what gets built. Level 4
-argues the monetary case. L4.3 states the relationship between them explicitly,
-because the most common failure mode of courses like this is presenting the two
-as rivals when they are claims about different layers of one system.
+*Unpublished. 3 lessons, 15 questions, all briefs.*
 
-### L4.1 Time and time preference
-Covers: opportunity cost, the ultimate resource, time preference, economizing
-time, saving and capital, time preference and civilization, and time preference
-and Bitcoin. The through-line is that Bitcoin is presented as a long-term tool
-rather than a quick fix, and what follows from that framing.
+The protocol itself, for the reader who came to find out how it works. It sits after
+Appendix A deliberately: the money-first spine and the practical course both establish
+what the reader is looking at before this level explains the machinery underneath,
+and a reader who has already followed money from commodity to credit to fiat to
+Bitcoin arrives here with the context to make sense of it.
 
-1. **You spend two evenings building a tool that saves you twenty minutes a
-   week. In this lesson's terms, what are those two evenings?**
-   A. An investment whose real cost is the other things you could have done with
-   the time · B. Wasted, because the saving is so small · C. Free, because you
-   already own the computer · D. A tax on leisure
-   **Answer: A** — this is opportunity cost, and it is why a rational person can
-   still judge the build irrational when it is compared to an hourly wage.
-2. **Time preference is best described as…**
-   A. How punctual a person is · B. The degree to which present consumption is
-   preferred over future consumption — the price of waiting · C. The interest
-   rate on a savings account · D. How long a person expects to live
-   **Answer: B** — an individual's time preference and the natural rate of
-   interest are the same phenomenon observed from two directions.
-3. **Why is Bitcoin framed as a long-term tool rather than a quick fix?**
-   A. Because long holding periods are taxed less heavily · B. Because a claim on
-   future purchasing power only pays off if you can wait long enough for it to
-   compound, which is a claim about time rather than about a transaction · C.
-   Because short-term holders are irrational · D. Because fees fall over time
-   **Answer: B** — the framing is an argument about patience compounding, not
-   about price in the short run.
-4. **Someone takes a car loan to buy a depreciating asset they cannot afford,
-   instead of waiting two years to buy a better used one. In time-preference
-   terms they have…**
-   A. Lowered their time preference · B. Raised their time preference · C. Raised
-   their rate of saving · D. Become more patient
-   **Answer: A** — spending now rather than waiting is lower time preference, and
-   the asset's depreciation compounds the error rather than offsetting it.
-5. **What is the strongest objection to time-preference arguments?**
-   A. Time preference cannot be measured · B. That low time preference is
-   sometimes genuinely justified by real uncertainty, so the argument is properly
-   about systematic misvaluation caused by money creation, not about individual
-   financial error · C. Saving is always irrational · D. Interest rates are a
-   government artefact
-   **Answer: B** — this is the honest reading, and it is what makes the claim an
-   argument about monetary policy instead of personal finance.
+It carries the material the previous structure had as technical Level 5, kept whole
+rather than pruned. The four lessons the old Advanced level held — time preference,
+what money solves, the hardest money beside the development case — are not here:
+time preference and the temporal commodity are Level 6, where the lens is applied
+rather than introduced, and the development case is carried alongside the monetary
+case in Level 7.
 
-### L4.2 Money: what it solves, and why there is one of it
-Covers: the problem money solves, salability, salability across time, why one
-money, money and the state, the value and uniqueness of money, and how much
-money there should be.
+Relationship to Appendix A, since the ground overlaps: A teaches a reader to use and
+verify the system, this level teaches why it is possible. Privacy, scaling and
+self-hosting belong here, because they are the questions a technically-minded reader
+arrives with, and there was nowhere else in the spine to answer them.
 
-1. **The problems money is introduced to solve are chiefly…**
-   A. The safe storage and transport of wealth · B. The impossibility of trading
-   directly with everyone you need, and holding value across time · C. Measuring
-   national output · D. Collecting taxes efficiently
-   **Answer: B** — salability, and salability across time.
-2. **The economic quality that makes a good money is best described as…**
-   A. Its status as legal tender · B. Salability — how easily it can be
-   exchanged for the things you actually want · C. Its resale value to the
-   issuer · D. Its physical durability
-   **Answer: B** — legal tender status is a legal fact, not the economic
-   function.
-3. **If a good is extremely salable, what tends to happen to its price in
-   ordinary non-monetary trades?**
-   A. It rises, because the monetary use bids the same supply away from other
-   uses · B. It falls · C. Nothing changes · D. It becomes illegal to trade
-   **Answer: A** — this is why the most liquid goods historically become money
-   and then get bid away from their original use.
-4. **"Money is a product of the market, not of the state" is best read as…**
-   A. A claim that government-issued currency has no value · B. An account of
-   how money emerges from voluntary exchange, which is a narrower and different
-   claim · C. A claim that only Bitcoin qualifies as money · D. A denial that
-   states exist
-   **Answer: B** — the phrase is routinely over-extended in both directions; the
-   narrow reading is defensible and the broad one is not.
-5. **Why does a market normally converge on one money rather than several?**
-   A. Because governments decree it · B. Because the most salable good gains the
-   most value as money, which pulls trade toward a single medium and entrenches
-   it · C. Because coins are easier to count than other goods · D. Because law
-   requires a single unit
-   **Answer: B** — the reinforcement is a consequence of salability, not an act
-   of decree.
+### 8.1 Script and spending conditions
 
-### L4.3 The hardest money, beside the development case
-Covers: hard money as resistance to arbitrary expansion, time preference and
-Bitcoin, the fixed supply, and the explicit relationship between the monetary
-case and the building case. The reader asked that the two cases sit beside each
-other rather than one replacing the other, and that is the lesson's core.
+*Brief, not yet written. Covers: the scripting language, the conditions under which an
+output may be spent, multisignature, timelocks, hashlocks, and what makes a script more
+than a signature check.*
 
-1. **A "hard" money is defined by its resistance to…**
-   A. Being used at all · B. Arbitrary expansion by whoever issues it · C. Being
-   traded · D. Being mined
-   **Answer: B** — hardness is a property of the supply schedule, not of usage.
-2. **The monetary case and the development case for Bitcoin are…**
-   A. Rival claims, of which at most one can be true · B. Independent claims
-   about different layers of the same system, so a project can succeed at one
-   while failing at the other · C. The same argument stated twice · D. Irrelevant
-   to whether it is adopted
-   **Answer: B** — this is the most important distinction in the level. Money
-   is a scarce token; the protocol is a non-scarce good. One can work without the
-   other.
-3. **Bitcoin's source code is free to copy without limit while the coin supply
-   is capped at 21 million. Is that a contradiction?**
-   A. Yes, the two claims cannot both hold · B. No — they act on different
-   layers. Software is a non-scarce good, the token is a scarce one, and the
-   protocol is the mechanism that links them · C. Only if demand is high enough ·
-   D. The cap will rise to match the number of copies
-   **Answer: B** — this is Ch7's non-scarce technology sitting beside Ch10's
-   money, which is the "beside each other" claim in its plainest form.
-4. **A fixed supply cap is necessary for sound money. What does it not
-   provide?**
-   A. Low volatility · B. Demand and salability — a scarce good nobody wants is
-   not money · C. Legal tender status · D. Mining rewards
-   **Answer: B** — the cap constrains supply and does nothing for demand, which
-   is the most common overreach in the scarcity argument.
-5. **What is the strongest objection to Bitcoin's monetary case?**
-   A. That its inflation-adjusted returns have underperformed most mainstream
-   assets over long periods and it pays no yield, so the whole case rests on
-   future demand for something nobody is obliged to hold · B. That it is not a
-   currency · C. That its supply is not really fixed · D. That it cannot scale
-   **Answer: A** — this is a real objection and the one a serious critic leads
-   with. It is stated here at full strength on purpose.
+Question design note: the level should make the reader able to reason about an output
+they have not seen before, by reading what the script permits rather than by
+remembering what a particular script does. That is the same skill L3.1 asks for with
+energy, and it is the test of whether the lesson worked.
+
+### 8.2 Consensus and mining
+
+*Brief, not yet written. Covers: proof of work as a mechanism, difficulty adjustment,
+block assembly, transaction selection, and the block subsidy as an issuance schedule
+with a defined end.*
+
+Question design note: the subsidy belongs in this lesson with a date attached, because
+it is a figure that changes and Level 7's argument depends on the issuance schedule
+being finite. A reader who leaves believing the subsidy is permanent has been given a
+number without a date, which is the one thing the claims register exists to prevent.
+
+### 8.3 Privacy, scaling and self-hosting
+
+*Brief, not yet written. Covers: what the ledger reveals, address reuse, the privacy
+trade-offs in each scaling approach, and running infrastructure rather than renting
+it.*
+
+Question design note: this is the most overstated topic in the course and the lesson has
+to be the corrective. Every scaling approach trades privacy against something, and the
+correct option in a question here should be the one that names a cost rather than the
+one that promises a free gain.
 
 ---
 
-## Level 5 — Technical Deep Dive (declared, unpublished)
+## Question budget
 
-Preserved intact from the earlier Level 4 draft. Not written yet, and not
-replaced by Levels 3–4: the deep protocol material is a legitimate later level
-and none of it was discarded when the energy-first ordering was adopted.
+| Level | Lessons | Questions | State |
+|---|---|---|---|
+| 1 The lens: human action | 3 | 11 | 1 written, 2 briefs |
+| 2 History of money, before Bitcoin | 5 | 26 | 1 written, 4 briefs |
+| 3 History of technology, before Bitcoin | 4 | 20 | 4 briefs |
+| 4 Money and technology, without Bitcoin | 4 | 20 | 1 written, 3 briefs |
+| 5 Money during Bitcoin | 4 | 20 | 1 written, 3 briefs |
+| 6 Mises applied | 2 | 10 | 1 written, 1 brief |
+| 7 The build: the future of money | 4 | 20 | 1 written, 3 briefs |
+| 8 Technical deep dive | 3 | 15 | 3 briefs |
+| A Appendix: Bitcoin advancement | 7 | 34 | 7 written |
+| **Total** | **35** | **176** | **13 written, 22 briefs** |
 
-### L5.1 Script and spending conditions
-Covers: script types (P2PKH, P2WPKH, P2SH, P2TR), Taproot and Schnorr,
-timelocks, immutability in practice, and how script paths shape Lightning.
+## What has to be true before this ships
 
-1. **P2TR (Taproot) outputs are best described as…**
-   A. Scripts anyone can change until spent · B. A single-key Schnorr spend
-   path, with an optional script path revealed only if the key path is not used ·
-   C. Scripts that expire after 10 minutes · D. Multi-signature-only outputs
-   **Answer: B** — most spends look identical on-chain, which is a privacy and
-   cost win.
-2. **Compared with earlier script types, Taproot's main practical gains are…**
-   A. Smaller transactions, fewer signatures for multi-sig setups, and less
-   on-chain information exposed · B. Faster block times · C. A larger supply ·
-   D. Automatic fee refunds
-   **Answer: A** — the improvements are in cost, privacy, and script flexibility.
-3. **A transaction timelock means…**
-   A. The mempool will delete the transaction after a deadline · B. Funds cannot
-   be spent before a certain height or time has passed · C. The fee expires ·
-   D. The wallet is locked for a fixed period
-   **Answer: B** — this is how channels enforce delayed refunds on close.
-4. **Which statement about a confirmed transaction is accurate?**
-   A. It can be reversed by its sender at any time · B. It is immutable; the only
-   way to move those coins again is a new transaction spending its outputs · C. It
-   can be edited by miners · D. It expires and the coins return automatically
-   **Answer: B** — finality is structural, not administrative.
-5. **Why does Lightning need script at all?**
-   A. To compress channel data · B. Because channel balances are enforced by
-   on-chain-style conditions (HTLCs and timelocks) so funds can never be claimed
-   by both parties · C. To store channel history · D. To encrypt invoices
-   **Answer: B** — the off-chain ledger is only as trustworthy as the script that
-   settles it on-chain.
+1. The twenty-two briefs are written, and `npm run check:quiz`, `check:punctuation`,
+   `check:duplicates` and `check:outline` all pass on the full course.
+2. M2.4 is rewritten, because it currently assumes a Bitcoin-first course.
+3. Every level that states a current figure has it registered in
+   `docs/course-claims.json`, as Level 4 already does.
+4. The Menger, Mises and Hutt attributions are checked by somebody who would notice
+   getting them wrong.
+5. Level 7 is read by someone who rejects the Austrian lens, to confirm the
+   comparison survives contact with an opponent who disagrees.
+6. Relocating published lessons is accompanied by permanent redirects in the same
+   change, and is not done piecemeal.
 
-### L5.2 Consensus and mining
-Covers: proof of work, the block subsidy and halving, difficulty retargeting,
-headers and the merkle root, nonces, and what a 51% attack can and cannot do.
+## What gets done in what order
 
-1. **Proof of work exists to make…**
-   A. Transactions free · B. Rewriting history and double-spending expensive and
-   probabilistic · C. Mining profitable · D. Blocks smaller
-   **Answer: B** — the cost of attacking the chain is meant to exceed the value
-   of what an attacker could gain.
-2. **Mining rewards come from…**
-   A. Transaction fees only · B. A block subsidy, which halves on a schedule,
-   plus fees paid by transactions · C. Voluntary donations · D. Exchange
-   listings
-   **Answer: B** — the subsidy halves roughly every 210,000 blocks until it
-   reaches zero, after which fees are the incentive.
-3. **The difficulty adjustment recalculates roughly…**
-   A. Every block · B. Every 2,016 blocks, to keep blocks near the 10-minute
-   target as hash power changes · C. Every year · D. Only when blocks are full
-   **Answer: B** — retargeting keeps the network's pace stable as miners join
-   and leave.
-4. **Which item is part of a block header?**
-   A. The full list of transactions · B. The merkle root, previous block hash,
-   timestamp and difficulty bits · C. Users' wallet balances · D. The payee's
-   name
-   **Answer: B** — headers commit to the block compactly; transaction details
-   are separate.
-5. **A miner controlling a majority of hash power could…**
-   A. Steal coins from any address without spending them · B. Reverse or censor
-   recent transactions, at a real economic cost · C. Create coins from nothing
-   permanently · D. Change the 21 million cap
-   **Answer: B** — coins can only move by their owner's keys, and the attack is
-   expensive and visible.
+The outline is the plan; this is the sequence. Each step is independently shippable,
+and none of them requires a redirect.
 
-### L5.3 Privacy, scaling and self-hosting
-Covers: pseudonymity vs anonymity, address reuse, CoinJoin, what Lightning does
-and does not hide, node types, and where the protocol is defined.
+- **This restructure, now.** No code change, nothing published, no URLs touched. It
+  exists to be agreed with before any of it is built.
+- **Write the twenty-two briefs, level by level, starting at Level 1.** Nothing
+  published, no level moves, so no redirect is needed and each new lesson is
+  reviewed in isolation against the design rules. This is the bulk of the work and
+  it can stop at any point without leaving the site in a broken state.
+- **Rewrite M2.4** as it moves to 5.3, since it currently assumes a Bitcoin-first
+  course behind it. Same position in the published order, so still no redirect.
+- **Migrate the level structure in \`lib/course-data.ts\` as one change**, with the
+  lesson ids realigned to match the new level numbers and permanent redirects
+  written for every published URL in that same change. Deliberately a single
+  change, because a partial migration would leave some lessons renamed and some not.
+- **Publish one level at a time**, reviewing each as a reader would meet it.
 
-1. **Bitcoin is best described as…**
-   A. Anonymous · B. Pseudonymous — transactions are public and linked, but not
-   tied to a name · C. Private between sender and receiver · D. Encrypted end to
-   end
-   **Answer: B** — all transactions are public, and the addresses involved can
-   be linked over time.
-2. **The single most damaging privacy habit is…**
-   A. Using a hardware wallet · B. Reusing the same address across many payments,
-   which lets observers link them all together · C. Running a node · D.
-   Verifying a payment on a block explorer
-   **Answer: B** — address reuse collapses your history into a single visible
-   track.
-3. **CoinJoin attempts to improve privacy by…**
-   A. Encrypting transactions · B. Combining several users' payments so
-   observers cannot tell which input paid which output · C. Hiding the mempool ·
-   D. Requiring a coin-mixer registration
-   **Answer: B** — the ambiguity is the goal, and analysis companies are
-   persistent opponents of it.
-4. **What does Lightning hide, and what does it not?**
-   A. It hides fee rates only · B. Individual payments stay off-chain, but channel
-   opens and closes are on-chain and each hop sees the payment it forwards · C.
-   It hides everything · D. It hides the sender but not the receiver
-   **Answer: B** — Lightning is not a privacy tool, it is a payments rail with
-   different trade-offs.
-5. **A BIP is…**
-   A. A mining pool · B. A proposal document that defines a change to the
-   protocol, such as Taproot · C. A wallet brand · D. A block type
-   **Answer: B** — the proposals are the published, versioned source of how
-   Bitcoin's rules evolve.
-
----
-
-## What I still need from you
-
-Levels 3 and 4 stay unpublished until you ask for them. Levels 1 and 2 are
-built and sitting in a preview deployment only, so nothing needs deciding before
-you can read them — the questions below are the ones still open, and nothing is
-committed or promoted until you are happy.
-
-1. **Accuracy check** on the Levels 1 and 2 wording above. Anything factually off
-   gets fixed before it ships, and the rewritten questions are the highest-risk
-   part: each distractor is now a plausible belief rather than an obvious error,
-   so an explanation can be technically true and still mislead.
-2. **Economics balance, now settled in structure but not signed off in tone.**
-   Level 2 gives Austrian, Keynesian, monetarist, neoclassical and MMT a full
-   lesson between them, and the current-data lessons report the 2026 evidence
-   even where it undercuts Bitcoin. Is that the right weight? If the balance
-   still reads as too sceptical somewhere, say which lesson and I will change
-   that lesson rather than softening the whole level.
-3. **Dated figures.** Every number in M2.3 and M2.4 was checked on 26 September
-   2026 and is sourced on the page. This is the cost of the approach: those
-   figures will age. Do you want a visible "checked on" date and refresh note
-   (currently on the page), or a mechanism to re-verify and update them
-   periodically?
-4. **Local angle**: should lessons reference your own events (meet-ups, the
-   bootcamp, the doccie) as worked examples, or stay generic so they work for
-   anyone? The levels so far stayed generic but point learners at the site's own
-   wallet tool in the "try it yourself" boxes.
-5. **Tone check**: the Beginner level says "scaring people off is the opposite
-   of adoption" — keep that voice, or make it more formal?
-6. **Pass mark**: none is enforced. If you want a certificate or completion
-   badge, that needs an identity decision (emails or accounts), which I would
-   rather not add.
-7. **Progress persistence**: progress is stored in the browser and mirrored to
-   Supabase when it is configured, but it is not yet restored from Supabase on a
-   different device. Say the word if you want cross-browser progress back, since
-   that needs the Supabase project live first.
+The second and third steps need no decisions from anyone. The fourth is the only one
+that needs the redirect table agreed before it is written, and it is the step where
+the frozen lesson ids documented above are finally released.
