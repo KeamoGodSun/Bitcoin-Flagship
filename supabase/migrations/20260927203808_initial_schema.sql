@@ -1,6 +1,13 @@
 -- Bitcoin Flagship: community wall, comments, likes and honest tip totals.
--- Run in the Supabase SQL editor (or via `supabase db push`) once, then add
--- NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to .env.local.
+--
+-- This is the initial migration. The Supabase GitHub integration runs whatever
+-- is in supabase/migrations, so this file is what actually creates the schema.
+-- Do not edit it once it has been applied: add a new timestamped migration
+-- instead, so the history stays honest.
+--
+-- Written to be safe to run against a database where the same objects were
+-- already created by hand, since objects are guarded and every policy is
+-- dropped before it is recreated.
 
 create table if not exists post_comments (
   id uuid primary key default gen_random_uuid(),

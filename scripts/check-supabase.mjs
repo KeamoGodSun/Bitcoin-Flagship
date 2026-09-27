@@ -43,7 +43,8 @@ if (!url || !anonKey) {
   console.log('  NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon or publishable key>');
   console.log('  SUPABASE_SERVICE_ROLE_KEY=<service role key>');
   console.log('');
-  console.log('Then run supabase/schema.sql in the SQL editor, and re-run: npm run check:supabase');
+  console.log('Then apply the migrations in supabase/migrations (supabase db push), and re-run:');
+  console.log('npm run check:supabase');
   process.exit(1);
 }
 
@@ -148,7 +149,7 @@ console.log('Cleanup done: self-test rows removed.');
 
 console.log('');
 if (failures > 0) {
-  console.log(`${failures} check(s) failed. If reads or writes fail, run supabase/schema.sql in the SQL editor.`);
+  console.log(`${failures} check(s) failed. If reads or writes fail, apply the migrations in supabase/migrations.`);
   process.exit(1);
 }
 console.log('All checks passed. Restart the dev server so the site picks up the env.');

@@ -158,8 +158,8 @@ export function CommunityHub() {
           <span>
             The wall is running on sample content. Live comments, likes and tip totals switch on once
             <span className="font-mono"> NEXT_PUBLIC_SUPABASE_URL</span> and
-            <span className="font-mono"> NEXT_PUBLIC_SUPABASE_ANON_KEY</span> are set and
-            <span className="font-mono"> supabase/schema.sql</span> has been run.
+            <span className="font-mono"> NEXT_PUBLIC_SUPABASE_ANON_KEY</span> are set and the migrations in
+            <span className="font-mono"> supabase/migrations</span> have been applied.
           </span>
         </p>
       ) : null}
