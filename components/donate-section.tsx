@@ -38,10 +38,16 @@ export function DonateSection() {
               )}
               <button
                 onClick={() => openWallet(group.id)}
-                className="mt-5 inline-flex items-center justify-center gap-2 rounded-md border border-bitcoin/40 bg-bitcoin/10 px-4 py-2.5 text-sm font-semibold text-bitcoin transition-all hover:bg-bitcoin hover:text-background"
+                disabled={!group.configured}
+                className={`mt-5 inline-flex items-center justify-center gap-2 rounded-md border px-4 py-2.5 text-sm font-semibold transition-all ${
+                  group.configured
+                    ? 'border-bitcoin/40 bg-bitcoin/10 text-bitcoin hover:bg-bitcoin hover:text-background'
+                    : 'cursor-not-allowed border-dashed border-border text-muted-foreground'
+                }`}
               >
-                <Zap className="h-4 w-4" /> Donate
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                <Zap className="h-4 w-4" />
+                {group.configured ? 'Donate' : 'Address not published yet'}
+                {group.configured ? <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /> : null}
               </button>
             </div>
           ))}

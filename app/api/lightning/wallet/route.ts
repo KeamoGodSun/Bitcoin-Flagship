@@ -17,6 +17,7 @@ export async function GET(request: NextRequest) {
       description: group.description,
       memo: group.memo,
       address: walletAddress(group.id),
+      configured: group.configured,
     },
     summary: walletSummary(walletId),
     entries: walletLedger(walletId),

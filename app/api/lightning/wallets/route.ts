@@ -12,6 +12,7 @@ export async function GET() {
     shortName: group.shortName,
     description: group.description,
     address: walletAddress(group.id),
+    configured: group.configured,
     memo: group.memo,
     defaultAmount: group.defaultAmount,
     programs: group.programs.map((p) => ({

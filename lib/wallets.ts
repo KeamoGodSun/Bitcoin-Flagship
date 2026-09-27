@@ -12,17 +12,37 @@ export interface WalletGroup {
   memo: string;
   defaultAmount: number;
   icon: LucideIcon;
+  /**
+   * False when we have no published address for this wallet. The UI must not
+   * render a copy button or a lightning: link in that state, because an
+   * address nobody controls looks exactly like one that does.
+   */
+  configured: boolean;
   programs: WalletProgram[];
 }
 
+/**
+ * Resolves a wallet's published address, or '' when we do not have one.
+ *
+ * We deliberately do not derive addresses from the domain any more. A guess
+ * like `documentary@bitcoinflagship.com` renders as a real, copyable wallet
+ * and would quietly swallow money sent to it, so an unknown wallet resolves
+ * to '' and the interface says it is not published yet.
+ */
 export function walletAddress(walletId: WalletGroupId): string {
   if (walletId === 'flagship') return siteConfig.lightningAddress;
 
   const overrides = parseAddressOverrides();
-  if (overrides[walletId]) return overrides[walletId];
+  const override = overrides[walletId];
+  if (override) return override;
 
-  const domain = siteConfig.lightningAddress.split('@')[1] || 'bitcoinflagship.org';
-  return `${walletId}@${domain}`;
+  if (walletId === 'documentary') return siteConfig.documentaryLightningAddress;
+
+  return '';
+}
+
+export function isWalletConfigured(walletId: WalletGroupId): boolean {
+  return walletAddress(walletId).trim().length > 0;
 }
 
 function parseAddressOverrides(): Record<string, string> {
@@ -36,7 +56,7 @@ function parseAddressOverrides(): Record<string, string> {
   }
 }
 
-const walletGroupBase: Omit<WalletGroup, 'programs'>[] = [
+const walletGroupBase: Omit<WalletGroup, 'programs' | 'configured'>[] = [
   {
     id: 'flagship',
     name: '₿itcoin Flagship',
@@ -86,6 +106,7 @@ const walletGroupBase: Omit<WalletGroup, 'programs'>[] = [
 
 export const walletGroups: WalletGroup[] = walletGroupBase.map((group) => ({
   ...group,
+  configured: isWalletConfigured(group.id),
   programs: programsForGroup(group.id),
 }));
 

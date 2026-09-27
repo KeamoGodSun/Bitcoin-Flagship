@@ -7,6 +7,14 @@ export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://bitcoinflagship.com',
   lightningAddress:
     process.env.NEXT_PUBLIC_LIGHTNING_ADDRESS || 'tips@bitcoinflagship.com',
+  /**
+   * The documentary is funded from its own wallet, kept separate from the
+   * general tip address so the two can be accounted for independently.
+   * Left empty on purpose: we never guess an address. An empty value means
+   * "not published yet", and the UI says so instead of showing a wallet that
+   * would swallow money nobody controls.
+   */
+  documentaryLightningAddress: process.env.NEXT_PUBLIC_DOCUMENTARY_LIGHTNING_ADDRESS || '',
   lightningProvider: (process.env.LIGHTNING_PROVIDER ||
     'mock') as LightningProviderName,
   lnd: {

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import {
+  AlertTriangle,
   Check,
   Copy,
   Loader2,
@@ -241,6 +242,9 @@ export function WalletDialog({ open, onOpenChange, initialWalletId, initialProgr
             >
               <group.icon className="h-3.5 w-3.5" />
               {group.shortName}
+              {!group.configured ? (
+                <span className="font-normal text-[10px] uppercase tracking-wide opacity-70">soon</span>
+              ) : null}
             </button>
           ))}
         </div>
@@ -334,30 +338,48 @@ export function WalletDialog({ open, onOpenChange, initialWalletId, initialProgr
 
             <TabsContent value="receive" className="mt-4 space-y-4">
               {/* Lightning address */}
-              <div className="flex items-center gap-2 rounded-lg border border-bitcoin/30 bg-bitcoin/5 px-3 py-2">
-                <Zap className="h-4 w-4 shrink-0 text-bitcoin" />
-                <button
-                  onClick={copyAddress}
-                  className="truncate font-mono text-xs font-medium text-foreground transition-colors hover:text-bitcoin"
-                  title="Copy Lightning address"
-                >
-                  {walletAddress(activeGroupId)}
-                </button>
-                <button
-                  onClick={copyAddress}
-                  aria-label="Copy Lightning address"
-                  className="ml-auto rounded p-1 text-muted-foreground transition-colors hover:text-bitcoin"
-                >
-                  {copied ? <Check className="h-3.5 w-3.5 text-bitcoin" /> : <Copy className="h-3.5 w-3.5" />}
-                </button>
-                <a
-                  href={`lightning:${walletAddress(activeGroupId)}`}
-                  aria-label="Open in Lightning wallet"
-                  className="rounded p-1 text-muted-foreground transition-colors hover:text-bitcoin"
-                >
-                  <Zap className="h-3.5 w-3.5" />
-                </a>
-              </div>
+              {activeGroup.configured ? (
+                <div className="flex items-center gap-2 rounded-lg border border-bitcoin/30 bg-bitcoin/5 px-3 py-2">
+                  <Zap className="h-4 w-4 shrink-0 text-bitcoin" />
+                  <button
+                    onClick={copyAddress}
+                    className="truncate font-mono text-xs font-medium text-foreground transition-colors hover:text-bitcoin"
+                    title="Copy Lightning address"
+                  >
+                    {walletAddress(activeGroupId)}
+                  </button>
+                  <button
+                    onClick={copyAddress}
+                    aria-label="Copy Lightning address"
+                    className="ml-auto rounded p-1 text-muted-foreground transition-colors hover:text-bitcoin"
+                  >
+                    {copied ? <Check className="h-3.5 w-3.5 text-bitcoin" /> : <Copy className="h-3.5 w-3.5" />}
+                  </button>
+                  <a
+                    href={`lightning:${walletAddress(activeGroupId)}`}
+                    aria-label="Open in Lightning wallet"
+                    className="rounded p-1 text-muted-foreground transition-colors hover:text-bitcoin"
+                  >
+                    <Zap className="h-3.5 w-3.5" />
+                  </a>
+                </div>
+              ) : (
+                <div className="flex items-start gap-2 rounded-lg border border-dashed border-border bg-card/40 px-3 py-2.5">
+                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+                  <p className="text-xs leading-relaxed text-muted-foreground">
+                    No {activeGroup.name} address is published yet, so there is nothing to send to. We would rather show
+                    you nothing than an address we cannot receive on — the general{' '}
+                    <button
+                      type="button"
+                      onClick={() => selectGroup('flagship')}
+                      className="font-medium text-bitcoin hover:underline"
+                    >
+                      Flagship wallet
+                    </button>{' '}
+                    still works.
+                  </p>
+                </div>
+              )}
 
               {!invoice ? (
                 <>
