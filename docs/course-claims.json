@@ -1,0 +1,787 @@
+{
+  "reviewCadenceDays": 90,
+  "reviewedAt": "2026-09-27",
+  "note": "Every figure the course states as fact, with the source its own lesson cites. The checker confirms the figure is still present in that source; it cannot judge whether the source is right or whether the framing is fair.",
+  "claims": [
+    {
+      "id": "m2-6-latam-activity",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "$593.8bn",
+      "claim": "Latin America recorded $593.8bn of crypto activity in the 12 months to 30 June 2026",
+      "source": "https://www.chainalysis.com/blog/latin-america-crypto-adoption-2026/",
+      "needles": [
+        "593.8 billion"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 180
+    },
+    {
+      "id": "m2-6-latam-growth",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "9.8%",
+      "claim": "The region's crypto economy grew 9.8% even as global markets faced headwinds",
+      "source": "https://www.chainalysis.com/blog/latin-america-crypto-adoption-2026/",
+      "needles": [
+        "9.8%"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 180
+    },
+    {
+      "id": "m2-6-latam-stablecoin-crossborder",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "32%",
+      "claim": "Stablecoins were 32% of cross-border value in Latin America by June 2026",
+      "source": "https://www.chainalysis.com/blog/latin-america-crypto-adoption-2026/",
+      "needles": [
+        "32.1%"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 180
+    },
+    {
+      "id": "m2-6-latam-stablecoin-p2p",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "22%",
+      "claim": "Stablecoins were 22% of domestic peer-to-peer activity in Latin America by June 2026",
+      "source": "https://www.chainalysis.com/blog/latin-america-crypto-adoption-2026/",
+      "needles": [
+        "22.1%"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 180
+    },
+    {
+      "id": "m2-6-venezuela-growth",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "$39.1bn, +107.2%",
+      "claim": "Venezuela's crypto economy reached $39.1bn, up 107.2%, in the period to 30 June 2026",
+      "source": "https://www.chainalysis.com/blog/latin-america-crypto-adoption-2026/",
+      "needles": [
+        "39.1 billion",
+        "107.2%"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 180
+    },
+    {
+      "id": "m2-6-venezuela-merchant-usdt",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "close to 40%",
+      "claim": "Venezuelan merchants interviewed reported receiving close to 40% of their income in USDT",
+      "source": "https://www.chainalysis.com/blog/latin-america-crypto-adoption-2026/",
+      "needles": [
+        "40% of their income"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 180
+    },
+    {
+      "id": "m2-6-mexico-corridor",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "$1.8bn a month",
+      "claim": "Monthly stablecoin value on corridors with an endpoint in Mexico hit $1.8bn in June 2026",
+      "source": "https://www.chainalysis.com/blog/latin-america-crypto-adoption-2026/",
+      "needles": [
+        "1.8 billion"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 180
+    },
+    {
+      "id": "m2-6-latam-services-share",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "71.2%",
+      "claim": "The share of Latin American crypto balances held with services reached 71.2% in June 2026",
+      "source": "https://www.chainalysis.com/blog/latin-america-crypto-adoption-2026/",
+      "needles": [
+        "71.2%"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 180
+    },
+    {
+      "id": "m2-6-latam-selfcustody-fall",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "-66.7% vs -28.0%",
+      "claim": "Self-custody balances fell 66.7% against 28.0% for services over the period",
+      "source": "https://www.chainalysis.com/blog/latin-america-crypto-adoption-2026/",
+      "needles": [
+        "66.7%",
+        "28.0%"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 180
+    },
+    {
+      "id": "m2-6-latam-selfcustody-composition",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "bitcoin -78%, stablecoins +66%",
+      "claim": "Self-custodied bitcoin fell 78% in value while self-custodied stablecoins rose 66%",
+      "source": "https://www.chainalysis.com/blog/latin-america-crypto-adoption-2026/",
+      "needles": [
+        "fell 78% in value",
+        "stablecoins rose 66%"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 180
+    },
+    {
+      "id": "m2-6-argentina-one-in-five",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "1 in 5",
+      "claim": "One in five people in Argentina use crypto",
+      "source": "https://a16zcrypto.com/posts/article/how-argentina-uses-crypto-5-charts/",
+      "needles": [
+        "1 in 5"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-6-argentina-94pct",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "94%",
+      "claim": "94% of peso crypto trading in Argentina flows to stablecoins, the highest share of any major currency tracked",
+      "source": "https://a16zcrypto.com/posts/article/how-argentina-uses-crypto-5-charts/",
+      "needles": [
+        "94%"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-6-argentina-inflation-eased",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "25.5% to 2.1%",
+      "claim": "Argentine monthly inflation fell from about 25.5% to about 2.1% while wallet downloads kept climbing",
+      "source": "https://a16zcrypto.com/posts/article/how-argentina-uses-crypto-5-charts/",
+      "needles": [
+        "25.5%",
+        "2.1%"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 180
+    },
+    {
+      "id": "m2-6-argentina-dollar-cap",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "$200 a month",
+      "claim": "The 2019 capital controls limited official dollar purchases to $200 a month for eligible buyers",
+      "source": "https://a16zcrypto.com/posts/article/how-argentina-uses-crypto-5-charts/",
+      "needles": [
+        "$200"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-6-argentina-289pct",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "289%",
+      "claim": "Argentine year-over-year inflation reached 289% in April 2024 as contractor USDC pay rose",
+      "source": "https://a16zcrypto.com/posts/article/how-argentina-uses-crypto-5-charts/",
+      "needles": [
+        "289%"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-6-nigeria-59bn",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "$59bn",
+      "claim": "Nigeria received about $59bn in crypto-asset inflows between July 2023 and June 2024",
+      "source": "https://www.imf.org/en/news/articles/2026/06/16/stablecoins-in-nigeria",
+      "needles": [
+        "59 billion"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-6-nigeria-60pct",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "~60%",
+      "claim": "Nigeria accounts for roughly 60% of stablecoin inflows in sub-Saharan Africa since 2019",
+      "source": "https://www.imf.org/en/news/articles/2026/06/16/stablecoins-in-nigeria",
+      "needles": [
+        "60 percent"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-6-backup-847",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "847 users, 6 countries",
+      "claim": "847 first-time Bitcoin users across six African countries attempted a seed-phrase backup",
+      "source": "https://bitcoinux.africa/blog/posts/seed-phrase-ux.html",
+      "needles": [
+        "847 first-time Bitcoin users"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-6-backup-27pct",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "229 of 847, 27%",
+      "claim": "Only 229 of 847 first-time users completed a correct seed-phrase backup on the first attempt",
+      "source": "https://bitcoinux.africa/blog/posts/seed-phrase-ux.html",
+      "needles": [
+        "229 of them (27%)"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-6-backup-81pct",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "27% to 81%",
+      "claim": "A five-step framework moved backup completion from 27% to 81%",
+      "source": "https://bitcoinux.africa/blog/posts/seed-phrase-ux.html",
+      "needles": [
+        "27% to 81%"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-6-restore-66-to-96",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "66% to 96%",
+      "claim": "Verified restoration rose from 66% to 96% after the redesign",
+      "source": "https://bitcoinux.africa/blog/posts/seed-phrase-ux.html",
+      "needles": [
+        "66%",
+        "96%"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-6-backup-34pct-wrong",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "34%",
+      "claim": "34% of users who appeared to complete a backup had written at least one word incorrectly",
+      "source": "https://bitcoinux.africa/blog/posts/seed-phrase-ux.html",
+      "needles": [
+        "34%"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-6-backup-photo-41pct",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "41% photographed, 17% secure",
+      "claim": "41% of users photographed their seed phrase and only 17% stored it securely",
+      "source": "https://bitcoinux.africa/blog/posts/seed-phrase-ux.html",
+      "needles": [
+        "41% took a photo",
+        "17% stored it somewhere actually secure"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-6-backup-6pct-understood",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "6%",
+      "claim": "Only 6% of users who failed understood the words were the actual backup for their wallet",
+      "source": "https://bitcoinux.africa/blog/posts/seed-phrase-ux.html",
+      "needles": [
+        "6% understood"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-6-africa-mobile-only",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "over 90% mobile-only",
+      "claim": "Over 90% of African Bitcoin users are mobile-only",
+      "source": "https://bitcoinux.africa/blog/posts/seed-phrase-ux.html",
+      "needles": [
+        "Over 90% of African Bitcoin users are mobile-only"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-6-coinbase-120m",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "120m vs 22m",
+      "claim": "Coinbase has over 120 million verified users against roughly 22 million MetaMask monthly actives",
+      "source": "https://www.spark.money/research/self-custodial-wallet-ux-barriers",
+      "needles": [
+        "120 million verified users",
+        "22 million monthly active users"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 180
+    },
+    {
+      "id": "m2-6-oobit-35pct",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "35%, 31%",
+      "claim": "A 2026 survey of 1,000 US crypto holders found 35% had lost wallet or account access and 31% of those never recovered funds",
+      "source": "https://www.spark.money/research/self-custodial-wallet-ux-barriers",
+      "needles": [
+        "35% had lost access to a wallet or account",
+        "31% of those affected never recovered"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 180
+    },
+    {
+      "id": "m2-6-chi-43pct",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "43%",
+      "claim": "A Carnegie Mellon study at CHI 2025 found only 43% of respondents could correctly identify an image of a seed phrase",
+      "source": "https://www.spark.money/research/self-custodial-wallet-ux-barriers",
+      "needles": [
+        "43%"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-6-btc-lost-11-18",
+      "lesson": "m2-6-the-world-this-builds",
+      "figure": "11% to 18%",
+      "claim": "Chainalysis estimates 2.3m to 3.7m BTC are permanently lost, roughly 11% to 18% of supply",
+      "source": "https://www.spark.money/research/self-custodial-wallet-ux-barriers",
+      "needles": [
+        "11 to 18%"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-3-fed-target-range",
+      "lesson": "m2-3-fiat-and-cost-of-living",
+      "figure": "3.75% to 4.00%",
+      "claim": "The FOMC raised the federal funds target range by 1/4 point to 3-3/4 to 4 percent on a 12-0 vote",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+      "needles": [
+        "3-3/4 to 4 percent"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 90
+    },
+    {
+      "id": "m2-3-fed-vote",
+      "lesson": "m2-3-fiat-and-cost-of-living",
+      "figure": "12-0 vote",
+      "claim": "The rate decision was adopted on a 12-0 vote",
+      "source": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+      "needles": [
+        "by a 12",
+        "0 vote"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-3-euro-energy",
+      "lesson": "m2-3-fiat-and-cost-of-living",
+      "figure": "14.3%",
+      "claim": "Euro area energy inflation reached 14.3% in August 2026",
+      "source": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-17092026-ap",
+      "needles": [
+        "14.3"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 90
+    },
+    {
+      "id": "m2-3-euro-energy-pp",
+      "lesson": "m2-3-fiat-and-cost-of-living",
+      "figure": "+1.29pp",
+      "claim": "Energy contributed 1.29 percentage points to euro area annual inflation in August 2026",
+      "source": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-17092026-ap",
+      "needles": [
+        "1.29"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 90
+    },
+    {
+      "id": "m2-3-sa-inflation",
+      "lesson": "m2-3-fiat-and-cost-of-living",
+      "figure": "4.4%",
+      "claim": "South African consumer inflation was 4.4% in August 2026, from 4.3% in July and 5.0% in June",
+      "source": "https://www.statssa.gov.za/?page_id=1854&PPN=P0141&SCH=74479",
+      "needles": [],
+      "checked": "2026-09-26",
+      "cadence": 90,
+      "note": "statssa.gov.za returns a stub to every scripted request, so this figure cannot be machine-checked. Verified manually on 2026-09-26 against the Stats SA release of 23 September 2026 (headline 4,4% in August, 4,3% in July) and two independent write-ups of the same release."
+    },
+    {
+      "id": "m2-3-target-band",
+      "lesson": "m2-3-fiat-and-cost-of-living",
+      "figure": "3% +/- 1pp",
+      "claim": "The SARB target is 3% with a tolerance band of one percentage point either side",
+      "source": "https://www.resbank.co.za/content/dam/sarb/publications/statements/monetary-policy-statements/2026/september/september-statement.pdf",
+      "needles": [
+        "3%"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-3-sarb-rate",
+      "lesson": "m2-3-fiat-and-cost-of-living",
+      "figure": "7.25%",
+      "claim": "The SARB raised its policy rate 25bp to 7.25%, and expects inflation above 5% before easing towards 3% by late 2027",
+      "source": "https://www.resbank.co.za/content/dam/sarb/publications/statements/monetary-policy-statements/2026/september/september-statement.pdf",
+      "needles": [
+        "7,25",
+        "7.25"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 90
+    },
+    {
+      "id": "m2-3-ecb-deposit",
+      "lesson": "m2-3-fiat-and-cost-of-living",
+      "figure": "2.50%",
+      "claim": "The ECB raised its three key rates by 25bp, taking the deposit facility to 2.50%",
+      "source": "https://www.ecb.europa.eu/press/pr/date/2026/html/ecb.mp260910~314e508016.en.html",
+      "needles": [
+        "2.50"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 90
+    },
+    {
+      "id": "m2-3-us-cpi",
+      "lesson": "m2-3-fiat-and-cost-of-living",
+      "figure": "3.4%",
+      "claim": "US all items CPI rose 3.4 percent over the 12 months ending August 2026, with the core index at 2.4 percent",
+      "source": "https://www.bls.gov/news.release/archives/cpi_09112026.htm",
+      "needles": [
+        "3.4 percent"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 90
+    },
+    {
+      "id": "m2-4-lehman",
+      "lesson": "m2-4-bitcoin-in-this-picture",
+      "figure": "15 September 2008",
+      "claim": "Lehman Brothers filed for bankruptcy on 15 September 2008",
+      "source": "https://bitcoin.org/bitcoin.pdf",
+      "needles": [
+        "September 15"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-4-genesis",
+      "lesson": "m2-4-bitcoin-in-this-picture",
+      "figure": "3 January 2009",
+      "claim": "The Bitcoin network went live on 3 January 2009",
+      "source": "https://nakamotoinstitute.org/library/gradually-then-suddenly/introduction/",
+      "needles": [
+        "January 3"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-4-cyprus-bailin",
+      "lesson": "m2-4-bitcoin-in-this-picture",
+      "figure": "47.5%",
+      "claim": "Cyprus told depositors above EUR 100,000 they would lose 47.5% of savings in its largest bank",
+      "source": "https://en.wikipedia.org/wiki/2012%E2%80%932013_Cypriot_financial_crisis",
+      "needles": [
+        "47.5"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-5-ecny-wallets",
+      "lesson": "m2-5-hardest-money-yet",
+      "figure": "232 million",
+      "claim": "China had issued a cumulative 232 million e-CNY wallets as of December 2025",
+      "source": "https://doi.org/10.2139/ssrn.5398695",
+      "needles": [
+        "232 million"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 180
+    },
+    {
+      "id": "m2-5-ecny-throughput",
+      "lesson": "m2-5-hardest-money-yet",
+      "figure": "10,000 per second",
+      "claim": "The e-CNY supports 10,000 transactions per second at present",
+      "source": "https://doi.org/10.2139/ssrn.5398695",
+      "needles": [
+        "10,000 transactions per second"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-5-bahamas-adoption",
+      "lesson": "m2-5-hardest-money-yet",
+      "figure": "35.8% of population",
+      "claim": "Bahamas wallet adoption is about 35.8% of the population, the highest of the three pilots",
+      "source": "https://doi.org/10.2139/ssrn.5398695",
+      "needles": [
+        "35.8%"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-5-bahamas-wallets",
+      "lesson": "m2-5-hardest-money-yet",
+      "figure": "142,000",
+      "claim": "More than 142,000 Sand Dollar wallets were registered to September 2025, with 1,938 merchant wallets",
+      "source": "https://doi.org/10.2139/ssrn.5398695",
+      "needles": [
+        "142,000"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-5-jamaica-wallets",
+      "lesson": "m2-5-hardest-money-yet",
+      "figure": "305,000",
+      "claim": "305,000 JAM-DEX wallets had been registered as of December 2025",
+      "source": "https://doi.org/10.2139/ssrn.5398695",
+      "needles": [
+        "305,000"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-5-jamdex-decline",
+      "lesson": "m2-5-hardest-money-yet",
+      "figure": "decline in volumes and value",
+      "claim": "JAM-DEX has seen a decline in both transaction volumes and value since launch, attributed to a lack of merchants and wallet providers",
+      "source": "https://doi.org/10.2139/ssrn.5398695",
+      "needles": [
+        "decline both in transaction volumes and value"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-5-fednow-institutions",
+      "lesson": "m2-5-hardest-money-yet",
+      "figure": "1,725 institutions",
+      "claim": "FedNow had 1,725 participating banks and credit unions, about 19.7% of US financial institutions",
+      "source": "https://www.richmondfed.org/publications/research/economic_brief/2026/eb_26-28",
+      "needles": [
+        "1,725",
+        "19.7%"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 90
+    },
+    {
+      "id": "m2-5-fednow-volume",
+      "lesson": "m2-5-hardest-money-yet",
+      "figure": "$271 billion a quarter",
+      "claim": "FedNow moved roughly 2.73 million transactions worth $271 billion in the quarter",
+      "source": "https://www.richmondfed.org/publications/research/economic_brief/2026/eb_26-28",
+      "needles": [
+        "2.73 million",
+        "271"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 90
+    },
+    {
+      "id": "m2-5-half-dollar",
+      "lesson": "m2-5-hardest-money-yet",
+      "figure": "90% to 40% silver",
+      "claim": "The 1965 US change cut the half-dollar from 90% silver to 40% at unchanged legal value, and good coins left circulation",
+      "source": "https://en.wikipedia.org/wiki/Gresham%27s_law",
+      "needles": [
+        "40%"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-5-antwerp",
+      "lesson": "m2-5-hardest-money-yet",
+      "figure": "1550s rate war",
+      "claim": "The Gresham effect was first described in the 1550s rate war between the Habsburg Netherlands and England",
+      "source": "https://en.wikipedia.org/wiki/Gresham%27s_law",
+      "needles": [
+        "Antwerp"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-5-cbdc-2018",
+      "lesson": "m2-5-hardest-money-yet",
+      "figure": "12 March 2018",
+      "claim": "The CPMI/Markets Committee report on central bank digital currencies is dated 12 March 2018",
+      "source": "https://www.bis.org/cpmi/publ/d174.htm",
+      "needles": [
+        "12 March 2018"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "m2-5-regression-thesis",
+      "lesson": "m2-5-hardest-money-yet",
+      "figure": "regression theorem",
+      "claim": "Pickering holds the regression theorem was not an account of the origin of money, and that Bitcoin satisfies it rather than refuting it",
+      "source": "https://mises.org/quarterly-journal-austrian-economics/relevance-bitcoin-regression-theorem-reply-luther",
+      "needles": [
+        "significantly overstated"
+      ],
+      "checked": "2026-09-26",
+      "cadence": 365
+    },
+    {
+      "id": "l3-1-cbeci-consumption",
+      "lesson": "l3-1-energy-and-power",
+      "figure": "~190 TWh/yr",
+      "claim": "Bitcoin network electricity consumption was reported at about 190 TWh annualised in December 2025 (preliminary Cambridge estimate), up from about 138 TWh in June 2024",
+      "source": "https://www.theenergymag.com/news/market-news/bitcoin-energy-consumption-mix-cambridge-eif",
+      "needles": [
+        "190"
+      ],
+      "checked": "2026-09-27",
+      "cadence": 60
+    },
+    {
+      "id": "l3-1-cbeci-2024-baseline",
+      "lesson": "l3-1-energy-and-power",
+      "figure": "138 TWh",
+      "claim": "Cambridge 2025 report estimated Bitcoin annual electricity use at 138 TWh, used here as the mid-2024 comparison point",
+      "source": "https://www.theenergymag.com/news/market-news/bitcoin-energy-consumption-mix-cambridge-eif",
+      "needles": [
+        "138"
+      ],
+      "checked": "2026-09-27",
+      "cadence": 120
+    },
+    {
+      "id": "l3-1-sustainable-share",
+      "lesson": "l3-1-energy-and-power",
+      "figure": "52.4%",
+      "claim": "52.4% of surveyed miners electricity came from sustainable sources including renewables and nuclear (survey data, not network-wide)",
+      "source": "https://www.theenergymag.com/news/market-news/bitcoin-energy-consumption-mix-cambridge-eif",
+      "needles": [
+        "52.4"
+      ],
+      "checked": "2026-09-27",
+      "cadence": 120
+    },
+    {
+      "id": "l3-1-world-electricity",
+      "lesson": "l3-1-energy-and-power",
+      "figure": "~30,000 TWh/yr",
+      "claim": "World electricity generation is on the order of 30,000 TWh per year, used as the denominator for the global share",
+      "source": "https://www.iea.org/energy-system/electricity",
+      "needles": [
+        "electricity"
+      ],
+      "checked": "2026-09-27",
+      "cadence": 180
+    },
+    {
+      "id": "l3-1-tx-emissions",
+      "lesson": "l3-1-energy-and-power",
+      "figure": "~1.6x",
+      "claim": "Texas interconnection modelling found total carbon emissions rose about 1.6x with Bitcoin demand absent demand response, and the increase shrank to a small fraction when miners provided demand response",
+      "source": "https://www.sciencedirect.com/science/article/pii/S0928765523000313",
+      "needles": [
+        "1.6"
+      ],
+      "checked": "2026-09-27",
+      "cadence": 365
+    },
+    {
+      "id": "l3-1-tx-wind",
+      "lesson": "l3-1-energy-and-power",
+      "figure": "more than 2x",
+      "claim": "Texas interconnection modelling found Bitcoin demand more than doubled optimal wind capacity and raised the renewable share of generation",
+      "source": "https://www.sciencedirect.com/science/article/pii/S0928765523000313",
+      "needles": [
+        "double"
+      ],
+      "checked": "2026-09-27",
+      "cadence": 365
+    },
+    {
+      "id": "l3-1-nber-social-cost",
+      "lesson": "l3-1-energy-and-power",
+      "figure": "$3.11-$6.79 per $1",
+      "claim": "NBER study of the Scrubgrass plant found social cost of carbon from cryptomining exceeded value added, estimating $3.11-$6.79 in external damages per $1 increase in Bitcoin price",
+      "source": "https://www.nber.org/system/files/working_papers/w31745/w31745.pdf",
+      "needles": [
+        "3.11",
+        "6.79"
+      ],
+      "checked": "2026-09-27",
+      "cadence": 365
+    },
+    {
+      "id": "l3-1-ns-mj-per-dollar",
+      "lesson": "l3-1-energy-and-power",
+      "figure": "17 MJ per $1",
+      "claim": "Nature Sustainability found Bitcoin at about 17 MJ per US dollar of market value, against gold at about 5 MJ and aluminium at about 122 MJ",
+      "source": "https://www.nature.com/articles/s41893-018-0152-7",
+      "needles": [
+        "17, 7, 7 and 14 MJ",
+        "122, 4, 5, 7 and 9 MJ"
+      ],
+      "checked": "2026-09-27",
+      "cadence": 365,
+      "manual": "nature.com serves a bot stub rather than the article; figure read manually from the public abstract, full text is paywalled"
+    },
+    {
+      "id": "l3-1-galaxy-gold-total",
+      "lesson": "l3-1-energy-and-power",
+      "figure": "~240 TWh/yr gold",
+      "claim": "Galaxy Research estimated the gold industry at roughly 240 TWh/yr against Bitcoin at around 114 TWh at the time, favouring Bitcoin on a whole-sector basis",
+      "source": "https://www.galaxy.com/insights/research/on-bitcoins-energy-consumption",
+      "needles": [
+        "240.61"
+      ],
+      "manual": "galaxy.com figures are rendered client-side, so the page returns no plain text to match; figure read manually from the published note",
+      "checked": "2026-09-27",
+      "cadence": 180
+    }
+  ],
+  "ignore": [
+    "12 words",
+    "twelve words",
+    "3.2 min",
+    "6.8 min",
+    "21,000",
+    "21 million",
+    "210,000",
+    "100,000,000",
+    "0.00021",
+    "0.0000021",
+    "0.0021",
+    "0.21",
+    "0.1",
+    "210",
+    "2140",
+    "1940",
+    "1990",
+    "0-0 vote",
+    "3-3/4"
+  ]
+}
