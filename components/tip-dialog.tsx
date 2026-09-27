@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
-import { Check, Copy, Loader2, Zap, PartyPopper } from 'lucide-react';
+import { AlertTriangle, Check, Copy, Loader2, PlayCircle, Zap, PartyPopper } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -48,13 +48,30 @@ export function TipDialog({
   const [error, setError] = useState<string | null>(null);
   const [paid, setPaid] = useState(false);
 
+  /** True until we hear back from the server, so we never flash a wrong claim. */
+  const demo = provider === 'mock';
+
   useEffect(() => {
-    if (open) {
-      setInvoice(null);
-      setError(null);
-      setPaid(false);
-      setCopied(false);
-    }
+    if (!open) return;
+    setInvoice(null);
+    setError(null);
+    setPaid(false);
+    setCopied(false);
+
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch('/api/lightning/wallet?walletId=flagship');
+        const data = await res.json();
+        if (!cancelled && typeof data?.provider === 'string') setProvider(data.provider);
+      } catch {
+        // Leave the optimistic default; the banner below is the safe side to fail towards.
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, [open]);
 
   const generateInvoice = async () => {
@@ -140,15 +157,28 @@ export function TipDialog({
           </DialogDescription>
         </DialogHeader>
 
+        {demo ? (
+          <div className="flex items-start gap-2 rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 py-2.5">
+            <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
+            <p className="text-xs leading-relaxed text-amber-100/90">
+              <span className="font-semibold">Demo mode.</span> This build is not connected to a Lightning node, so
+              nothing you do here moves real sats and the invoice below is not payable. We would rather say so than
+              take your money and lose it.
+            </p>
+          </div>
+        ) : null}
+
         {paid ? (
           <div className="flex flex-col items-center gap-4 py-8 text-center">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-bitcoin/15">
               <PartyPopper className="h-8 w-8 text-bitcoin" />
             </div>
             <div>
-              <p className="text-lg font-bold">Payment received!</p>
+              <p className="text-lg font-bold">{demo ? 'Demo complete' : 'Payment received!'}</p>
               <p className="mt-1 text-sm text-muted-foreground">
-                {invoice?.amountSats.toLocaleString()} sats → ₿itcoin Flagship
+                {demo
+                  ? `${invoice?.amountSats.toLocaleString()} sats were not actually sent — this was a simulation.`
+                  : `${invoice?.amountSats.toLocaleString()} sats → ₿itcoin Flagship`}
               </p>
             </div>
             <Button variant="outline" onClick={() => onOpenChange(false)}>
@@ -200,14 +230,16 @@ export function TipDialog({
         ) : (
           <div className="space-y-4">
             <div className="flex flex-col items-center gap-3">
-              <div className="rounded-xl border border-border bg-white p-3">
+              <div className={cn('rounded-xl border bg-white p-3', demo ? 'border-dashed border-amber-500/60' : 'border-border')}>
                 <QRCodeSVG value={invoice.paymentRequest} size={210} />
               </div>
               <p className="text-2xl font-bold">
                 {invoice.amountSats.toLocaleString()} <span className="text-base text-bitcoin">sats</span>
               </p>
-              <p className="text-xs text-muted-foreground">
-                Expires {new Date(invoice.expiresAt).toLocaleTimeString()} · Scan with any Lightning wallet
+              <p className="text-center text-xs text-muted-foreground">
+                {demo
+                  ? 'Not a payable invoice — this QR is here so you can see the layout.'
+                  : `Expires ${new Date(invoice.expiresAt).toLocaleTimeString()} · Scan with any Lightning wallet`}
               </p>
             </div>
 
@@ -220,24 +252,20 @@ export function TipDialog({
               </Button>
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
-              <Button variant="outline" onClick={() => setInvoice(null)}>
-                Back
+            <Button variant="outline" onClick={() => setInvoice(null)} className="w-full">
+              Back
+            </Button>
+
+            {demo ? (
+              <Button onClick={simulatePayment} disabled={checking} variant="outline" className="w-full">
+                {checking ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <PlayCircle className="mr-2 h-4 w-4" />}
+                Simulate a payment (demo only)
               </Button>
-              <Button onClick={verifyPayment} disabled={checking}>
+            ) : (
+              <Button onClick={verifyPayment} disabled={checking} className="w-full">
                 {checking ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Check className="mr-2 h-4 w-4" />}
                 I&apos;ve Paid
               </Button>
-            </div>
-
-            {provider === 'mock' && (
-              <button
-                onClick={simulatePayment}
-                disabled={checking}
-                className="block w-full text-center text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
-              >
-                Simulate payment (mock mode)
-              </button>
             )}
 
             {error && <p className="text-sm text-destructive">{error}</p>}

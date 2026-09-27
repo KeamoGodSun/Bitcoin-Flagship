@@ -46,10 +46,37 @@ create table if not exists course_progress (
   primary key (lesson_id, visitor_id)
 );
 
+-- Visitor-written wall posts. Rows land as 'pending' and only 'approved' rows
+-- are readable, so a public submission is moderated before anyone else sees it.
+create table if not exists wall_posts (
+  id uuid primary key default gen_random_uuid(),
+  author text not null default 'anon' check (char_length(author) between 1 and 40),
+  handle text not null default '' check (char_length(handle) <= 40),
+  content text not null check (char_length(content) between 1 and 1000),
+  tags text[] not null default '{}',
+  visitor_id text not null,
+  status text not null default 'pending' check (status in ('pending', 'approved', 'rejected')),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists wall_posts_status_created_at_idx
+  on wall_posts (status, created_at desc);
+
 alter table post_comments enable row level security;
 alter table post_likes enable row level security;
 alter table tips enable row level security;
 alter table course_progress enable row level security;
+alter table wall_posts enable row level security;
+
+-- Only approved posts are publicly readable. A visitor inserting a row gets
+-- 'pending' by the column default, so nothing is self-published.
+drop policy if exists "approved posts are readable by everyone" on wall_posts;
+create policy "approved posts are readable by everyone"
+  on wall_posts for select using (status = 'approved');
+
+drop policy if exists "anyone can submit a post" on wall_posts;
+create policy "anyone can submit a post"
+  on wall_posts for insert with check (status = 'pending');
 
 -- Reads are public, writes are open for now because the site has no accounts.
 -- Tighten the write policies (captcha, rate limit) before launch.

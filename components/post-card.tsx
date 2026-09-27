@@ -30,9 +30,12 @@ interface PostCardProps {
 export function PostCard({ post }: PostCardProps) {
   const connected = isSupabaseConfigured();
 
-  const [likes, setLikes] = useState(post.likes);
+  // Counts start unknown rather than at a number from lib/data.ts. Anything we
+  // show has to have come from the database, otherwise the wall is quoting
+  // itself as evidence.
+  const [likes, setLikes] = useState<number | null>(null);
   const [liked, setLiked] = useState(false);
-  const [satsTipped, setSatsTipped] = useState(post.satsTipped);
+  const [satsTipped, setSatsTipped] = useState<number | null>(null);
   const [comments, setComments] = useState<WallComment[]>([]);
   const [commentsOpen, setCommentsOpen] = useState(false);
   const [author, setAuthor] = useState('');
@@ -79,16 +82,20 @@ export function PostCard({ post }: PostCardProps) {
   }, [connected, post.id]);
 
   const onToggleLike = async () => {
+    if (!connected) {
+      setNotice('Likes start counting once the community database is connected. Nothing was saved.');
+      return;
+    }
+
     const nextLiked = !liked;
     setLiked(nextLiked);
-    setLikes((prev) => prev + (nextLiked ? 1 : -1));
+    setLikes((prev) => (prev ?? 0) + (nextLiked ? 1 : -1));
 
-    if (!connected) return;
     try {
       await toggleLike(post.id, nextLiked);
     } catch {
       setLiked(!nextLiked);
-      setLikes((prev) => prev + (nextLiked ? -1 : 1));
+      setLikes((prev) => (prev ?? 0) + (nextLiked ? -1 : 1));
       setNotice('Like did not save. It stays on this device only.');
     }
   };
@@ -168,7 +175,11 @@ export function PostCard({ post }: PostCardProps) {
               aria-label={liked ? 'Unlike post' : 'Like post'}
             >
               <Heart className={cn('h-4 w-4', liked && 'fill-bitcoin')} />
-              {likes.toLocaleString()}
+              {likes === null ? (
+                <span className="text-muted-foreground/70">{connected ? '—' : 'not counting yet'}</span>
+              ) : (
+                likes.toLocaleString()
+              )}
             </button>
 
             <button
@@ -177,16 +188,19 @@ export function PostCard({ post }: PostCardProps) {
               aria-expanded={commentsOpen}
             >
               <MessageSquare className="h-4 w-4" />
-              {comments.length > 0 ? `${comments.length} ` : ''}
-              {comments.length === 1 ? 'comment' : 'comments'}
+              {connected
+                ? comments.length > 0
+                  ? `${comments.length} ${comments.length === 1 ? 'comment' : 'comments'}`
+                  : 'no comments yet'
+                : 'comments not connected'}
             </button>
           </div>
 
           <div className="flex items-center gap-3">
-            {satsTipped > 0 && (
+            {satsTipped !== null && (
               <span className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground">
                 <Zap className="h-3.5 w-3.5 text-bitcoin" />
-                {satsTipped.toLocaleString()} sats tipped
+                {satsTipped.toLocaleString()} {satsTipped === 1 ? 'sat' : 'sats'} tipped
               </span>
             )}
             <Button variant="outline" size="sm" className="gap-1.5" onClick={() => setTipOpen(true)}>

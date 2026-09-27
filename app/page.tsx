@@ -13,6 +13,7 @@ import { DonateSection } from '@/components/donate-section';
 import { UpcomingSchedule } from '@/components/upcoming-schedule';
 import { EventBookshelf } from '@/components/event-bookshelf';
 import { DoccieTeaser } from '@/components/doccie-teaser';
+import { CommunityFeed } from '@/components/community-feed';
 
 const pillars = [
   {
@@ -34,30 +35,6 @@ const pillars = [
     icon: Megaphone,
     title: 'Campaigns',
     description: 'Coordinated social media efforts that amplify the Bitcoin message far and wide.',
-  },
-];
-
-const feedPosts = [
-  {
-    handle: '@bitcoinflagship',
-    time: '2h',
-    text: 'Over 80 people at our first downtown meetup last night. The energy is real. Next one is already being planned. ₿',
-    likes: '342',
-    reposts: '87',
-  },
-  {
-    handle: '@satoshi_fan',
-    time: '5h',
-    text: 'Just finished the Lightning workshop hosted by @bitcoinflagship. Made my first LN payment in person. Mind blown.',
-    likes: '198',
-    reposts: '41',
-  },
-  {
-    handle: '@bitcoinflagship',
-    time: '1d',
-    text: 'Our mural in the River District is almost done. 40 feet of orange on a brick wall. Unveiling event Oct 20 — be there. ₿',
-    likes: '521',
-    reposts: '156',
   },
 ];
 
@@ -138,51 +115,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Social Feed */}
+      {/* Community feed: real posts off the wall, never a mock social timeline */}
       <section className="border-y border-border/60 bg-card/30">
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">From the Community</h2>
-            <p className="mt-4 text-muted-foreground">Latest from our social feed on X / Twitter.</p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-3">
-            {feedPosts.map((post, i) => (
-              <div
-                key={i}
-                className="rounded-xl border border-border bg-background p-5 transition-all hover:border-bitcoin/40"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-bitcoin text-background font-bold">
-                      ₿
-                    </div>
-                    <div>
-                      <div className="text-sm font-semibold">{post.handle}</div>
-                      <div className="text-xs text-muted-foreground">{post.time} ago</div>
-                    </div>
-                  </div>
-                </div>
-                <p className="mt-4 text-sm leading-relaxed text-foreground">{post.text}</p>
-                <div className="mt-4 flex items-center gap-6 text-xs text-muted-foreground">
-                  <span>♡ {post.likes}</span>
-                  <span>↻ {post.reposts}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-10 text-center">
-            <a
-              href="https://x.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-bitcoin transition-colors hover:text-bitcoin-light"
-            >
-              Follow us on X
-              <ArrowRight className="h-4 w-4" />
-            </a>
-          </div>
+          <CommunityFeed />
         </div>
       </section>
 

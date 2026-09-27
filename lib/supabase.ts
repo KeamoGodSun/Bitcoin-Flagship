@@ -8,6 +8,16 @@ export interface WallComment {
   createdAt: string;
 }
 
+/** A post written by a visitor rather than curated by the team. */
+export interface VisitorPost {
+  id: string;
+  author: string;
+  handle: string;
+  content: string;
+  tags: string[];
+  createdAt: string;
+}
+
 let client: SupabaseClient | null | undefined;
 
 export function supabaseUrl(): string {
@@ -156,4 +166,66 @@ export async function fetchTipTotal(postId: string): Promise<number> {
   if (error) throw error;
 
   return (data ?? []).reduce((total, row) => total + Number(row.amount_sats), 0);
+}
+
+function mapPost(row: Record<string, unknown>): VisitorPost {
+  const raw = row.tags;
+  return {
+    id: String(row.id),
+    author: String(row.author ?? 'anon'),
+    handle: String(row.handle ?? ''),
+    content: String(row.content ?? ''),
+    tags: Array.isArray(raw) ? raw.map(String) : typeof raw === 'string' && raw ? [raw] : [],
+    createdAt: String(row.created_at ?? new Date().toISOString()),
+  };
+}
+
+/** Newest first. Returns [] when Supabase is not configured. */
+export async function fetchVisitorPosts(limit = 50): Promise<VisitorPost[]> {
+  const db = supabase();
+  if (!db) return [];
+
+  const { data, error } = await db
+    .from('wall_posts')
+    .select('id, author, handle, content, tags, created_at')
+    .order('created_at', { ascending: false })
+    .limit(limit);
+
+  if (error) throw error;
+  return (data ?? []).map((row) => mapPost(row as Record<string, unknown>));
+}
+
+/**
+ * Publishes a visitor's post to the wall.
+ *
+ * The row is written pending moderation; the wall only shows what moderation
+ * has approved, so this returns before anything becomes visible.
+ */
+export async function addVisitorPost(input: {
+  author: string;
+  handle: string;
+  content: string;
+  tags: string[];
+}): Promise<VisitorPost> {
+  const db = supabase();
+  if (!db) throw new Error('Supabase is not configured');
+
+  const body = input.content.trim();
+  if (!body) throw new Error('Post is empty');
+
+  const { data, error } = await db
+    .from('wall_posts')
+    .insert({
+      author: input.author.trim() || 'anon',
+      handle: input.handle.trim(),
+      content: body,
+      tags: input.tags,
+      visitor_id: visitorId(),
+      status: 'pending',
+    })
+    .select('id, author, handle, content, tags, created_at')
+    .single();
+
+  if (error) throw error;
+  return mapPost(data as Record<string, unknown>);
 }

@@ -172,8 +172,11 @@ export interface CommunityPost {
   date: string;
   content: string;
   tags: string[];
-  likes: number;
-  satsTipped: number;
+  /**
+   * No likes or sats fields on purpose. Counts are read from the database at
+   * render time, so a number can never be baked into a fixture and then shown
+   * to visitors as if people had done it.
+   */
   /** Placeholder story kept for layout only. Real posts come from the database. */
   sample?: boolean;
 }
@@ -187,8 +190,6 @@ export const communityPosts: CommunityPost[] = [
     content:
       '27th birthday down. 27% of my 27 target stacked today. The birthday "gift to self" — I DCA, run my own node, and I finally taught my mom how to verify a transaction onchain. She watched the block explorer like it was magic. It kind of is.',
     tags: ['First steps', 'Node running'],
-    likes: 0,
-    satsTipped: 0,
     sample: true,
   },
   {
@@ -199,8 +200,6 @@ export const communityPosts: CommunityPost[] = [
     content:
       'Opened my first Lightning channel on mainnet after last month’s workshop. Paid for coffee with a 0-fee chained payment from my phone. Settled in under a second while the barista blinked. Lightning is not the future — it’s Tuesday.',
     tags: ['Lightning', 'Node running'],
-    likes: 0,
-    satsTipped: 0,
     sample: true,
   },
   {
@@ -211,8 +210,6 @@ export const communityPosts: CommunityPost[] = [
     content:
       'Moved everything off the exchange into self-custody. The 3 weeks of reading and the paranoid re-checks of my seed phrase were worth it. Cold storage feels like freedom you can actually touch. Stay humble, stack sats.',
     tags: ['Self-custody'],
-    likes: 0,
-    satsTipped: 0,
     sample: true,
   },
   {
@@ -223,8 +220,6 @@ export const communityPosts: CommunityPost[] = [
     content:
       'My employer asked how I’d like part of my salary — I asked for sats with a smile. They didn’t say no. Teaching my team one meme-able Bitcoin idea per week. Adoption is a conversation, not an event.',
     tags: ['Education', 'DCA'],
-    likes: 0,
-    satsTipped: 0,
     sample: true,
   },
   {
@@ -235,8 +230,6 @@ export const communityPosts: CommunityPost[] = [
     content:
       'Painted my first Bitcoin mural corner during the River District unveiling. A stranger stopped to ask "what’s that symbol?" — that question is the whole mission. 20 minutes later she was asking how to buy her first 5 percent.',
     tags: ['Murals', 'Public art'],
-    likes: 0,
-    satsTipped: 0,
     sample: true,
   },
 ];
@@ -251,41 +244,97 @@ export interface Merchant {
   /** Lightning address or payment link, when published. */
   lightning?: string;
   website?: string;
+  /** One line on what they actually sell. */
   note: string;
-  /** Placeholder entry so the layout can be reviewed. Replace before launch. */
-  example?: boolean;
+  /**
+   * How we know this entry is real.
+   *
+   * 'verified' means someone on the team has confirmed the business trades
+   * sats. 'claimed' means the owner listed themselves and we have not checked
+   * yet. Nothing goes in here unlabelled, because a directory that mixes
+   * invented shops in with real ones is worse than an empty one.
+   */
+  standing: 'verified' | 'claimed';
 }
 
-export const merchants: Merchant[] = [
+/**
+ * Intentionally empty until real entries land.
+ *
+ * These used to hold three placeholder businesses with made-up Lightning
+ * addresses. They read as real shops, which is exactly the problem: a visitor
+ * would have copied `coffee@bitcoinflagship.com` and sent money into a void.
+ * Add entries here only for businesses that actually exist, and set `standing`
+ * to match how far we have verified them.
+ */
+export const merchants: Merchant[] = [];
+
+/**
+ * Sample rows used only to review the directory's layout.
+ *
+ * These are not businesses. They are never merged into `merchants`, and the
+ * store only renders them when the URL carries `?sample=1`, where every card is
+ * badged SAMPLE and the page says so above the grid. That keeps the design
+ * review possible without ever putting a made-up shop in front of a visitor.
+ */
+export const sampleMerchants: Merchant[] = [
   {
-    id: 'm1',
-    name: 'Corner Coffee Bar',
+    id: 's1',
+    name: 'Sample name here',
     category: 'Food & drink',
-    area: 'Downtown',
+    area: 'Suburb name',
     payment: 'Lightning',
-    lightning: 'coffee@bitcoinflagship.com',
-    note: 'Card sats for the counter. Ask for the sats tab when the queue is short.',
-    example: true,
+    lightning: 'name@domain.example',
+    note: 'One line on what they actually sell, in the same voice a shopkeeper would use.',
+    standing: 'verified',
   },
   {
-    id: 'm2',
-    name: 'River District Print Studio',
+    id: 's2',
+    name: 'Another sample business',
     category: 'Art & printing',
-    area: 'River District',
+    area: 'City centre',
     payment: 'On-chain',
-    website: 'https://bitcoin.org',
-    note: 'Posters, stickers and mural proofing. Invoices settled on-chain within the hour.',
-    example: true,
+    website: 'https://example.com',
+    note: 'Shows the on-chain variant with a website link and no Lightning address.',
+    standing: 'verified',
   },
   {
-    id: 'm3',
-    name: 'I-95 Truck Stop Diner',
+    id: 's3',
+    name: 'Longer business name to test truncation',
+    category: 'Services',
+    area: 'Suburb name',
+    payment: 'Lightning + on-chain',
+    lightning: 'a-much-longer-name@domain.example',
+    note: 'Used to check that long names, long addresses and the two payment badges all hold their line.',
+    standing: 'claimed',
+  },
+  {
+    id: 's4',
+    name: 'Sample food spot',
     category: 'Food & drink',
-    area: 'I-95 Corridor',
+    area: 'Harbour',
     payment: 'Lightning',
-    lightning: 'diner@bitcoinflagship.com',
-    note: 'Long-haul drivers welcome. Weekend sats specials during highway meetups.',
-    example: true,
+    note: 'No Lightning address and no website, so the card renders without the address row.',
+    standing: 'claimed',
+  },
+  {
+    id: 's5',
+    name: 'Sample hardware shop',
+    category: 'Hardware',
+    area: 'City centre',
+    payment: 'On-chain',
+    website: 'https://example.org',
+    note: 'Second category row, used to confirm the category filter has more than one group to switch between.',
+    standing: 'verified',
+  },
+  {
+    id: 's6',
+    name: 'Sample education provider',
+    category: 'Education',
+    area: 'Online',
+    payment: 'Lightning',
+    lightning: 'teach@domain.example',
+    note: 'Online-only entry, to check an area value that is not a physical suburb.',
+    standing: 'claimed',
   },
 ];
 
