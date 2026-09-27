@@ -116,6 +116,7 @@ function createMockInvoice({ amountSats, memo }: CreateInvoiceOptions): Invoice 
     .digest('hex');
   const expiresAt = new Date(now + 60 * 60 * 1000);
 
+  // cspell:ignore pmockyp
   const invoice: MockInvoice = {
     id: `mock_${nonce.slice(0, 8)}`,
     paymentHash,

@@ -15,6 +15,7 @@ const ENTITIES: Record<string, string> = {
   '&nbsp;': ' ',
 };
 
+// cspell:ignore quot apos
 export function decodeEntities(input: string): string {
   return input.replace(/&(amp|lt|gt|quot|#39|apos|nbsp);/g, (match) => ENTITIES[match] ?? match);
 }

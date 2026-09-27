@@ -9,7 +9,16 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "process:images": "node scripts/process-images.mjs",
-    "check:supabase": "node scripts/check-supabase.mjs"
+    "check:supabase": "node scripts/check-supabase.mjs",
+    "check:course-sources": "node scripts/check-course-sources.mjs",
+    "check:spelling": "cspell --no-progress \"lib/**/*.ts\" \"components/**/*.tsx\" \"app/**/*.tsx\" \"docs/*.md\"",
+    "check:prose": "node scripts/check-prose.mjs",
+    "check:quiz": "node scripts/check-quiz.mjs",
+    "check:punctuation": "node scripts/check-punctuation.mjs",
+    "check:duplicates": "node scripts/check-duplicates.mjs",
+    "check:outline": "node scripts/sync-outline.mjs --check",
+    "sync:outline": "node scripts/sync-outline.mjs",
+    "rebalance:keys": "node scripts/rebalance-keys.mjs --dry-run"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -75,6 +84,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "sharp": "^0.35.4"
+    "cspell": "^10.3.4",
+    "sharp": "^0.35.4",
+    "write-good": "^1.0.8"
   }
 }
