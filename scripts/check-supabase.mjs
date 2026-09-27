@@ -22,7 +22,22 @@ function readEnv(file) {
   return values;
 }
 
-const env = readEnv(envFile);
+const supabaseVars = [
+  'NEXT_PUBLIC_SUPABASE_URL',
+  'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+  'SUPABASE_SERVICE_ROLE_KEY',
+];
+
+// .env.local is the default, but real environment variables win, so a one-off
+// run against the local Docker stack does not mean editing the file that holds
+// the production keys.
+const env = {
+  ...readEnv(envFile),
+  ...Object.fromEntries(
+    Object.entries(process.env).filter(([key, value]) => supabaseVars.includes(key) && value)
+  ),
+};
+
 const url = env.NEXT_PUBLIC_SUPABASE_URL;
 const anonKey = env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const serviceKey = env.SUPABASE_SERVICE_ROLE_KEY;
