@@ -1,9 +1,10 @@
 # In-site Bitcoin courses — outline for sign-off
 
-Status: **restructured, for approval. Nothing implemented.** This revision
-reorders the course from Bitcoin-first to money-first. The 13 written lessons are
-unchanged in `lib/course-data.ts` and are reproduced below exactly as they stand;
-22 new lessons are briefs. No code change accompanies this document.
+Status: **restructured and in build. 15 lessons written, 20 still briefs.** This
+revision reorders the course from Bitcoin-first to money-first. The 13 lessons
+written before the restructure are unchanged in `lib/course-data.ts` and are
+reproduced below exactly as they stand. The two new lens lessons, M1.1 and M1.2,
+are now written as well; the remaining 20 new lessons are briefs.
 
 The spine: the history of money, then the history of technology, then money and
 technology together without Bitcoin, then money during Bitcoin, with the Human
@@ -71,8 +72,8 @@ letter, checked by `npm run check:quiz`.
 | 5 | Money during Bitcoin | 4 | 2008-09 and what happened, adoption, Bitcoin in this picture, and the honest ledger. |
 | 6 | Mises applied | 2 | Money as a temporal commodity, and time preference with the business cycle. Deliberately lean. |
 | 7 | The build: the future of money | 4 | Gold revisited, Bitcoin against plain fiat, why Bitcoin is not a gold standard, and the world this builds. |
-| 8 | Technical deep dive | 3 | Script and spending conditions, consensus and mining, privacy, scaling and self-hosting. |
 | A | Appendix: Bitcoin advancement | 7 | The existing practical course, read as the continuation of Level 7. |
+| 8 | Technical deep dive | 3 | Script and spending conditions, consensus and mining, privacy, scaling and self-hosting. Placed after the appendix, not before it: see the note under that heading. |
 
 Levels 6 and 7 are kept short on purpose. The lens is introduced once, applied
 throughout, and deepened only where a lesson needs it, so the course does not become
@@ -115,31 +116,109 @@ break its published URL and needs a permanent redirect at the same time as the m
 Level and lesson numbering get realigned only when `lib/course-data.ts` is migrated
 to match, which is a separate piece of work.
 
+New lessons take their machine id from the level they are being written for, which
+is why the two written lens lessons are `M1_1` and `M1_2` and appear here as
+`### M1.1` and `### M1.2` rather than `### 1.1` and `### 1.2`. They live in an
+unpublished level called `level-1-lens`, which is reviewable at
+`/learn/preview/level-1-lens/...` and published by nobody. When the migration
+happens they move to the real Level 1, and `level-1-lens` disappears, without any
+of their ids changing.
+
 ---
 
 ## Level 1 — The lens: human action
 
-*Unpublished. 3 lessons, 11 questions.*
+*Unpublished. 3 lessons, 15 questions, all written. The third lesson, M2.2, is still
+served from the published Money & Economics level until the level structure is
+migrated as one change with redirects.*
 
 The lens has to come first, because every level after it is read through it. It is
 also where the course makes its pluralist obligation visible: the Austrian lens is
 introduced, then set beside its rivals before any history is narrated through it, so
 a reader who rejects praxeology still has a reason to keep going.
 
-### 1.1 Human action and praxeology
+### M1.1 Human action and praxeology
 
-*Brief, not yet written. Covers: praxeology as a method, purposeful human action, the actor and the means, why economics claims deductive rather than statistical certainty, and the honest limits of a deductive science.*
+Covers: praxeology as a method, purposeful human action, the actor and the
+means, why economics claims deductive rather than statistical certainty, and the
+honest limits of a deductive science.
 
-Question design note: the honest question here is what praxeology cannot do. A deductive science cannot tell you when a prediction will fail, only what follows if the premises hold, and the lesson should say so rather than presenting the method as unfalsifiable certainty.
+*Question design note: the honest question here is what praxeology cannot do. A
+deductive science cannot tell you when a prediction will fail, only what follows
+if the premises hold, and the lesson says so rather than presenting the method
+as unfalsifiable certainty.*
 
+1. **Someone stands outside on purpose all afternoon, doing nothing, and earning
+   nothing. How does the Austrian account of human action classify this?**
+   A. Not human action, because no economic activity took place · B. Human action, because it is behaviour undertaken for a purpose · C. Human action, but only because the rest is itself a good being consumed · D. Outside economics entirely, since economics studies markets rather than people
+  **Answer: B** — The definition covers any behaviour undertaken to reach an end, and
+   deliberately not acting is a decision taken with a view to a result, which
+   is why the criterion is purposiveness rather than visible productivity.
+2. **Praxeology is described as a formal science. What does that claim actually
+   assert?**
+   A. That economic results are worked out from definitions rather than measured from observations · B. That economics predicts the economy accurately, provided enough data is gathered · C. That economic laws are exempt from testing, because behaviour is too irregular to test · D. That economics reaches the same certainty as mathematics in every practical question
+  **Answer: A** — The claim is about where the results come from: they follow from the
+   definitions of action and scarcity, and collecting more data cannot
+   establish or disestablish them.
+3. **A deductive argument concludes that unsound money produces a boom and a bust.
+   What is the strongest objection to treating that conclusion as settled?**
+   A. The premises cannot be tested, so the conclusion cannot be assessed at all · B. The argument is valid, but it says nothing about whether the money in front of you is unsound · C. Only the statistical version of the argument is defensible, so the deductive one should be dropped · D. The argument confuses money with credit, so it fails on its own terms
+  **Answer: B** — A deductive argument establishes what follows given the premises;
+   identifying which case you are actually in is an empirical matter the method
+   leaves open, and the Austrian literature often proceeds as though it had
+   been settled.
+4. **The 1959 challenge from William Hutt to the subjective theory of value is best
+   described as what?**
+   A. An empirical refutation, showing that marginal utility does not predict actual prices · B. A reinterpretation of marginal utility that most of the school now accepts · C. An internal objection that the theory explains price formation but not where the ends come from · D. A rejection of praxeology that Mises answered by abandoning the formal method
+  **Answer: C** — A theory of choice which begins from existing ends can say how choices are
+   ranked without explaining how ends are formed, and Hutt held that this was
+   not a small remainder.
+5. **A reader rejects praxeology entirely. What follows for this course?**
+   A. The course no longer applies to them, since every level is argued through the lens · B. Only the lessons on current figures become readable, and the rest cannot be assessed · C. Nothing in particular, because the lens never affects a conclusion the course draws · D. The factual history still stands, and the Austrian readings deserve less weight
+  **Answer: D** — What the reader gives up is the weight of the Austrian interpretation, not
+   the events, the dates or the figures that the rest of the course reports.
 
-### 1.2 Subjective value: Menger’s Principles
+### M1.2 Subjective value: the Principles of Menger
 
-*Brief, not yet written. Covers: Carl Menger’s Principles of Economics (1871), ordinal utility, diminishing marginal value, the marginal theory of value, and why the value of money is subjective rather than a fixed quantity of metal.*
+Covers: Carl Menger's Principles of Economics (1871), ordinal utility,
+diminishing marginal value, the marginal theory of value, and why the value of
+money is subjective rather than a fixed quantity of metal.
 
-Question design note: this is the attribution anchor. The lesson exists so that the rest of the course can credit subjective value to Menger and not to Mises, which is the single cheapest way to stop the course being written off as cult writing.
+*Question design note: this is the attribution anchor. The lesson exists so that
+the rest of the course can credit subjective value to Menger and not to Mises,
+which is the single cheapest way to stop the course being written off as cult
+writing. The last question also refuses the flattering version of the lens,
+because a course that hides where its own method is weak is the kind a sceptic
+stops reading.*
 
-
+1. **A litre of water in a wet city and a litre in a dry one. What does the
+   subjective theory of value say has changed?**
+   A. The value has moved into the judgement of the people involved, and the water is unchanged · B. The water has become more useful in the dry place, so its value rose for that reason · C. Nothing changed, because value is a property of the good and both litres are identical · D. The value changed because the population differs, since value depends only on how many want it
+  **Answer: A** — Value is a relation between a person and a good, so the same litre acquires
+   a different value through a different estimate without any change to the
+   good. The estimate is subjective in that someone holds it, not in that it
+   costs nothing to be wrong.
+2. **Why does marginal value matter for understanding a price?**
+   A. Because it explains why the same good carries different prices in different markets · B. Because it converts value into a quantity that can be measured and compared directly · C. Because value attaches to the last unit rather than to the average unit · D. Because it shows that some goods have value and others have none at all
+  **Answer: C** — The marginal principle is why the fifth litre is worth less to the same
+   person than the first, and it is why a large holding of something is not
+   automatically a large amount of value.
+3. **What does Menger argue about where money comes from?**
+   A. It was introduced by states to make trade and taxation possible · B. It emerges from exchange, as the good that most people find most saleable · C. It was introduced by a single decision, in one place, and spread outward by imitation · D. It is defined as whatever the government declares to be legal tender at a fixed value
+  **Answer: B** — Salability is the mechanism: a seller takes whatever is likeliest to be
+   wanted next, and the good that wins that position across most markets is the
+   one that becomes money.
+4. **Whose work is the argument that value is subjective and that money emerges
+   from exchange?**
+   A. Mises, in Theory of Money and Credit (1912) and Human Action (1949) · B. The classical economists, who treated value as derived from labour · C. The German historical school, which argued that value is a product of social convention · D. Menger, in Principles of Economics (1871) and On the Origin of Money (1892)
+  **Answer: D** — Getting it wrong is the fastest way to have the whole course dismissed by
+   anyone who knows the history.
+5. **What does the marginal view of value imply about someone holding a large
+   quantity of something?**
+   A. The holding cannot be turned into a stated amount of value, because value attaches to the marginal unit · B. They must be better off, since more of a good is worth more than less of it · C. They must be worse off, because a large holding is evidence of a mistaken estimate · D. They are in the same position as someone holding a small amount, because value cancels out
+  **Answer: A** — The framework gives an order of preference, not a magnitude, so a holding of
+   a million satoshis and a holding of a thousand are not two points on a
+   common scale. The next unit is worth less than the last one acquired.
 ### M2.2 Five schools, one problem
 Covers: Austrian (Mises, Hayek, Rothbard), Keynesian, monetarist (Friedman),
 neoclassical and rational expectations, and MMT — each in its strongest form —
@@ -1276,20 +1355,20 @@ one that promises a free gain.
 
 | Level | Lessons | Questions | State |
 |---|---|---|---|
-| 1 The lens: human action | 3 | 11 | 1 written, 2 briefs |
+| 1 The lens: human action | 3 | 15 | 3 written |
 | 2 History of money, before Bitcoin | 5 | 26 | 1 written, 4 briefs |
 | 3 History of technology, before Bitcoin | 4 | 20 | 4 briefs |
 | 4 Money and technology, without Bitcoin | 4 | 20 | 1 written, 3 briefs |
 | 5 Money during Bitcoin | 4 | 20 | 1 written, 3 briefs |
 | 6 Mises applied | 2 | 10 | 1 written, 1 brief |
 | 7 The build: the future of money | 4 | 20 | 1 written, 3 briefs |
-| 8 Technical deep dive | 3 | 15 | 3 briefs |
 | A Appendix: Bitcoin advancement | 7 | 34 | 7 written |
-| **Total** | **35** | **176** | **13 written, 22 briefs** |
+| 8 Technical deep dive | 3 | 15 | 3 briefs |
+| **Total** | **35** | **180** | **15 written, 20 briefs** |
 
 ## What has to be true before this ships
 
-1. The twenty-two briefs are written, and `npm run check:quiz`, `check:punctuation`,
+1. The twenty briefs are written, and `npm run check:quiz`, `check:punctuation`,
    `check:duplicates` and `check:outline` all pass on the full course.
 2. M2.4 is rewritten, because it currently assumes a Bitcoin-first course.
 3. Every level that states a current figure has it registered in
@@ -1308,10 +1387,12 @@ and none of them requires a redirect.
 
 - **This restructure, now.** No code change, nothing published, no URLs touched. It
   exists to be agreed with before any of it is built.
-- **Write the twenty-two briefs, level by level, starting at Level 1.** Nothing
+- **Write the twenty briefs, level by level, starting at Level 1.** Nothing
   published, no level moves, so no redirect is needed and each new lesson is
   reviewed in isolation against the design rules. This is the bulk of the work and
-  it can stop at any point without leaving the site in a broken state.
+  it can stop at any point without leaving the site in a broken state. M1.1 and M1.2
+  are done and sit in an unpublished `level-1-lens`, which is where each new lesson
+  goes until the migration below.
 - **Rewrite M2.4** as it moves to 5.3, since it currently assumes a Bitcoin-first
   course behind it. Same position in the published order, so still no redirect.
 - **Migrate the level structure in \`lib/course-data.ts\` as one change**, with the

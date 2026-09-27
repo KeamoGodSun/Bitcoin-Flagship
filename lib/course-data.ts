@@ -73,6 +73,511 @@ export interface Level {
   published: boolean;
 }
 
+const M1_1: Lesson = {
+  id: 'l1-1-human-action-and-praxeology',
+  title: 'Human action and praxeology',
+  blurb:
+    'What the Austrian school means by economics as a science of purposeful action, why it insists on deduction rather than statistics, and the honest limit of a method that cannot tell you when it is wrong.',
+  minutes: 12,
+  sections: [
+    {
+      heading: 'Economics is about what people are trying to do',
+      paragraphs: [
+        'The Austrian school begins with a narrower and stranger claim than most people expect. Economics is not the study of markets, and it is not the study of money. It is the study of human action, in the sense of any behaviour a person undertakes for the purpose of achieving something. Paying a bill is human action. Not paying it is human action. Refusing to work is human action. A person lying still in the dark on purpose is acting, not failing to act, because purposiveness is the whole criterion.',
+        'This sounds like a philosophical preference, but it decides what counts as evidence. Most social science explains observed behaviour by looking for causes outside the person: a person is poor because of the economy, someone votes a particular way because of where they were born, a firm prices a certain way because of the industry it is in. The Austrian approach refuses that step. It takes the purpose as given, because a purpose is the one thing about a human being that cannot be observed from outside and inferred without assuming what you are trying to establish.',
+        'So the subject matter is the actor pursuing ends with scarce means. Scarcity is not an assumption about a world that happens to run short; it is what makes choice exist at all. If means were unlimited, or if every want could be satisfied by the next thing turned to, there would be nothing to choose between and nothing to explain. Human action is defined as the employment of means for the attainment of ends, and ends are unlimited while means are not, which is the permanent reason scarcity and choice exist rather than an economic condition that arrived with the industrial revolution.',
+      ],
+    },
+    {
+      heading: 'Praxeology, and why it is a formal science',
+      paragraphs: [
+        'Carl Menger, writing in the 1870s, gave this approach its methodological name and a claim that is easy to state and hard to accept: economics is a formal science, in the same family as logic and mathematics, rather than an empirical one like physics or biology. Mises took that name, praxeology, made it explicit in Nationalökonomie (1920) and gave it the fullest statement in Human Action (1949), and the word still carries the name of the man who systematised it.',
+        'The distinction is about the kind of certainty a claim is allowed to have. An empirical science takes observations, finds patterns, and reports how often the pattern held, so its statements are probabilistic and its predictions are revisable. A formal science begins from its own definitions and works out what follows. Pure logic cannot be refuted by an experiment, because no observation bears on whether a syllogism is valid. The claim by Menger was that a science of human action has this character: if you define action as purposeful conduct and the means as scarce, then certain results follow from those definitions regardless of what anybody observes, and the task of the economist is to discover them rather than to measure how often they appear.',
+        'The best-known example is the ordinal theory of value, which says the value of a unit is a ranking of preferences rather than a measurable quantity. If that is true, then more is better and less is worse, and that much follows from the ranking alone. You cannot find an argument against it by collecting more data about what people buy, because the data describes a different thing from the one the claim is about. That is the strongest form of the method and also the one that provokes the most resistance, since it appears to claim that measurements are beside the point.',
+      ],
+    },
+    {
+      heading: 'What a deductive science cannot do',
+      paragraphs: [
+        'Here is the part the admirers of the school usually leave out, and leaving it out is why Austrian economics reads to outsiders as a cult rather than a contested discipline. A deductive science cannot tell you when its premises fail in the world. It can tell you what follows if the premises hold. It cannot tell you that they hold, because checking that is an empirical question and the method is not an empirical instrument. Praxeology can demonstrate that unsound money creates a business cycle, and that demonstration is valid whether or not the money in front of you is sound.',
+        'This produces a real and permanent weakness. A framework that cannot be shown wrong by observation does not tell you which of its results to expect on a particular Tuesday, and the Austrian literature contains a great many confident claims about the future that observation has not supported. The Austrian business cycle theory, examined properly in Level 6, is a case in point: it explains 1914 and 1929 in ways most alternatives do not, and it has a poorer record than its confidence suggests on more recent episodes. A method that cannot admit this is not deductive in any useful sense, it is just insulated.',
+        'There is a second limit, and it is internal rather than a matter of evidence. William Hutt challenged the subjective theory of value directly in The Economics of Knowledge (1959), arguing that the marginal utility framework explains price formation among given tastes rather than explaining where those tastes come from, and that a theory of choice which starts from choice explains nothing about the formation of ends. This is a serious objection from inside the tradition, and it has never been answered inside it. Praxeology is not a settled method agreed by its adherents; it is a research programme with an outstanding internal disagreement about its foundation.',
+        'None of this makes the approach useless. It makes it a lens, and a lens is judged by what it illuminates rather than by whether it is a machine for producing certain answers. Read as a lens, it asks you to take the purpose of the actor seriously as your starting point, which on a question about money will usually tell you more than treating the actor as a passive object being pushed by forces, and it will occasionally tell you something no other method has. Read as a guarantee, it will disappoint you, and it deserves to.',
+      ],
+    },
+    {
+      heading: 'What this is used for in this course',
+      paragraphs: [
+        'The lens is worth stating plainly, because a reader who does not know it will not notice when the course is using it, and a reader who has been warned can weigh what follows against something other than the argument itself.',
+        'It says that value is in the head of the person choosing, that the choice to save rather than consume is a judgement about the future involving a preference for present over future satisfaction, that money is what emerges from exchange among people who each have their own ranking, and that a quantity of money controlled by an institution answering to political pressure is a different kind of thing from one that nobody can add to. Those are the four commitments that do the most work in Levels 2 to 7, and the business cycle argument in Level 6 is where the fourth becomes contentious enough to need its own examination.',
+        'It is a lens and not the only one available. The next lesson is Menger on value, which is the foundation rather than the finished argument, and the level after this one is about the objections. The course then runs through five levels of history with the lens available and not compulsory, because a reader who rejects praxeology should still be able to follow the argument about what money was before Bitcoin and what changed, and would in any case learn more from a version of that argument they can partly disagree with.',
+      ],
+    },
+  ],
+  questions: [
+    {
+      id: 'l1-1-q1',
+      prompt: 'Someone stands outside on purpose all afternoon, doing nothing, and earning nothing. How does the Austrian account of human action classify this?',
+      options: [
+        {
+          id: 'a',
+          label: 'Not human action, because no economic activity took place',
+          correct: false,
+          explanation:
+            'Doing nothing on purpose is not an absence of action but an instance of it. Purposiveness is the only criterion, and no means were being used and no end was being sought, so the case falls outside economics rather than inside it.',
+        },
+        {
+          id: 'b',
+          label: 'Human action, because it is behaviour undertaken for a purpose',
+          correct: true,
+          explanation:
+            'Correct. The definition covers any behaviour undertaken to reach an end, and deliberately not acting is a decision taken with a view to a result, which is why the criterion is purposiveness rather than visible productivity.',
+        },
+        {
+          id: 'c',
+          label: 'Human action, but only because the rest is itself a good being consumed',
+          correct: false,
+          explanation:
+            'This smuggles in an economic judgement the lesson has not earned. Whether the rest was wise is a separate question, and the classification does not depend on answering it.',
+        },
+        {
+          id: 'd',
+          label: 'Outside economics entirely, since economics studies markets rather than people',
+          correct: false,
+          explanation:
+            'That is the definition the Austrian school explicitly rejects. Economics here is a theory of purposeful action, and studying markets is a part of it rather than its subject matter.',
+        },
+      ],
+    },
+    {
+      id: 'l1-1-q2',
+      prompt: 'Praxeology is described as a formal science. What does that claim actually assert?',
+      options: [
+        {
+          id: 'a',
+          label: 'That economic results are worked out from definitions rather than measured from observations',
+          correct: true,
+          explanation:
+            'Correct. The claim is about where the results come from: they follow from the definitions of action and scarcity, and collecting more data cannot establish or disestablish them.',
+        },
+        {
+          id: 'b',
+          label: 'That economics predicts the economy accurately, provided enough data is gathered',
+          correct: false,
+          explanation:
+            'That is the empirical ideal the claim is written against. A formal science makes no predictions that improve with more observations, which is precisely the feature its critics object to.',
+        },
+        {
+          id: 'c',
+          label: 'That economic laws are exempt from testing, because behaviour is too irregular to test',
+          correct: false,
+          explanation:
+            'The claim is not that the world is untestable but that this method is not the thing that tests it. Empirical testing of economic behaviour is exactly what the formal method declines to be.',
+        },
+        {
+          id: 'd',
+          label: 'That economics reaches the same certainty as mathematics in every practical question',
+          correct: false,
+          explanation:
+            'Mathematics is certain because its conclusions cannot vary with what is observed. An economic conclusion drawn from a definition is not thereby certain about the world, and the gap between the two is where the criticism lives.',
+        },
+      ],
+    },
+    {
+      id: 'l1-1-q3',
+      prompt: 'A deductive argument concludes that unsound money produces a boom and a bust. What is the strongest objection to treating that conclusion as settled?',
+      options: [
+        {
+          id: 'a',
+          label: 'The premises cannot be tested, so the conclusion cannot be assessed at all',
+          correct: false,
+          explanation:
+            'The conclusion can certainly be assessed, by whether the boom and the bust happen. What the method cannot do is check its own premises, which is a different and more precise limitation.',
+        },
+        {
+          id: 'b',
+          label: 'The argument is valid, but it says nothing about whether the money in front of you is unsound',
+          correct: true,
+          explanation:
+            'Correct. A deductive argument establishes what follows given the premises; identifying which case you are actually in is an empirical matter the method leaves open, and the Austrian literature often proceeds as though it had been settled.',
+        },
+        {
+          id: 'c',
+          label: 'Only the statistical version of the argument is defensible, so the deductive one should be dropped',
+          correct: false,
+          explanation:
+            'That inverts the difficulty. The deductive claim is the one the school considers established, and it is the empirical version which inherits the problem of measuring the boom and the bust consistently.',
+        },
+        {
+          id: 'd',
+          label: 'The argument confuses money with credit, so it fails on its own terms',
+          correct: false,
+          explanation:
+            'Nothing in this argument depends on that distinction. The objection which survives is the one about premises rather than about terms, which is why refining the terminology has never answered it.',
+        },
+      ],
+    },
+    {
+      id: 'l1-1-q4',
+      prompt: 'The 1959 challenge from William Hutt to the subjective theory of value is best described as what?',
+      options: [
+        {
+          id: 'a',
+          label: 'An empirical refutation, showing that marginal utility does not predict actual prices',
+          correct: false,
+          explanation:
+            'It was not a data-driven refutation, and the standard answer to that kind of attack is that price data is beside the point. Hutt argued from inside the theory about what it had failed to explain.',
+        },
+        {
+          id: 'b',
+          label: 'A reinterpretation of marginal utility that most of the school now accepts',
+          correct: false,
+          explanation:
+            'It was never adopted, which is the reason it is taught. A challenge that the tradition absorbed would not be evidence of an outstanding internal disagreement.',
+        },
+        {
+          id: 'c',
+          label: 'An internal objection that the theory explains price formation but not where the ends come from',
+          correct: true,
+          explanation:
+            'Correct, and it is the substantive point. A theory of choice which begins from existing ends can say how choices are ranked without explaining how ends are formed, and Hutt held that this was not a small remainder.',
+        },
+        {
+          id: 'd',
+          label: 'A rejection of praxeology that Mises answered by abandoning the formal method',
+          correct: false,
+          explanation:
+            'The formal method was retained and is still the basis of the school. That the challenge from Hutt is a live internal disagreement rather than something Mises conceded is the point worth knowing.',
+        },
+      ],
+    },
+    {
+      id: 'l1-1-q5',
+      prompt: 'A reader rejects praxeology entirely. What follows for this course?',
+      options: [
+        {
+          id: 'a',
+          label: 'The course no longer applies to them, since every level is argued through the lens',
+          correct: false,
+          explanation:
+            'The lens is used, not assumed, and Levels 2 to 5 are a history that can be followed on its own terms. Levels 1, 6 and 7 are where the Austrian commitments are load-bearing, and those are marked as such.',
+        },
+        {
+          id: 'b',
+          label: 'Only the lessons on current figures become readable, and the rest cannot be assessed',
+          correct: false,
+          explanation:
+            'This makes the lens far more influential than it is. Most of the course is history and description, and a reader can disagree with the interpretation while still following the events accurately.',
+        },
+        {
+          id: 'c',
+          label: 'Nothing in particular, because the lens never affects a conclusion the course draws',
+          correct: false,
+          explanation:
+            'That understates how far the lens reaches. It is not a neutral reading laid over facts; it shapes what counts as an explanation, so disagreement with it does change which conclusions the course supports.',
+        },
+        {
+          id: 'd',
+          label: 'The factual history still stands, and the Austrian readings deserve less weight',
+          correct: true,
+          explanation:
+            'Correct, and the distinction is the whole point of labelling the lens. What the reader gives up is the weight of the Austrian interpretation, not the events, the dates or the figures that the rest of the course reports.',
+        },
+      ],
+    },
+  ],
+  tryIt: [
+    'Notice one economic claim you would make with total confidence, then ask what premise it rests on and what evidence would change your mind. That is the whole move this lesson teaches, done on your own reasoning rather than on the reasoning of an economist.',
+    'Read the opening of Principles of Economics by Carl Menger, available in translation, and find the account of the origin of money. Note how little of it depends on any measurement, and notice that you mostly agree with it. The next lesson is about why.',
+    'Take one of the four commitments in the last section and write down a case against it. A lens you cannot argue with is not being used as a lens.',
+  ],
+  sources: [
+    {
+      label: 'Carl Menger, Principles of Economics (1871)',
+      detail:
+        'The marginal theory of value and the earliest statement of the methodological claim that economics is formal rather than empirical. The work the next lesson is built on.',
+      url: 'https://en.wikipedia.org/wiki/Principles_of_Economics',
+    },
+    {
+      label: 'Ludwig von Mises, Human Action (1949)',
+      detail:
+        'The fullest statement of praxeology as a formal science, and the source of the four commitments this course applies from Level 2 onwards.',
+      url: 'https://en.wikipedia.org/wiki/Human_Action',
+    },
+    {
+      label: 'Praxeology',
+      detail:
+        'A survey of the method, its development from Menger through Mises, and the standing criticisms of it, including the objection that it is not empirically testable.',
+      url: 'https://en.wikipedia.org/wiki/Praxeology',
+    },
+    {
+      label: 'William Hutt (1897-1980)',
+      detail:
+        'The economist whose 1959 challenge to the subjective theory of value remains the outstanding internal disagreement in the tradition, arguing that the theory explains price formation but not the formation of ends.',
+      url: 'https://en.wikipedia.org/wiki/William_Hutt',
+    },
+    {
+      label: 'Austrian business cycle theory',
+      detail:
+        'The theory referred to in the section on limits, examined properly in Level 6, including the criticisms of its empirical record.',
+      url: 'https://en.wikipedia.org/wiki/Austrian_business_cycle_theory',
+    },
+  ],
+};
+
+const M1_2: Lesson = {
+  id: 'l1-2-subjective-value-and-the-principles-of-menger',
+  title: 'Subjective value: the Principles of Menger',
+  blurb:
+    'The marginal theory of value, why the value of money is a judgement held by a person rather than a quantity of metal, and why this is the contribution of Menger rather than of Mises.',
+  minutes: 13,
+  sections: [
+    {
+      heading: 'Value is not in the thing',
+      paragraphs: [
+        'The classical problem Menger set out to solve was an embarrassment for the prevailing economics of his time. Value seemed to be treated as a property of goods, as though usefulness and scarcity generated a quantity that sat inside the object. But the same quantity of water in an inhabited place is worth almost nothing and the same quantity in a desert is worth everything, and if value were in the water it could not have moved.',
+        'The resolution was to put value where it was observed, in the person doing the valuing. There is no value in a good independently of an estimate of it. A thing is valuable to a person because that person judges the value it will serve to be greater than the value of the other things it could serve instead. Value is a relation between a person and a good, and it exists only where a person is making the comparison, which means it does not exist where nobody is choosing.',
+        'This is what the school means by subjective value, and the word subjective is doing more work than it sounds. It is not a claim that values are arbitrary or that opinions are the only truth available. It is a claim about where value is located. Water in a desert is not valuable by accident of opinion, and the opinion will be expensive to hold while the desert holds. The judgement is subjective in the sense that it is had by somebody, and it is not subjective in the sense that anybody is free to hold it without consequence.',
+      ],
+    },
+    {
+      heading: 'Marginal value, and the ranking rather than the number',
+      paragraphs: [
+        'A second problem followed from the first. If a good is valuable because of the use a person expects from it, then a litre of water for the fifth drink of the day should be worth less than a litre for the first, even though they are the same litre. Menger handled this with the marginal principle: the value of a unit is set by what the smallest increment of it is worth at the margin, and the useful consequence is that goods are valued in an order of preference rather than as a measurable quantity of value.',
+        'The distinction between a ranking and a measurement is where economics was heading, and it took a century to arrive properly. Marginal utility in its developed form says that value is ordinal: you can say a third glass is worth more or less than a second, and you cannot say how much more, because there is no unit in which to count it. This is why the method is described as formal rather than empirical, and why the school is so attached to it. A ranking cannot be averaged across people, and the moment you try, you have assumed a unit of value that the theory says is not there.',
+        'It also produces a result that sounds obvious once stated and has misled people for a century. Value attaches to the marginal unit, not the average one, and the total value of a stock of water or of money does not tell you much about how valuable a unit of it is. A person who hoards a million satoshis and a person who spends them may hold very different numbers of satoshis and be in the same position, and any account that treats a larger holding as automatically more valuable has confused a quantity with a judgement about it.',
+      ],
+    },
+    {
+      heading: 'Money is the most valued of all goods, for a structural reason',
+      paragraphs: [
+        'The second contribution by Menger, and the one this course leans on hardest in Level 2, is the account of where money comes from. It is not a device a state introduced for its convenience, and it is not a thing people began trading before they decided to have one. It emerges from exchange among people who each value a different thing most, and who discover that one of them is the one everybody else wants to receive.',
+        'The mechanism is salability. In a market in which people specialise, a seller will accept whatever is most likely to be wanted by the buyers they might meet next, because the value of a good to them depends entirely on being able to trade it onward. Over time one good is the most saleable thing in most markets, and it earns a position no other good holds: it is the good you want not because you will use it, but because everything you might want can be obtained for it.',
+        'Two consequences follow directly and they matter for everything after. The value of money is not a fixed quantity of the metal it is made from, because its value is the value of being the thing others will accept, and that depends on how many people hold it and want it. And a quantity of money cannot be valued by adding up its parts in a fixed amount, because the value of a unit of money is not the same at every margin of every holding.',
+        'Mises added to this in 1912 with the regression theorem, which asks what interest would be in a market where lending is the only way to acquire capital goods. If capital goods can only be obtained by giving up present consumption, then the rate of interest is the price of time preference, and money cannot be interest-free while functioning as money. This is the bridge to the temporal commodity lesson in Level 6, and it is the contribution of Mises rather than of Menger.',
+      ],
+    },
+    {
+      heading: 'Why this is Menger and not Mises',
+      paragraphs: [
+        'The attribution matters more than it might look, and not only for historical tidiness. The claim that value is subjective, the marginal account of it, the ordinal rather than measurement claim, and the argument that money emerges from exchange without prior agreement are all the work of Menger, from Principles of Economics (1871) and On the Origin of Money (1892).',
+        'Mises systematised the method, named praxeology, added the regression theorem and the business cycle theory, and gave the whole thing its fullest statement in Human Action (1949). That is a large contribution and deserves to be stated at its proper size. What does not help is a course that credits Mises with the discovery of subjective value, because any reader with a working knowledge of economic history will conclude the author has not read it, and once that conclusion is reached the rest of the argument is discounted regardless of its quality.',
+        'There is also a reason to give the foundations their own proper place rather than treating the lens as a single undifferentiated doctrine. The economics of Menger stood on its own and was contested for decades before Mises reinterpreted it, and the reinterpretation is not identical to what it reinterpreted. Knowing which commitments came from which author tells you which ones have been load-bearing for the longest, and the difference matters most on the money questions this course is actually about.',
+        'What follows from all this is worth stating plainly, because the lesson is about where value is located rather than about any particular market. Value is in the estimate, and the estimate belongs to somebody. That is a constraint on every argument about money in the rest of the course: a money is valuable to the people using it because they judge it will be accepted, which is a fact about their judgements and not a fact about the quantity of anything.',
+      ],
+    },
+  ],
+  questions: [
+    {
+      id: 'l1-2-q1',
+      prompt: 'A litre of water in a wet city and a litre in a dry one. What does the subjective theory of value say has changed?',
+      options: [
+        {
+          id: 'a',
+          label: 'The value has moved into the judgement of the people involved, and the water is unchanged',
+          correct: true,
+          explanation:
+            'Correct. Value is a relation between a person and a good, so the same litre acquires a different value through a different estimate without any change to the good. The estimate is subjective in that someone holds it, not in that it costs nothing to be wrong.',
+        },
+        {
+          id: 'b',
+          label: 'The water has become more useful in the dry place, so its value rose for that reason',
+          correct: false,
+          explanation:
+            'This relocates value into the good, which is the position the theory rejects. Use is part of what a person estimates, but the estimate belongs to the person, and the same litre has not acquired a property it did not have.',
+        },
+        {
+          id: 'c',
+          label: 'Nothing changed, because value is a property of the good and both litres are identical',
+          correct: false,
+          explanation:
+            'The observation is right and the conclusion is what the whole lesson is about. Identical goods holding different values is the puzzle the theory exists to solve, and identical goods are the normal case rather than an exception.',
+        },
+        {
+          id: 'd',
+          label: 'The value changed because the population differs, since value depends only on how many want it',
+          correct: false,
+          explanation:
+            'A count of wanting people is one input into an estimate, not the estimate itself. The framework has no unit of value in which such a count could be converted, which is the ordinal point this lesson is building towards.',
+        },
+      ],
+    },
+    {
+      id: 'l1-2-q2',
+      prompt: 'Why does marginal value matter for understanding a price?',
+      options: [
+        {
+          id: 'a',
+          label: 'Because it explains why the same good carries different prices in different markets',
+          correct: false,
+          explanation:
+            'That is a true consequence, but it is downstream. The variation between markets comes from the valuations differing, and the marginal principle is part of how the valuation of a single person is structured.',
+        },
+        {
+          id: 'b',
+          label: 'Because it converts value into a quantity that can be measured and compared directly',
+          correct: false,
+          explanation:
+            'It does the opposite, and this is the most common misreading. Marginal value gives an order of preference, not a magnitude, and the whole point is that the magnitude is not available.',
+        },
+        {
+          id: 'c',
+          label: 'Because value attaches to the last unit rather than to the average unit',
+          correct: true,
+          explanation:
+            'Correct. The marginal principle is why the fifth litre is worth less to the same person than the first, and it is why a large holding of something is not automatically a large amount of value.',
+        },
+        {
+          id: 'd',
+          label: 'Because it shows that some goods have value and others have none at all',
+          correct: false,
+          explanation:
+            'Value is always relative to an estimate, so a good nobody wants simply sits at the bottom of an ordering. The theory does not need goods with no value, and does not predict a moment when one appears.',
+        },
+      ],
+    },
+    {
+      id: 'l1-2-q3',
+      prompt: 'What does Menger argue about where money comes from?',
+      options: [
+        {
+          id: 'a',
+          label: 'It was introduced by states to make trade and taxation possible',
+          correct: false,
+          explanation:
+            'This is the fiat story projected backwards, and it is the position the argument about salability is written against. The claim is that money is found rather than invented, and that it appears before anyone legislates it.',
+        },
+        {
+          id: 'b',
+          label: 'It emerges from exchange, as the good that most people find most saleable',
+          correct: true,
+          explanation:
+            'Correct. Salability is the mechanism: a seller takes whatever is likeliest to be wanted next, and the good that wins that position across most markets is the one that becomes money.',
+        },
+        {
+          id: 'c',
+          label: 'It was introduced by a single decision, in one place, and spread outward by imitation',
+          correct: false,
+          explanation:
+            'A single origin is the opposite of the claim, which is that money arises separately wherever people specialise and meet at a market. Imitation is not what makes a good money; being the thing others will accept is.',
+        },
+        {
+          id: 'd',
+          label: 'It is defined as whatever the government declares to be legal tender at a fixed value',
+          correct: false,
+          explanation:
+            'Legal tender is a legal status and not a value, and the lesson distinguishes them deliberately. A declaration can make a note acceptable for settling debts without making it the most saleable good in the market.',
+        },
+      ],
+    },
+    {
+      id: 'l1-2-q4',
+      prompt: 'Whose work is the argument that value is subjective and that money emerges from exchange?',
+      options: [
+        {
+          id: 'a',
+          label: 'Mises, in Theory of Money and Credit (1912) and Human Action (1949)',
+          correct: false,
+          explanation:
+            'Mises systematised the method, added the regression theorem and the business cycle theory, and wrote the synthesis. The subjective theory of value and the emergence of money are the work of Menger, and attributing them to Mises is a common and consequential error.',
+        },
+        {
+          id: 'b',
+          label: 'The classical economists, who treated value as derived from labour',
+          correct: false,
+          explanation:
+            'The labour derivation is the rival theory, and the marginal account is a refutation of it rather than an extension. It displaced the labour theory of value in mainstream economics.',
+        },
+        {
+          id: 'c',
+          label: 'The German historical school, which argued that value is a product of social convention',
+          correct: false,
+          explanation:
+            'The historical school emphasised institutions and history, and the Austrian approach is notably individualist. Placing subjective value with them misstates both positions in a way that would confuse the Level 2 argument.',
+        },
+        {
+          id: 'd',
+          label: 'Menger, in Principles of Economics (1871) and On the Origin of Money (1892)',
+          correct: true,
+          explanation:
+            'Correct, and this is the attribution the course is being explicit about. Getting it wrong is the fastest way to have the whole course dismissed by anyone who knows the history.',
+        },
+      ],
+    },
+    {
+      id: 'l1-2-q5',
+      prompt: 'What does the marginal view of value imply about someone holding a large quantity of something?',
+      options: [
+        {
+          id: 'a',
+          label: 'The holding cannot be turned into a stated amount of value, because value attaches to the marginal unit',
+          correct: true,
+          explanation:
+            'Correct. The framework gives an order of preference, not a magnitude, so a holding of a million satoshis and a holding of a thousand are not two points on a common scale. The next unit is worth less than the last one acquired.',
+        },
+        {
+          id: 'b',
+          label: 'They must be better off, since more of a good is worth more than less of it',
+          correct: false,
+          explanation:
+            'This is true of the next unit and false of the total, which is the distinction the question is about. At some point the next unit is worth less than the alternatives, and a large holding adds up to very little value.',
+        },
+        {
+          id: 'c',
+          label: 'They must be worse off, because a large holding is evidence of a mistaken estimate',
+          correct: false,
+          explanation:
+            'Nothing about a holding indicates error. Some people deliberately hold a lot of a good, and the framework explains that choice as a ranking rather than as a mistake.',
+        },
+        {
+          id: 'd',
+          label: 'They are in the same position as someone holding a small amount, because value cancels out',
+          correct: false,
+          explanation:
+            'Value being subjective does not make all holdings equivalent, and it certainly does not cancel. The point is narrower: a holding is not a quantity of value, and cannot be turned into one.',
+        },
+      ],
+    },
+  ],
+  tryIt: [
+    'Rank the last ten things you bought by how glad you are to have bought them, in order, and resist any temptation to score them out of ten. You have just produced an ordinal ranking, which is the only kind of value the theory claims exists, and noticing how strange the scoring habit feels is the point.',
+    'Find two markets for the same physical good, such as the same second-hand model in two cities, and compare what people pay. Then write one sentence on whether that difference is in the good or in the estimates of the people, and see which side of the argument you end up on.',
+    'Write down the thing you hold the largest quantity of, and one sentence on why you keep it. The answer will be about salability and ease of getting what you actually want, not about the good being valuable in itself, and the connection to Level 2 is the whole lesson.',
+  ],
+  sources: [
+    {
+      label: 'Carl Menger, Principles of Economics (1871)',
+      detail:
+        'The marginal theory of value and the ordinal claim, available in translation from the Mises Institute and the Liberty Fund. The primary source for the first two sections.',
+      url: 'https://en.wikipedia.org/wiki/Principles_of_Economics',
+    },
+    {
+      label: 'Carl Menger (1810-1893) and On the Origin of Money (1892)',
+      detail:
+        'The biography and bibliography of Menger, including the argument that money emerges from exchange under salability rather than by decree. The primary source for the third section.',
+      url: 'https://en.wikipedia.org/wiki/Carl_Menger',
+    },
+    {
+      label: 'Mises, Theory of Money and Credit (1912)',
+      detail:
+        'The regression theorem on the origin of interest, and the credit-expansion account of the business cycle. The source of the Austrian contribution to the money argument, as distinct from the contribution of Menger.',
+      url: 'https://en.wikipedia.org/wiki/Theorie_des_Geldes_und_der_Umlaufsmittel',
+    },
+    {
+      label: 'Subjective theory of value',
+      detail:
+        'The development of the marginal theory from Menger through the ordinal revolution, and why the ordinal rather than cardinal distinction matters for how prices are discussed.',
+      url: 'https://en.wikipedia.org/wiki/Subjective_theory_of_value',
+    },
+    {
+      label: 'Marginal utility',
+      detail:
+        'The mechanism the marginal principle rests on, and the reason the value of a unit falls as the stock of a good held rises.',
+      url: 'https://en.wikipedia.org/wiki/Marginal_utility',
+    },
+  ],
+};
+
 const L1_1: Lesson = {
   id: 'l1-1-what-bitcoin-is',
   title: 'What Bitcoin actually is',
@@ -3541,9 +4046,9 @@ const L3_2: Lesson = {
     {
       heading: 'Pruning: keeping the chain, dropping the history',
       paragraphs: [
-        'Bitcoin Core prunes by default. Once a block is far enough behind the chain tip, its contents are deleted once validation is complete, because a node only ever needs the recent chain to validate what comes next. What it keeps is the state: the set of unspent outputs, which is what lets it tell you your balance and reject a double spend.',
+        'Bitcoin Core can prune, and does not unless you ask it to: the option is off by default, and a fresh install keeps every block. Turn it on and a block far enough behind the chain tip has its contents deleted once validation is complete, because a node only ever needs the recent chain to validate what comes next. What it keeps is the state: the set of unspent outputs, which is what lets it tell you your balance and reject a double spend.',
         'The rules do not change. A pruned node enforces precisely the same consensus rules as an archival one, which is the point most people get wrong, and it is why pruning saves disk rather than correctness. What it costs is history. A pruned node generally cannot serve old blocks to a peer syncing from genesis, and indexing every historical transaction with the txindex option requires the full chain, so a pruned node has to re-download to build one.',
-        'So the choice is about what you want your node to be able to answer, not about how much you care about correctness. Plenty of people run a pruned node and never notice. If you intend to explore old transactions, run a server, or reindex, keep the chain. Otherwise pruning is the sensible default and most node operators never change it.',
+        'So the choice is about what you want your node to be able to answer, not about how much you care about correctness. Plenty of people run a pruned node and never notice. If you intend to explore old transactions, run a server, or reindex, keep the chain. Otherwise pruning is the sensible choice on a machine that is only validating, and a good number of operators turn it on once and never revisit it.',
       ],
       table: {
         head: ['Setup', 'What it downloads', 'What it still trusts', 'What it protects against'],
@@ -3555,7 +4060,7 @@ const L3_2: Lesson = {
             'A server lying about history, or the chain being a minority fork',
           ],
           [
-            'Full node, pruned',
+            'Full node, pruned (opt-in)',
             'Every block to validate it, then discards old block data',
             'Nobody for validation; history itself is gone',
             'The same, but it can no longer answer questions about old blocks',
@@ -3574,7 +4079,7 @@ const L3_2: Lesson = {
           ],
         ],
         note:
-          'Disk and bandwidth requirements change with every release, so treat any specific number you read as dated. The Bitcoin Core documentation states current requirements, and the honest comparison between these rows is the second one, not the last: a pruned node and a light wallet both involve trust, and they are not the same trust.',
+          'Disk and bandwidth requirements change with every release, so treat any specific number you read as dated, and measure your own node rather than trusting a figure from someone else. The honest comparison between these rows is the second one, not the last: a pruned node and a light wallet both involve trust, and they are not the same trust.',
       },
     },
     {
@@ -3764,14 +4269,32 @@ const L3_2: Lesson = {
   tryIt: [
     'Write down the twelve words of a test wallet on paper, restore it on a second machine, and confirm you see the same balance and the same addresses. That exercise is the whole argument for HD wallets, done in five minutes.',
     'Turn on a passphrase, restore again with it, then try restoring with the words and no passphrase. Watching the balance sit at zero is the most effective way to understand that a different passphrase means a different wallet rather than a locked one.',
-    'Start a pruned node and check how much disk it ends up using. Compare that with what the Bitcoin Core documentation currently says, because the figure you measured is the one that is right for your version.',
+    'Start a pruned node, which means turning the prune option on yourself rather than expecting it to be on, and check how much disk it ends up using. Then let a second node run without it. The gap between the two numbers is the whole argument, and it is the one figure in this lesson worth measuring instead of reading.',
   ],
   sources: [
     {
-      label: 'Bitcoin Core documentation — Pruning',
+      label: 'Bitcoin Core source — the prune option and its default',
       detail:
-        'Why pruning is safe, what state is retained, and what a pruned node can no longer serve. The primary source for the limits in the pruning section.',
-      url: 'https://bitcoincore.org/en/doc/pruning/',
+        'Where the option is defined, where the default of zero is applied, and where the incompatibility with txindex is stated. The current source is the authority on whether pruning is on, which documentation pages have been inconsistent about.',
+      url: 'https://github.com/bitcoin/bitcoin/blob/master/src/init.cpp',
+    },
+    {
+      label: 'Bitcoin Core 0.14.0 release notes — Manual pruning',
+      detail:
+        'Where manual mode was introduced: storage savings, the prune setting of one, and the pruneblockchain call that deletes up to a height you choose.',
+      url: 'https://bitcoincore.org/en/releases/0.14.0/',
+    },
+    {
+      label: 'Bitcoin Core 0.16.0 release notes — Signalling pruned nodes',
+      detail:
+        'The change that lets a pruned node advertise that it can serve only the most recent blocks, which is the limit the section describes.',
+      url: 'https://bitcoincore.org/en/releases/0.16.0/',
+    },
+    {
+      label: 'BIP159 — Pruned nodes peer with full nodes',
+      detail:
+        'The specification behind that service bit, and the clearest statement of what a pruned node can and cannot serve to a peer that wants the whole chain.',
+      url: 'https://github.com/bitcoin/bips/blob/master/bip-0159.mediawiki',
     },
     {
       label: 'BIP32 — Hierarchical Deterministic Wallets',
@@ -4306,6 +4829,14 @@ const L3_3: Lesson = {
 
 
 export const courseLevels: Level[] = [
+  {
+    id: 'level-1-lens',
+    name: 'The lens: human action',
+    blurb:
+      'The instrument every level after this one is read through. Praxeology as a method, the subjective theory of value as Menger gave it rather than as Mises gave it, and the limits of a lens stated by the people who use it. The third lesson of this level is the existing Five schools lesson, which stays where it is until the level structure is migrated as one change with redirects.',
+    published: false,
+    lessons: [M1_1, M1_2],
+  },
   {
     id: 'level-1',
     name: 'Beginner',

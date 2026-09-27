@@ -83,7 +83,7 @@ const SKIP_NUMBER_PATTERNS = [
   /\b\d+\s*(?:minutes?|mins?)\b/gi,
   /\b\d+\s*(?:lessons?|questions?|levels?)\b/gi,
   /\b(?:level|lesson|m)\s*-?\d+(?:\.\d+)?\b/gi,
-  /\b(?:19|20)\d{2}\b/g,
+  /\b(?:1[6-9]|20)\d{2}s?\b/g,
   /\b\d+(?:\.\d+)?\s*(?:words?|screens?|variations?)\b/gi,
   /\bQ[1-5]\b/g,
   /\b[1-5][a-d]\b/g,
@@ -100,7 +100,9 @@ function scanFigures(text, ignore) {
   const found = new Map();
   const pattern = /(?:[$£€]\s?)?\d[\d,]*\.?\d*\s?(?:bn|billion|million|trillion|k|%|percent|per cent)?/gi;
   for (const match of scrubbed.matchAll(pattern)) {
-    const token = match[0].trim();
+    // The pattern can swallow a trailing separator, as in "Levels 2 to 7, and",
+    // which would otherwise dodge the short-number guard below.
+    const token = match[0].trim().replace(/[.,;]+$/, '');
     if (token.length < 2) continue;
     if (/^\d{1,2}$/.test(token) && !/%/.test(token)) continue;
     if (ignore.includes(token)) continue;
@@ -110,9 +112,24 @@ function scanFigures(text, ignore) {
   return [...found.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
 }
 
-async function fetchText(url) {
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// A timeout, a dropped connection, a 5xx and a 429 are all the network rather
+// than the page, and they move around between runs: four consecutive runs of
+// this script failed a different handful of URLs each time, including pages
+// that return 200 when fetched on their own. A 404 is the opposite, and a 403
+// is a bot block that asking again will not fix, so neither is retried.
+const RETRYABLE_STATUS = new Set([408, 425, 429, 500, 502, 503, 504, 522, 524]);
+const MAX_ATTEMPTS = 3;
+const RETRY_BASE_MS = 1500;
+// One cited figure is an 8 MB PDF on a slow link, which needs longer than the
+// first attempt allows once four fetches are competing. A dead host still fails
+// on attempt one, so the longer budget only applies to URLs already in trouble.
+const RETRY_TIMEOUT_MS = 60000;
+
+async function fetchOnce(url, timeoutMs) {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const response = await fetch(url, {
       redirect: 'follow',
@@ -130,6 +147,16 @@ async function fetchText(url) {
     return { status: aborted ? 'timeout' : 'error', ok: false, text: '', blocked: false, error: error?.message };
   } finally {
     clearTimeout(timer);
+  }
+}
+
+async function fetchText(url) {
+  for (let attempt = 1; ; attempt++) {
+    const result = await fetchOnce(url, attempt === 1 ? TIMEOUT_MS : RETRY_TIMEOUT_MS);
+    const transient =
+      result.status === 'timeout' || result.status === 'error' || RETRYABLE_STATUS.has(result.status);
+    if (!transient || attempt >= MAX_ATTEMPTS) return { ...result, attempts: attempt };
+    await sleep(RETRY_BASE_MS * 2 ** (attempt - 1) + Math.random() * 250);
   }
 }
 
@@ -190,12 +217,16 @@ async function main() {
       continue;
     }
     const result = fetched.get(source.url);
+    const retried = (result.attempts ?? 1) > 1 ? ` (took ${result.attempts} attempts)` : '';
     if (result.ok) {
-      report(true, `${source.lesson} ${truncate(source.url)}`, `HTTP ${result.status}`);
+      report(true, `${source.lesson} ${truncate(source.url)}`, `HTTP ${result.status}${retried}`);
     } else if (result.blocked) {
-      warn(`${source.lesson} ${truncate(source.url)}`, `HTTP ${result.status} bot-blocked, check by hand`);
+      warn(
+        `${source.lesson} ${truncate(source.url)}`,
+        `HTTP ${result.status} bot-blocked, check by hand${retried}`
+      );
     } else {
-      report(false, `${source.lesson} ${truncate(source.url)}`, `HTTP ${result.status}`);
+      report(false, `${source.lesson} ${truncate(source.url)}`, `HTTP ${result.status}${retried}`);
     }
   }
 
