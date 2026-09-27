@@ -196,36 +196,35 @@ export async function fetchVisitorPosts(limit = 50): Promise<VisitorPost[]> {
 }
 
 /**
- * Publishes a visitor's post to the wall.
+ * Submits a visitor's post to the wall for moderation.
  *
- * The row is written pending moderation; the wall only shows what moderation
- * has approved, so this returns before anything becomes visible.
+ * The row lands as pending and the select policy only exposes approved rows, so
+ * this deliberately does not read the row back. Selecting the inserted row used
+ * to return nothing under row level security, which made every submission fail
+ * with "no rows returned". Resolves once the row is stored; a moderator still
+ * has to approve it before it appears.
  */
 export async function addVisitorPost(input: {
   author: string;
   handle: string;
   content: string;
   tags: string[];
-}): Promise<VisitorPost> {
+}): Promise<void> {
   const db = supabase();
   if (!db) throw new Error('Supabase is not configured');
 
   const body = input.content.trim();
   if (!body) throw new Error('Post is empty');
 
-  const { data, error } = await db
-    .from('wall_posts')
-    .insert({
-      author: input.author.trim() || 'anon',
-      handle: input.handle.trim(),
-      content: body,
-      tags: input.tags,
-      visitor_id: visitorId(),
-      status: 'pending',
-    })
-    .select('id, author, handle, content, tags, created_at')
-    .single();
+  // status is left to the column default so a caller cannot pick its own
+  // moderation state. The insert policy checks the row is pending either way.
+  const { error } = await db.from('wall_posts').insert({
+    author: input.author.trim() || 'anon',
+    handle: input.handle.trim(),
+    content: body,
+    tags: input.tags,
+    visitor_id: visitorId(),
+  });
 
   if (error) throw error;
-  return mapPost(data as Record<string, unknown>);
 }
