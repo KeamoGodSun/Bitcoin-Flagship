@@ -23,6 +23,10 @@ export default function DraftReviewIndex({ params }: { params: { level: string }
           Written for review and not yet part of the published course. This page is unlisted and excluded from search
           engines. It disappears automatically once {level.name} is published.
         </p>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          On a deployed site these URLs are behind a shared password, so if you can read this you are reviewing, not
+          reading a leak.
+        </p>
       </div>
 
       <h1 className="mt-8 text-3xl font-bold tracking-tight">{level.name} drafts</h1>

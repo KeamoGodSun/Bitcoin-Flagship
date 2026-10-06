@@ -81,6 +81,20 @@ See `.env.example` for the full list.
 
 All site content (events, blog posts, community posts, categories) lives in **`lib/data.ts`** as plain static data — edit that file to update the site. The logo is in **`public/logo.png`**.
 
+The course lives in **`lib/course-data.ts`**. Levels with `published: false` stay out of `/learn`, and their written lessons are only reachable at `/learn/preview/[level]/[lesson]`.
+
+### Gating the draft preview
+
+`/learn/preview` renders unpublished lessons as **statically generated HTML**, so the lesson text is baked into the build output and the URLs are guessable — `noindex` is a crawler hint, not a lock. `middleware.ts` puts HTTP basic auth in front of the whole prefix.
+
+```bash
+# Server only. Required on the deployment, otherwise the route 404s in production.
+PREVIEW_BASIC_AUTH_USER=<reviewer>
+PREVIEW_BASIC_AUTH_PASSWORD=<long password>
+```
+
+With both set, the browser prompts for credentials on `/learn/preview/*`. With both unset, the route stays open in `next dev` for local review and returns 404 in production — so a forgotten variable fails closed instead of leaking drafts. Setting only one of the two is treated as unset.
+
 ## Deployment
 
 Deployed on **Vercel** (`vercel.json`). A `netlify.toml` is also present if you ever want to switch to Netlify.

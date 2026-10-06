@@ -9,7 +9,12 @@ import { getDraftLesson, draftLevels, courseLevels } from '@/lib/course-data';
  * The rule is the inverse of the publish flag: this route renders a lesson
  * only while its level is NOT published, and returns 404 the moment that level
  * is turned on. So a promoted lesson disappears from here on its own, and
- * nothing half-finished is ever reachable from site navigation.
+ * nothing half-finished is ever linked from site navigation.
+ *
+ * Being unlinked is not the same as being private. These pages are statically
+ * generated, so the lesson text ships in the build output, and the URLs are
+ * guessable. middleware.ts is what actually keeps them closed; see it before
+ * changing anything here.
  */
 export const dynamic = 'force-static';
 
