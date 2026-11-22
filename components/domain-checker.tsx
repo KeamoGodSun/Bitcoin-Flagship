@@ -161,9 +161,8 @@ export function LightningDomainNote() {
         <p className="font-semibold text-foreground">Lightning address domain</p>
         <p className="mt-1 text-muted-foreground">
           The site is configured to receive sats at{' '}
-          <code className="rounded bg-muted px-1.5 py-0.5 text-xs">tips@bitcoinflagship.com</code>.
-          Point the <code className="rounded bg-muted px-1.5 py-0.5 text-xs">_lnaddress</code> TXT
-          record at your Lightning service to make tips routable.
+          <code className="rounded bg-muted px-1.5 py-0.5 text-xs">thebtczone@blink.sv</code>.
+          Tips route through Blink, so no custom Lightning DNS record is needed.
         </p>
       </div>
     </div>

@@ -5,16 +5,17 @@ export const siteConfig = {
   description:
     'A grassroots community driving Bitcoin adoption through meetups, education, public art, and social campaigns.',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://bitcoinflagship.com',
+  lnbitsPaymentUrl:
+    process.env.NEXT_PUBLIC_LNBITS_PAYMENT_URL || 'https://pay.bitcoinflagship.com',
   lightningAddress:
-    process.env.NEXT_PUBLIC_LIGHTNING_ADDRESS || 'tips@bitcoinflagship.com',
+    process.env.NEXT_PUBLIC_LIGHTNING_ADDRESS || 'thebtczone@blink.sv',
   /**
-   * The documentary is funded from its own wallet, kept separate from the
-   * general tip address so the two can be accounted for independently.
-   * Left empty on purpose: we never guess an address. An empty value means
-   * "not published yet", and the UI says so instead of showing a wallet that
-   * would swallow money nobody controls.
+   * All funding buckets currently receive at the same published Blink address
+   * as the footer. The override exists so the documentary can be split into
+   * its own wallet later without changing the interface.
    */
-  documentaryLightningAddress: process.env.NEXT_PUBLIC_DOCUMENTARY_LIGHTNING_ADDRESS || '',
+  documentaryLightningAddress:
+    process.env.NEXT_PUBLIC_DOCUMENTARY_LIGHTNING_ADDRESS || 'thebtczone@blink.sv',
   lightningProvider: (process.env.LIGHTNING_PROVIDER ||
     'mock') as LightningProviderName,
   lnd: {

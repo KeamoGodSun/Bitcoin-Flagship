@@ -18,17 +18,17 @@ export interface WalletProgram {
 export const programs: WalletProgram[] = [
   {
     id: 'my-first-bitcoin',
-    name: 'My First Bitcoin',
-    description: 'Introductory Bitcoin education for newcomers.',
-    memo: 'My First Bitcoin — education',
+    name: 'Au∞₿ La₿s',
+    description: 'School-based Bitcoin curriculum covering coding, mining, economics, and financial literacy.',
+    memo: 'Au∞₿ La₿s — education',
     defaultAmount: 5000,
     walletGroupId: 'education',
   },
   {
     id: 'trezor-academy',
-    name: 'Trezor Academy',
-    description: 'Hands-on self-custody and hardware wallet training.',
-    memo: 'Trezor Academy — education',
+    name: 'Wallet Workshops',
+    description: 'Hands-on hot and cold wallet self-custody training.',
+    memo: 'Wallet Workshop — education',
     defaultAmount: 5000,
     walletGroupId: 'education',
   },
@@ -65,6 +65,14 @@ export const programs: WalletProgram[] = [
     walletGroupId: 'events',
   },
   {
+    id: 'blooming-women-conf',
+    name: 'Blooming Women Conf',
+    description: 'The Blooming Women Empowerment Conference.',
+    memo: 'Blooming Women Conf — events',
+    defaultAmount: 5000,
+    walletGroupId: 'events',
+  },
+  {
     id: 'murals-billboards',
     name: 'Murals & Billboards',
     description: 'Public art and highway billboard campaigns.',
@@ -74,7 +82,7 @@ export const programs: WalletProgram[] = [
   },
   {
     id: 'merchant-onboarding',
-    name: 'Merchant On-boarding',
+    name: 'Merchant Onboarding',
     description: 'Helping local businesses accept Bitcoin.',
     memo: 'Merchant On-boarding — activation',
     defaultAmount: 5000,

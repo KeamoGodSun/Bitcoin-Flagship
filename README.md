@@ -50,8 +50,15 @@ BTCPAY_URL=https://btcpay.yourdomain.com
 BTCPAY_API_KEY=<api key>
 BTCPAY_STORE_ID=<store id>
 
-# Public Lightning address shown in the footer
-NEXT_PUBLIC_LIGHTNING_ADDRESS=tips@bitcoinflagship.org
+# Public Lightning address shown in the footer and used by all funding buckets
+NEXT_PUBLIC_LIGHTNING_ADDRESS=thebtczone@blink.sv
+
+# Optional: give an individual bucket its own address
+# NEXT_PUBLIC_WALLET_ADDRESSES={"education":"wallet@blink.sv"}
+# NEXT_PUBLIC_DOCUMENTARY_LIGHTNING_ADDRESS=wallet@blink.sv
+
+# Embedded LNbits checkout used by the story action buttons
+NEXT_PUBLIC_LNBITS_PAYMENT_URL=https://pay.bitcoinflagship.com
 
 # Canonical site URL (fixes social metadata previews)
 NEXT_PUBLIC_SITE_URL=https://bitcoinflagship.com

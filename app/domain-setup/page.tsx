@@ -32,7 +32,7 @@ const vercelRecords = [
     type: '_lnaddress',
     name: 'TXT',
     value: 'depends on your Lightning provider',
-    note: 'Makes tips@bitcoinflagship.com routable over Lightning.',
+    note: 'Only needed if you host a Lightning address on this domain.',
   },
 ];
 
@@ -145,7 +145,7 @@ export default function DomainSetupPage() {
           </p>
           <pre className="mt-3 overflow-x-auto rounded-lg border border-border bg-background p-4 font-mono text-xs leading-relaxed">
 {`NEXT_PUBLIC_SITE_URL=https://bitcoinflagship.com
-NEXT_PUBLIC_LIGHTNING_ADDRESS=tips@bitcoinflagship.com
+NEXT_PUBLIC_LIGHTNING_ADDRESS=thebtczone@blink.sv
 LIGHTNING_PROVIDER=mock   # or: lnd / btcpayserver`}
           </pre>
         </div>
