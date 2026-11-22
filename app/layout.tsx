@@ -4,8 +4,11 @@ import { Inter } from 'next/font/google';
 import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
 import { WalletProvider } from '@/components/wallet-provider';
+import { WelcomePopup } from '@/components/welcome-popup';
+import { StatusPill } from '@/components/status-pill';
+import { StoryMenu } from '@/components/story-menu';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bitcoinflagship.com';
 
@@ -32,14 +35,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${inter.className} min-h-screen bg-background text-foreground antialiased`}>
+    <html lang="en">
+      <body className={`${inter.variable} font-sans min-h-screen bg-background text-foreground antialiased`}>
         <div className="relative flex min-h-screen flex-col">
           <WalletProvider>
-          <SiteHeader />
-          <main className="flex-1">{children}</main>
-          <SiteFooter />
-        </WalletProvider>
+            <SiteHeader />
+            <main className="flex-1">{children}</main>
+            <SiteFooter />
+            <WelcomePopup />
+            <StatusPill />
+            <StoryMenu />
+          </WalletProvider>
         </div>
       </body>
     </html>

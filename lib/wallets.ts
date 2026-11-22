@@ -24,10 +24,11 @@ export interface WalletGroup {
 /**
  * Resolves a wallet's published address, or '' when we do not have one.
  *
- * We deliberately do not derive addresses from the domain any more. A guess
- * like `documentary@bitcoinflagship.com` renders as a real, copyable wallet
- * and would quietly swallow money sent to it, so an unknown wallet resolves
- * to '' and the interface says it is not published yet.
+ * Every bucket currently receives at the published Blink address, with an
+ * optional per-wallet override for splitting a bucket out later. We never
+ * derive an address from the domain: an unknown wallet resolves to '' so the
+ * interface can say it is not published yet instead of showing an address
+ * nobody controls.
  */
 export function walletAddress(walletId: WalletGroupId): string {
   if (walletId === 'flagship') return siteConfig.lightningAddress;
@@ -38,7 +39,7 @@ export function walletAddress(walletId: WalletGroupId): string {
 
   if (walletId === 'documentary') return siteConfig.documentaryLightningAddress;
 
-  return '';
+  return siteConfig.lightningAddress;
 }
 
 export function isWalletConfigured(walletId: WalletGroupId): boolean {
@@ -70,16 +71,16 @@ const walletGroupBase: Omit<WalletGroup, 'programs' | 'configured'>[] = [
     id: 'education',
     name: 'Education Wallet',
     shortName: 'Education',
-    description: 'Fund learning programs: first-time courses, wallet academies, and Lightning bootcamps.',
+    description: 'Fund Au∞₿ La₿s curriculum development, wallet workshops, and Lightning bootcamps.',
     memo: 'Bitcoin Flagship — Education',
     defaultAmount: 5000,
     icon: GraduationCap,
   },
   {
     id: 'events',
-    name: 'Events Wallet',
+    name: 'Events & Conferences Wallet',
     shortName: 'Events',
-    description: 'Fund in-person moments: meet-ups, movie screenings, and game days.',
+    description: 'Fund in-person moments: The Blooming Women Empowerment Conference, meetups, movie nights, and game days.',
     memo: 'Bitcoin Flagship — Events',
     defaultAmount: 5000,
     icon: Calendar,
@@ -88,7 +89,7 @@ const walletGroupBase: Omit<WalletGroup, 'programs' | 'configured'>[] = [
     id: 'activation',
     name: 'Activation & Awareness Wallet',
     shortName: 'Awareness',
-    description: 'Fund public outreach: merchant on-boarding, billboards, murals, and campaigns.',
+    description: 'Fund Bitcoin Sisonke merchant onboarding, community murals, and digital billboards.',
     memo: 'Bitcoin Flagship — Activation & Awareness',
     defaultAmount: 5000,
     icon: Megaphone,
@@ -97,7 +98,7 @@ const walletGroupBase: Omit<WalletGroup, 'programs' | 'configured'>[] = [
     id: 'documentary',
     name: 'Documentary Wallet',
     shortName: 'Doccie',
-    description: 'Fund production of the State Project documentary now being filmed.',
+    description: 'Fund production of the State Project Doccie — camera and sound gear, travel, and post-production.',
     memo: 'Bitcoin Flagship — State Project Doccie',
     defaultAmount: 5000,
     icon: Film,

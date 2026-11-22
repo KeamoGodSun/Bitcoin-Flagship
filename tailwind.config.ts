@@ -9,6 +9,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-inter)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['Georgia', 'Cambria', '"Times New Roman"', 'serif'],
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
@@ -54,9 +58,9 @@ const config: Config = {
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         bitcoin: {
-          DEFAULT: '#F7931A',
-          light: '#FFB347',
-          dark: '#C77D12',
+          DEFAULT: '#E0B44A',
+          light: '#F3D06A',
+          dark: '#A67C1B',
         },
         chart: {
           '1': 'hsl(var(--chart-1))',

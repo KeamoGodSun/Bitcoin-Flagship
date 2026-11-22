@@ -10,10 +10,10 @@ import {
 } from 'lucide-react';
 import { blogPosts } from '@/lib/data';
 import { DonateSection } from '@/components/donate-section';
-import { UpcomingSchedule } from '@/components/upcoming-schedule';
-import { EventBookshelf } from '@/components/event-bookshelf';
+/* Event sections removed from home per request; keep full schedule on /events. */
 import { DoccieTeaser } from '@/components/doccie-teaser';
 import { CommunityFeed } from '@/components/community-feed';
+import { EditorialHero } from '@/components/editorial-hero';
 
 const pillars = [
   {
@@ -43,48 +43,9 @@ export default function Home() {
 
   return (
     <div>
-      {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-grid opacity-30" />
-        <div className="absolute inset-0 bg-radial-glow" />
-        <div className="absolute left-1/2 top-0 h-[400px] w-[600px] -translate-x-1/2 rounded-full bg-bitcoin/20 blur-[120px] animate-glow-pulse" />
-
-        <div className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
-          <div className="mx-auto max-w-3xl text-center">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-bitcoin/30 bg-bitcoin/10 px-4 py-1.5 text-sm font-medium text-bitcoin">
-              <span className="flex h-2 w-2 rounded-full bg-bitcoin animate-pulse" />
-              Grassroots Bitcoin Adoption
-            </div>
-            <h1 className="text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
-              Building the <span className="text-gradient-bitcoin">Bitcoin</span> future,
-              <br className="hidden sm:block" /> one block at a time.
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl">
-              Bitcoin Flagship is a community-driven movement accelerating Bitcoin adoption through meetups, education, public art, and social campaigns.
-            </p>
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Link
-                href="/events"
-                className="inline-flex items-center gap-2 rounded-md bg-bitcoin px-8 py-3 text-base font-semibold text-background shadow-lg shadow-bitcoin/30 transition-all hover:bg-bitcoin-light hover:shadow-bitcoin/50"
-              >
-                Upcoming Events
-                <ArrowRight className="h-5 w-5" />
-              </Link>
-              <Link
-                href="/about"
-                className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-8 py-3 text-base font-semibold text-foreground transition-all hover:border-bitcoin hover:text-bitcoin"
-              >
-                Our Mission
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <EditorialHero />
 
       {/* Event archive */}
-      <EventBookshelf />
-
-      {/* Documentary teaser */}
       <DoccieTeaser />
 
       {/* Mission */}
@@ -120,18 +81,6 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
           <CommunityFeed />
         </div>
-      </section>
-
-      {/* Upcoming Events */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mb-10">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Upcoming Events</h2>
-          <p className="mt-2 text-muted-foreground">
-            Dates and timelines for everything we have coming up. Get involved. Show up. Stack sats.
-          </p>
-        </div>
-
-        <UpcomingSchedule />
       </section>
 
       {/* Featured Blog */}
